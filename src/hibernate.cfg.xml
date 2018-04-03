@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">
+        jdbc:sqlserver://den1.mssql3.gear.host\tjfblooddonation:1433;database=tjfblooddonation
+    </property>
+    <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+      <mapping class="model.Addresses"/>
+      <mapping class="model.Analysis"/>
+      <mapping class="model.Blood"/>
+      <mapping class="model.Donors"/>
+      <mapping class="model.HealthWorkers"/>
+      <mapping class="model.IdCards"/>
+      <mapping class="model.Institutions"/>
+      <mapping class="model.LoginInformation"/>
+      <mapping class="model.Patients"/>
+      <mapping class="model.Plasma"/>
+      <mapping class="model.RedBloodCells"/>
+      <mapping class="model.Requests"/>
+      <mapping class="model.Trombocites"/>
+      <!-- <property name="connection.username"/> -->
+    <!-- <property name="connection.password"/> -->
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>
