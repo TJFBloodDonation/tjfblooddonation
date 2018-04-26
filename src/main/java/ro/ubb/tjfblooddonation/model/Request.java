@@ -2,6 +2,7 @@ package ro.ubb.tjfblooddonation.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.ManyToOne;
 import java.sql.Date;
 import java.util.Objects;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
