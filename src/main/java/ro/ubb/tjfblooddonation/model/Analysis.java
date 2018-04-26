@@ -24,6 +24,7 @@ public class Analysis implements Serializable {
     private Boolean sifilis;
     private Boolean htlv;
     private Boolean alt;
+    private Boolean imunoHematology;
 
 
 }

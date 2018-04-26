@@ -18,7 +18,7 @@ import java.util.Objects;
 public class Institution extends BaseEntity<String> {
     private String name;
     private String type;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
 
 }

@@ -16,7 +16,7 @@ public class IdCard implements Serializable {
     @GeneratedValue
     private long idCardId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
 
     private String cnp;

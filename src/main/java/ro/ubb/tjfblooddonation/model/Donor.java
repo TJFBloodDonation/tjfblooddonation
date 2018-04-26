@@ -1,6 +1,7 @@
 package ro.ubb.tjfblooddonation.model;
 
 
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,12 +22,15 @@ import java.util.Objects;
 public class Donor extends Person {
     private String bloodType;
     private String rH;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Address residence;
     private Date dateOfBirth;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private IdCard idCard;
     private String gender;
+    @Nullable
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Form form;
 
 
 }

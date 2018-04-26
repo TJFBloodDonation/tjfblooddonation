@@ -17,7 +17,7 @@ public class Blood extends BaseEntity<String>{
     @ManyToOne(cascade = CascadeType.ALL)
     private Institution institution;
     private Date recoltationDate;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Analysis analysis;
 
 

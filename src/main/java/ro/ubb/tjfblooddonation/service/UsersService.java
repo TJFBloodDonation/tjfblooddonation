@@ -7,7 +7,7 @@ import ro.ubb.tjfblooddonation.repository.DonorRepository;
 
 import java.util.List;
 @Service
-public class UsersSevice {
+public class UsersService {
     @Autowired
     private DonorRepository donorRepository;
 

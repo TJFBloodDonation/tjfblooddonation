@@ -17,7 +17,7 @@ import java.util.Objects;
 public class Patient extends Person{
     @ManyToOne(cascade = CascadeType.ALL)
     private Institution institution;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private IdCard idCard;
 
 

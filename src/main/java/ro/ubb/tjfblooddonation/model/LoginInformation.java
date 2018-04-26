@@ -16,7 +16,7 @@ import java.util.Objects;
 @Data
 public class LoginInformation extends BaseEntity<String> {
     private String password;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Person person;
 
     public String getUsername() {
