@@ -31,6 +31,7 @@ public class Donor extends Person {
     @Nullable
     @ManyToOne(cascade = CascadeType.ALL)
     private Form form;
+    private String message;
 
 
 }
