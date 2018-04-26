@@ -1,3 +1,5 @@
+package ro.ubb.tjfblooddonation;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ro.ubb.tjfblooddonation.model.Address;
 import ro.ubb.tjfblooddonation.model.Donor;
