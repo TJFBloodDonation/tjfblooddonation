@@ -15,7 +15,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
-public class BaseEntity<T> implements Serializable {
+public abstract class BaseEntity<T> implements Serializable {
     @Id
     protected T id;
+
+    protected abstract T generateId();
 }
