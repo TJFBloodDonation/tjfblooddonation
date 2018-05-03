@@ -5,6 +5,7 @@ import ro.ubb.tjfblooddonation.model.Address;
 import ro.ubb.tjfblooddonation.model.Donor;
 import ro.ubb.tjfblooddonation.model.IdCard;
 import ro.ubb.tjfblooddonation.service.UsersService;
+import ro.ubb.tjfblooddonation.utils.Utils;
 
 import java.sql.Date;
 
@@ -15,7 +16,7 @@ public class BloodDonation {
         UsersService usersService = context.getBean(UsersService.class);
         usersService.getAllDonors().forEach(System.out::println);
         System.out.println("----------------------------------");
-        Address a = new Address(1, "a", "b", "c", "d");
+        /*Address a = new Address(1, "a", "b", "c", "d");
         Address b = new Address(2, "a", "b", "c", "d");
         IdCard idCard = new IdCard(1, a, "cnp");
         Donor d = Donor.builder()
@@ -26,12 +27,14 @@ public class BloodDonation {
                 .residence(b)
                 .rH("positive")
                 .build();
-        d.setId("sebisivlad");
+        d.setId("DON000001");
         d.setEmail("fjks@fdjlk.com");
         d.setPhoneNumber("jfdk");
         d.setFirstName("firts");
         d.setLastName("last");
         usersService.addDonor(d);
-        usersService.getAllDonors().forEach(System.out::println);
+        usersService.getAllDonors().forEach(System.out::println);*/
+        Utils u = context.getBean(Utils.class);
+        System.out.println(u.getLastDonorID());
     }
 }
