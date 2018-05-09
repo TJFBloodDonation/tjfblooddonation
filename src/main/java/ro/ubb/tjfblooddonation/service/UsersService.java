@@ -12,10 +12,10 @@ public class UsersService {
     private DonorRepository donorRepository;
 
     public void addDonor(Donor d) {
-        donorRepository.save(d);
+        donorRepository.add(d);
     }
 
     public List<Donor> getAllDonors(){
-        return donorRepository.findAll();
+        return donorRepository.getAll();
     }
 }

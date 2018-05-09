@@ -10,6 +10,6 @@ public class Utils {
     private static DonorRepository donorRepository;
 
     public static Long getLastDonorID() {
-        return donorRepository.findAll().stream().mapToLong( entity -> Long.valueOf(entity.getId().replaceAll("\\D+",""))).max().getAsLong();
+        return donorRepository.getAll().stream().mapToLong( entity -> Long.valueOf(entity.getId().replaceAll("\\D+",""))).max().getAsLong();
     }
 }
