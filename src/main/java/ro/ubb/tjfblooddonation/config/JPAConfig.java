@@ -14,6 +14,7 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import ro.ubb.tjfblooddonation.repository.RepositoryImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,7 +25,8 @@ import javax.sql.DataSource;
  */
 
 @Configuration
-@EnableJpaRepositories({"ro.ubb.tjfblooddonation.repository"})
+@EnableJpaRepositories(basePackages = "ro.ubb.tjfblooddonation.repository",
+repositoryBaseClass = RepositoryImpl.class)
 @EnableTransactionManagement
 @EnableCaching
 public class JPAConfig {

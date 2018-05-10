@@ -1,9 +1,6 @@
 package ro.ubb.tjfblooddonation.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -21,11 +18,23 @@ public class LoginInformation extends BaseEntity<String> {
     @ManyToOne(cascade = CascadeType.ALL)
     private Person person;
 
+    @Builder
+    public LoginInformation(String username, String password, Person person) {
+        super.id = username;
+        this.password = password;
+        this.person = person;
+    }
+
     public String getUsername() {
         return super.id;
     }
 
     public void setUsername(String username) {
         super.id = username;
+    }
+
+    @Override
+    protected String generateId() {
+        return null;
     }
 }
