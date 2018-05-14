@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan({"ro.ubb.tjfblooddonation.repository", "ro.ubb.tjfblooddonation.service",
-         "ro.ubb.tjfblooddonation.utils"})
+         "ro.ubb.tjfblooddonation.utils", "ro.ubb.tjfblooddonation.controller"})
 public class CatalogConfig {
 
 

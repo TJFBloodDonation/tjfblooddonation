@@ -3,6 +3,7 @@ package ro.ubb.tjfblooddonation.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BaseEntity<T> implements Serializable {
     @Id
+    @Type(type = "java.lang.String")
     protected T id;
 
     protected abstract T generateId();
