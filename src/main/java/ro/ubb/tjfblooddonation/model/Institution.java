@@ -18,6 +18,7 @@ public class Institution extends BaseEntity {
     private String type;
     @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
+
     /**
      * All args constructor ( removed @AllArgsConstructor annotation from class
      * so as to set the id when instance is created)

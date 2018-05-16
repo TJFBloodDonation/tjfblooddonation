@@ -1,6 +1,7 @@
 package ro.ubb.tjfblooddonation.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ public class IdCard implements Serializable {
 
     private String cnp;
 
+    @Builder
     public IdCard(Address address, String cnp) {
         this.address = address;
         this.cnp = cnp;

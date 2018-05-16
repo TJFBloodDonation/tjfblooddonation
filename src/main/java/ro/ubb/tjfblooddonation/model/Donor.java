@@ -37,10 +37,10 @@ public class Donor extends Person {
      */
     @Builder
     public Donor(String firstName, String lastName, String email, String phoneNumber,
-                 Address residenceAddress, Date birthDate, IdCard idCard, String gender){
+                 Address residence, Date dateOfBirth, IdCard idCard, String gender){
         super(firstName,lastName,email,phoneNumber);
-        this.residence = residenceAddress;
-        this.dateOfBirth = birthDate;
+        this.residence = residence;
+        this.dateOfBirth = dateOfBirth;
         this.idCard = idCard;
         this.gender = gender;
     }
@@ -51,12 +51,12 @@ public class Donor extends Person {
      */
     @Builder
     public Donor(String firstName, String lastName, String email, String phoneNumber, String bloodType,
-                 String rh, Address residenceAddress, Date birthDate, IdCard idCard, String gender){
+                 String rH, Address residence, Date dateOfBirth, IdCard idCard, String gender){
         super(firstName,lastName,email,phoneNumber);
         this.bloodType = bloodType;
-        this.rH = rh;
-        this.residence = residenceAddress;
-        this.dateOfBirth = birthDate;
+        this.rH = rH;
+        this.residence = residence;
+        this.dateOfBirth = dateOfBirth;
         this.idCard = idCard;
         this.gender = gender;
 

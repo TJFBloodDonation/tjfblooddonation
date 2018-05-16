@@ -1,6 +1,7 @@
 package ro.ubb.tjfblooddonation.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +23,7 @@ public class Address implements Serializable {
     private String city;
     private String street;
 
+    @Builder
     public Address(String country, String region, String city, String street) {
         this.country = country;
         this.region = region;

@@ -1,9 +1,6 @@
 package ro.ubb.tjfblooddonation.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -20,6 +17,7 @@ public class Patient extends Person{
     @ManyToOne(cascade = CascadeType.ALL)
     private IdCard idCard;
 
+    @Builder
     public Patient(String firstName, String lastName, String email, String phoneNumber,
                    Institution institution, IdCard idCard) {
         super(firstName, lastName, email, phoneNumber);
