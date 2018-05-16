@@ -9,6 +9,7 @@ import ro.ubb.tjfblooddonation.repository.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -103,9 +104,8 @@ public class BloodService {
                 .max(Comparator.comparing(Blood::getRecoltationDate));
 
         if(bloodOpt.isPresent()) {
-            Date lastDonated = bloodOpt.get().getRecoltationDate();
-            lastDonated.setMonth(lastDonated.getMonth() + 2);
-            return lastDonated;
+            LocalDate lastDonated = bloodOpt.get().getRecoltationDate().toLocalDate();
+            return Date.from(lastDonated.plusMonths(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
 
         return Date.from(Instant.now());
