@@ -18,6 +18,7 @@ public class Blood extends BaseEntity{
     private Date recoltationDate;
     @ManyToOne(cascade = CascadeType.ALL)
     private Analysis analysis;
+    private boolean isSeparated;
 
     /** Constructor without Analysis, since when the blood enters the system,
      *  the analysis is not yet completed

@@ -16,9 +16,23 @@ public class BloodComponent extends BaseEntity {
     private Blood blood;
     private String type;
 
+    public enum types {
+        THROMBOCYTES, PLASMA, RED_BLOOD_CELLS
+    }
+
     @Builder
-    public BloodComponent(Blood blood, String componentType){
+    public BloodComponent(Blood blood, types type){
         this.blood = blood;
-        this.type = componentType;
+        switch (type) {
+            case THROMBOCYTES:
+                this.type = "thrombocytes";
+                break;
+            case PLASMA:
+                this.type = "plasma";
+                break;
+            case RED_BLOOD_CELLS:
+                this.type = "redBloodCells";
+                break;
+        }
     }
 }
