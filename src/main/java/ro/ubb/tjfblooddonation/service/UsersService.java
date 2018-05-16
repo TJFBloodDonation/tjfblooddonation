@@ -16,7 +16,7 @@ import ro.ubb.tjfblooddonation.utils.Credentials;
 
 import java.util.List;
 @Service
-public class UsersSevice {
+public class UsersService {
 
     /*Elena O(Task UserService Part 1): Just so you guys know, I used the names Sebi added in the tasks for the Repository functions*/
 
