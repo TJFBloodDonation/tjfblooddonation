@@ -4,37 +4,25 @@ import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class LoginInformation extends BaseEntity<String> {
+@Builder
+public class LoginInformation implements IdClass<String> {
+    @Id
+    private String username;
     private String password;
     @ManyToOne(cascade = CascadeType.ALL)
     private Person person;
 
-    @Builder
-    public LoginInformation(String username, String password, Person person) {
-        super.id = username;
-        this.password = password;
-        this.person = person;
-    }
-
-    public String getUsername() {
-        return super.id;
-    }
-
-    public void setUsername(String username) {
-        super.id = username;
-    }
 
     @Override
-    protected String generateId() {
-        return null;
+    public String getId() {
+        return username;
     }
 }

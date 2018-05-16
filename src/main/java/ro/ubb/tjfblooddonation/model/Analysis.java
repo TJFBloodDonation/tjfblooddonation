@@ -17,7 +17,7 @@ import java.util.Objects;
 public class Analysis implements Serializable {
     @Id
     @GeneratedValue
-    private long analysisId;
+    private Long analysisId;
     private Boolean hiv;
     private Boolean hb;
     private Boolean hcv;

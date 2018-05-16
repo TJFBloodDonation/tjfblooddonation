@@ -29,8 +29,8 @@ public class DonorRepositoryTest {
     @Test
     public void test(){
         assertNotEquals(donorRepository, null);
-        Address address = new Address(2, "a", "b", "c", "d");
-        IdCard idCard = new IdCard(1, address, "cnp");
+        Address address = new Address(2l, "a", "b", "c", "d");
+        IdCard idCard = new IdCard(1l, address, "cnp");
         Donor donor = new Donor("a", "a", "e", "0", "AB", "positive", address,
                 Date.valueOf("1999-2-2"), idCard, "male");
 

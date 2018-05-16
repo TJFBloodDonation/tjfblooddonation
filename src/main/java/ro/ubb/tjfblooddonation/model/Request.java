@@ -6,13 +6,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.sql.Date;
-import java.util.Objects;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @NoArgsConstructor
 @Data
-public class Request extends BaseEntity<String>{
+public class Request extends BaseEntity{
     @ManyToOne(cascade = CascadeType.ALL)
     private HealthWorker healthWorker;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -23,8 +22,6 @@ public class Request extends BaseEntity<String>{
     private Date requestDate;
     private String urgency;
     private String status;
-    /** static field for id "counter" */
-    private static Long idCount = 0L;
 
     /**
      * All args constructor ( removed @AllArgsConstructor annotation from class
@@ -42,17 +39,5 @@ public class Request extends BaseEntity<String>{
         this.urgency = urgency;
         this.status = status;
 
-        // read the idCount from a file or the DB in order to preserve
-        // the already used values and avoid conflicts
-        //idCount = ;
-
-        this.setId(generateId());
-    }
-
-    @Override
-    protected String generateId() {
-        int zeros = String.valueOf(Long.MAX_VALUE).length() - String.valueOf(idCount).length();
-        //persist idCount changes
-        return "REQ" + String.format("%0" + zeros + "d", idCount++);
     }
 }

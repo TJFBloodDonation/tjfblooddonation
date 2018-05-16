@@ -47,7 +47,7 @@ public class UsersService {
     }
     public void deleteDonorAccount(String username, String password){
         if (credentials.isDonor(username, password)) {
-            String donorId = loginInformationRepository.getById(username).getPerson().getId();       //here we are using the Person attribute of the LoginInformation entity to get the id
+            Long donorId = loginInformationRepository.getById(username).getPerson().getId();       //here we are using the Person attribute of the LoginInformation entity to get the id
             donorRepository.remove(donorId);
             loginInformationRepository.remove(username);                        //also need to remove user from LoginInformation
         }
@@ -75,7 +75,7 @@ public class UsersService {
 
     public void deleteHealthWorkerAccount(String username, String password, String healthWorkerUsername) {
         if(loginInformationRepository.getById(username) == null && credentials.isAdmin(username, password)) {
-            String healthWorkerId = loginInformationRepository.getById(healthWorkerUsername).getPerson().getId();       //here we are using the Person attribute of the LoginInformation entity to get the id
+            Long healthWorkerId = loginInformationRepository.getById(healthWorkerUsername).getPerson().getId();       //here we are using the Person attribute of the LoginInformation entity to get the id
             healthWorkerRepository.remove(healthWorkerId);
             loginInformationRepository.remove(healthWorkerUsername);                        //also need to remove user from LoginInformation
         }

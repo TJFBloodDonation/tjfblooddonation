@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class Address implements Serializable {
     @Id
     @GeneratedValue
-    private long addressId;
+    private Long addressId;
     private String country;
     private String region;
     private String city;

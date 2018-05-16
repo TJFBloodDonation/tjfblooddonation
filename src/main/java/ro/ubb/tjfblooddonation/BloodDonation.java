@@ -39,9 +39,9 @@ public class BloodDonation extends Application {
         UsersService usersService = context.getBean(UsersService.class);
         usersService.getAllDonors().forEach(System.out::println);
         System.out.println("----------------------------------");
-        Address a = new Address(1, "a", "b", "c", "d");
-        Address b = new Address(2, "a", "b", "c", "d");
-        IdCard idCard = new IdCard(1, a, "cnp");
+        Address a = new Address(1l, "a", "b", "c", "d");
+        Address b = new Address(2l, "a", "b", "c", "d");
+        IdCard idCard = new IdCard(1l, a, "cnp");
         Donor d = Donor.builder()
                 .bloodType("0")
                 .dateOfBirth(Date.valueOf("2000-12-12"))
@@ -50,7 +50,7 @@ public class BloodDonation extends Application {
                 .residence(b)
                 .rH("positive")
                 .build();
-        d.setId("DON000001");
+        //d.setId("DON000001");
         d.setEmail("fjks@fdjlk.com");
         d.setPhoneNumber("jfdk");
         d.setFirstName("firts");

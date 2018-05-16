@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class IdCard implements Serializable {
     @Id
     @GeneratedValue
-    private long idCardId;
+    private Long idCardId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Address address;

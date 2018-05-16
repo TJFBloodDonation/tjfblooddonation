@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 public class Form implements Serializable{
     @Id
     @GeneratedValue
-    private long formId;
+    private Long formId;
     private Boolean passedDonateForm;
     private Timestamp timeCompletedDonateForm;
     private Boolean passedBasicCheckForm;

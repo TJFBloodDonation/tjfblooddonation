@@ -14,7 +14,7 @@ import javax.persistence.InheritanceType;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public abstract class Person extends BaseEntity<String>{
+public abstract class Person extends BaseEntity{
     protected String firstName;
     protected String lastName;
     protected String email;

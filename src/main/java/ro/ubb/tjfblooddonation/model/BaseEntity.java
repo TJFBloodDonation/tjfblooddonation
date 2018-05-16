@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -16,10 +13,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class BaseEntity<T> implements Serializable {
+public abstract class BaseEntity implements Serializable, IdClass<Long> {
     @Id
-    @Type(type = "java.lang.String")
-    protected T id;
-
-    protected abstract T generateId();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 }

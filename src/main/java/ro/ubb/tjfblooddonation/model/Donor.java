@@ -30,8 +30,6 @@ public class Donor extends Person {
     @ManyToOne(cascade = CascadeType.ALL)
     private Form form;
     private String message;
-    /** static field for id "counter" */
-    private static Long idCount = 0L;
 
     /** Constructor that excludes the form, since it is completed after registration and implicitly
      * after the Donor instance is created and also skips message, 'cause I'm not exactly sure what it means
@@ -45,12 +43,6 @@ public class Donor extends Person {
         this.dateOfBirth = birthDate;
         this.idCard = idCard;
         this.gender = gender;
-
-        // read the idCount from a file or the DB in order to preserve
-        // the already used values and avoid conflicts
-        //idCount = ;
-
-        this.setId(generateId());
     }
 
     /** Constructor that excludes the form, since it is completed after registration and implicitly
@@ -68,17 +60,5 @@ public class Donor extends Person {
         this.idCard = idCard;
         this.gender = gender;
 
-        // read the idCount from a file or the DB in order to preserve
-        // the already used values and avoid conflicts
-        //idCount = ;
-
-        this.setId(generateId());
-    }
-
-    @Override
-    protected String generateId() {
-        int zeros = String.valueOf(Long.MAX_VALUE).length() - String.valueOf(idCount).length();
-        //persist idCount changes
-        return "DON" + String.format("%0" + zeros + "d", idCount++);
     }
 }
