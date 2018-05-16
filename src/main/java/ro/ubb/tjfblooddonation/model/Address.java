@@ -21,4 +21,11 @@ public class Address implements Serializable {
     private String region;
     private String city;
     private String street;
+
+    public Address(String country, String region, String city, String street) {
+        this.country = country;
+        this.region = region;
+        this.city = city;
+        this.street = street;
+    }
 }

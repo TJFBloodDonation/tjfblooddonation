@@ -21,4 +21,8 @@ public class IdCard implements Serializable {
 
     private String cnp;
 
+    public IdCard(Address address, String cnp) {
+        this.address = address;
+        this.cnp = cnp;
+    }
 }

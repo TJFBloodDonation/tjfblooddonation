@@ -29,8 +29,8 @@ public class DonorRepositoryTest {
     @Test
     public void test(){
         assertNotEquals(donorRepository, null);
-        Address address = new Address(2l, "a", "b", "c", "d");
-        IdCard idCard = new IdCard(1l, address, "cnp");
+        Address address = new Address("a", "b", "c", "d");
+        IdCard idCard = new IdCard(address, "cnp");
         Donor donor = new Donor("a", "a", "e", "0", "AB", "positive", address,
                 Date.valueOf("1999-2-2"), idCard, "male");
 
@@ -41,12 +41,6 @@ public class DonorRepositoryTest {
             assert(true);
         }
         donor = donorRepository.add(donor);
-        try{
-            donorRepository.add(donor);
-            assert(false);
-        } catch (RuntimeException e){
-            assert(true);
-        }
         assertEquals(donor.getBloodType(), "AB");
         assertEquals(donorRepository.getById(donor.getId()), donor);
         donor.setBloodType("A");
@@ -54,13 +48,6 @@ public class DonorRepositoryTest {
         assertEquals(donorRepository.getById(donor.getId()), donor);
         assertEquals(donor.getBloodType(), "A");
         donorRepository.remove(donor.getId());
-        try{
-            donorRepository.getById(donor.getId());
-            assert(false);
-        }catch (RuntimeException e){
-            assert(true);
-        }
-
     }
 
 }

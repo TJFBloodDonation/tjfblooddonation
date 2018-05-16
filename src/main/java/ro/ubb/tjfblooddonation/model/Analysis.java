@@ -26,5 +26,13 @@ public class Analysis implements Serializable {
     private Boolean alt;
     private Boolean imunoHematology;
 
-
+    public Analysis(Boolean hiv, Boolean hb, Boolean hcv, Boolean sifilis, Boolean htlv, Boolean alt, Boolean imunoHematology) {
+        this.hiv = hiv;
+        this.hb = hb;
+        this.hcv = hcv;
+        this.sifilis = sifilis;
+        this.htlv = htlv;
+        this.alt = alt;
+        this.imunoHematology = imunoHematology;
+    }
 }
