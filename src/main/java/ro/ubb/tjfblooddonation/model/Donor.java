@@ -31,6 +31,7 @@ public class Donor extends Person {
     private Form form;
     private String message;
 
+
     /** Constructor that excludes the form, since it is completed after registration and implicitly
      * after the Donor instance is created and also skips message, 'cause I'm not exactly sure what it means
      * It excludes the bloodType and rh in case tha patient did not input the when registering

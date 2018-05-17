@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import ro.ubb.tjfblooddonation.exceptions.RepositoryException;
-import ro.ubb.tjfblooddonation.model.BaseEntity;
 import ro.ubb.tjfblooddonation.model.IdClass;
 
 import javax.persistence.EntityManager;

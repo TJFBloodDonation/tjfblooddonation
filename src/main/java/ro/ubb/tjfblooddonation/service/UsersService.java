@@ -1,6 +1,5 @@
 package ro.ubb.tjfblooddonation.service;
 
-import com.microsoft.windowsazure.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.ubb.tjfblooddonation.exceptions.ServiceError;
@@ -11,7 +10,6 @@ import ro.ubb.tjfblooddonation.model.Person;
 import ro.ubb.tjfblooddonation.repository.DonorRepository;
 import ro.ubb.tjfblooddonation.repository.HealthWorkerRepository;
 import ro.ubb.tjfblooddonation.repository.LoginInformationRepository;
-import ro.ubb.tjfblooddonation.repository.Repository;
 import ro.ubb.tjfblooddonation.utils.Credentials;
 
 import java.util.List;

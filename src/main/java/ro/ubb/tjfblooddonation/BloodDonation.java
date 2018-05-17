@@ -8,8 +8,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import ro.ubb.tjfblooddonation.model.Address;
 import ro.ubb.tjfblooddonation.model.Donor;
 import ro.ubb.tjfblooddonation.model.IdCard;
-import ro.ubb.tjfblooddonation.repository.BloodRepository;
-import ro.ubb.tjfblooddonation.repository.DonorRepository;
 import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 

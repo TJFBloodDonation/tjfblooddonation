@@ -22,6 +22,7 @@ public class Request extends BaseEntity{
     private Date requestDate;
     private Byte urgency;
     private String status;
+    private Boolean isSatisfied;
 
     public enum urgencyLevels {
         LOW, MEDIUM, HIGH

@@ -14,7 +14,7 @@ import java.util.Objects;
 public class BloodComponent extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     private Blood blood;
-    private String type;
+    private types type;
 
     public enum types {
         THROMBOCYTES, PLASMA, RED_BLOOD_CELLS
@@ -23,16 +23,6 @@ public class BloodComponent extends BaseEntity {
     @Builder
     public BloodComponent(Blood blood, types type){
         this.blood = blood;
-        switch (type) {
-            case THROMBOCYTES:
-                this.type = "thrombocytes";
-                break;
-            case PLASMA:
-                this.type = "plasma";
-                break;
-            case RED_BLOOD_CELLS:
-                this.type = "redBloodCells";
-                break;
-        }
+        this.type = type;
     }
 }

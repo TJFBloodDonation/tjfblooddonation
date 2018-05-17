@@ -16,12 +16,17 @@ public class Patient extends Person{
     private Institution institution;
     @ManyToOne(cascade = CascadeType.ALL)
     private IdCard idCard;
+    private String bloodType;
+    private String rH;
+
 
     @Builder
     public Patient(String firstName, String lastName, String email, String phoneNumber,
-                   Institution institution, IdCard idCard) {
+                   Institution institution, IdCard idCard, String bloodType, String rH) {
         super(firstName, lastName, email, phoneNumber);
         this.institution = institution;
         this.idCard = idCard;
+        this.bloodType = bloodType;
+        this.rH = rH;
     }
 }
