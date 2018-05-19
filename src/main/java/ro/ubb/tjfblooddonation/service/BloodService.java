@@ -35,6 +35,8 @@ public class BloodService {
      *
      * @param donorUsername - the username of the donor
      * @param blood         - the Blood sample collected from the donor
+     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the LoginInformation with the specified
+     * donorUsername as ID is not in the Repository
      */
     public void donateBlood(String donorUsername, Blood blood) {
 
@@ -78,6 +80,8 @@ public class BloodService {
      * @param bloodId  - the ID of the Blood sample for which the analysis was performed
      * @param analysis - the analysis to be associated to the blood
      * @throws ServiceError if the Blood instance with the given ID already has an associated analysis
+     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Blood with the specified ID is not
+     * in the Repository
      */
     public void analyseBlood(Long bloodId, Analysis analysis) {
 
@@ -108,6 +112,8 @@ public class BloodService {
      *
      * @param bloodId - ID of the Blood instance to be separated
      * @throws ServiceError if the Blood instance is already separated
+     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Blood with the specified ID is not
+     * in the Repository
      */
     public void separateBlood(Long bloodId) {
 
@@ -148,6 +154,8 @@ public class BloodService {
      *
      * @param requestId - the ID of the request for which thrombocytes are needed
      * @return the set of compatible BloodComponents of type THROMBOCYTES
+     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
+     * in the Repository
      */
     public Set<BloodComponent> getOkThrombocytes(Long requestId) {
 
@@ -172,6 +180,8 @@ public class BloodService {
      *
      * @param requestId - the ID of the request for which thrombocytes are needed
      * @return the set of compatible BloodComponents of type RED_BLOOD_CELLS
+     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
+     * in the Repository
      */
     public Set<BloodComponent> getOkRedBloodCells(Long requestId) {
 
@@ -196,6 +206,8 @@ public class BloodService {
      *
      * @param requestId - the ID of the request for which thrombocytes are needed
      * @return the set of compatible BloodComponents of type PLASMA
+     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
+     * in the Repository
      */
     public Set<BloodComponent> getOkPlasma(Long requestId) {
 
@@ -216,6 +228,8 @@ public class BloodService {
      *
      * @param donorUsername - the username of the Donor for which to return the Blood
      * @return the ordered List of Blood instances
+     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the LoginInformation with the specified
+     * donorUsername as ID is not in the Repository
      */
     public List<Blood> getUserBlood(String donorUsername) {
         Person person = loginInformationRepository.getById(donorUsername).getPerson();
@@ -232,6 +246,8 @@ public class BloodService {
      *
      * @param donorUsername - the username of the Donor for which to check
      * @return the next Date at which the specified Donor can donate
+     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the LoginInformation with the specified
+     * donorUsername as ID is not in the Repository
      */
     public Date getNextDonateTime(String donorUsername) {
 
