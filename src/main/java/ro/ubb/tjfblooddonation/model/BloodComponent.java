@@ -12,9 +12,9 @@ import java.util.Objects;
 @NoArgsConstructor
 @Data
 public class BloodComponent extends BaseEntity {
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
     private Blood blood;
-    private types type;
+    private String type;
 
     public enum types {
         THROMBOCYTES, PLASMA, RED_BLOOD_CELLS
@@ -23,6 +23,16 @@ public class BloodComponent extends BaseEntity {
     @Builder
     public BloodComponent(Blood blood, types type){
         this.blood = blood;
-        this.type = type;
+        switch (type) {
+            case THROMBOCYTES:
+                this.type = "thrombocytes";
+                break;
+            case RED_BLOOD_CELLS:
+                this.type = "red blood cells";
+                break;
+            case PLASMA:
+                this.type = "plasma";
+                break;
+        }
     }
 }

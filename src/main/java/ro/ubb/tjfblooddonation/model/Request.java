@@ -5,21 +5,21 @@ import lombok.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @NoArgsConstructor
 @Data
 public class Request extends BaseEntity{
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
     private HealthWorker healthWorker;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
     private Patient patient;
     private Byte plasmaUnits;
     private Byte thrombocytesUnits;
     private Byte redBloodCellsUnits;
-    private Date requestDate;
+    private LocalDate requestDate;
     private Byte urgency;
     private String status;
     private Boolean isSatisfied;
@@ -34,7 +34,7 @@ public class Request extends BaseEntity{
      */
     @Builder
     public Request(HealthWorker healthWorker, Patient patient, Byte plasmaUnits, Byte thrombocytesUnits,
-                   Byte redBloodCellsUnits, Date requestDate, urgencyLevels urgency, String status) {
+                   Byte redBloodCellsUnits, LocalDate requestDate, urgencyLevels urgency, String status) {
         this.healthWorker = healthWorker;
         this.patient = patient;
         this.plasmaUnits = plasmaUnits;

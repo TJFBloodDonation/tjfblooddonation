@@ -12,6 +12,7 @@ import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 
 public class BloodDonation extends Application {
@@ -42,7 +43,7 @@ public class BloodDonation extends Application {
         IdCard idCard = new IdCard(1l, a, "cnp");
         Donor d = Donor.builder()
                 .bloodType("0")
-                .dateOfBirth(Date.valueOf("2000-12-12"))
+                .dateOfBirth(LocalDate.parse("2000-12-12"))
                 .gender("male")
                 .idCard(idCard)
                 .residence(b)

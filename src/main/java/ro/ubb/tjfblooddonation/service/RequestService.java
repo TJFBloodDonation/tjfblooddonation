@@ -83,7 +83,7 @@ public class RequestService {
             err += "Wrong number of red blood cells units. The request was made for " + request.getRedBloodCellsUnits() +
                 " units, and only " + redBloodCells.size() + " were selected.";
 
-        if(err.equals(""))
+        if(!err.equals(""))
             throw new ServiceError(err);
 
         thrombocytes.forEach(thrombocytesID -> bloodComponentRepository.remove(thrombocytesID));

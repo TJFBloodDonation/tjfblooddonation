@@ -3,7 +3,7 @@ package ro.ubb.tjfblooddonation.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -11,11 +11,11 @@ import java.sql.Date;
 @AllArgsConstructor
 @Data
 public class Blood extends BaseEntity{
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
     private Donor donor;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
     private Institution institution;
-    private Date recoltationDate;
+    private LocalDate recoltationDate;
     @ManyToOne(cascade = CascadeType.ALL)
     private Analysis analysis;
     private boolean isSeparated;
@@ -24,7 +24,7 @@ public class Blood extends BaseEntity{
      *  the analysis is not yet completed
      */
     @Builder
-    public Blood(Donor donor, Institution institution, Date recoltationDate){
+    public Blood(Donor donor, Institution institution, LocalDate recoltationDate){
         this.donor = donor;
         this.institution = institution;
         this.recoltationDate = recoltationDate;

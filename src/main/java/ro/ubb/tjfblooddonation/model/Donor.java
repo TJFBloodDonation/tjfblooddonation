@@ -7,9 +7,7 @@ import lombok.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import java.sql.Date;
-import java.util.Objects;
+import java.time.LocalDate;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -22,7 +20,7 @@ public class Donor extends Person {
     private String rH;
     @ManyToOne(cascade = CascadeType.ALL)
     private Address residence;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     @ManyToOne(cascade = CascadeType.ALL)
     private IdCard idCard;
     private String gender;
@@ -38,7 +36,7 @@ public class Donor extends Person {
      */
     @Builder
     public Donor(String firstName, String lastName, String email, String phoneNumber,
-                 Address residence, Date dateOfBirth, IdCard idCard, String gender){
+                 Address residence, LocalDate dateOfBirth, IdCard idCard, String gender){
         super(firstName,lastName,email,phoneNumber);
         this.residence = residence;
         this.dateOfBirth = dateOfBirth;
@@ -52,7 +50,7 @@ public class Donor extends Person {
      */
     @Builder
     public Donor(String firstName, String lastName, String email, String phoneNumber, String bloodType,
-                 String rH, Address residence, Date dateOfBirth, IdCard idCard, String gender){
+                 String rH, Address residence, LocalDate dateOfBirth, IdCard idCard, String gender){
         super(firstName,lastName,email,phoneNumber);
         this.bloodType = bloodType;
         this.rH = rH;

@@ -1,6 +1,7 @@
 package ro.ubb.tjfblooddonation.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class Analysis implements Serializable {
     @Id
     @GeneratedValue
@@ -26,13 +28,4 @@ public class Analysis implements Serializable {
     private Boolean alt;
     private Boolean imunoHematology;
 
-    public Analysis(Boolean hiv, Boolean hb, Boolean hcv, Boolean sifilis, Boolean htlv, Boolean alt, Boolean imunoHematology) {
-        this.hiv = hiv;
-        this.hb = hb;
-        this.hcv = hcv;
-        this.sifilis = sifilis;
-        this.htlv = htlv;
-        this.alt = alt;
-        this.imunoHematology = imunoHematology;
-    }
 }

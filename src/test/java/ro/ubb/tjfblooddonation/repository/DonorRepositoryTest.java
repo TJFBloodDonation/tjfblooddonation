@@ -15,6 +15,7 @@ import ro.ubb.tjfblooddonation.model.IdCard;
 import ro.ubb.tjfblooddonation.repository.DonorRepository;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +33,7 @@ public class DonorRepositoryTest {
         Address address = new Address("a", "b", "c", "d");
         IdCard idCard = new IdCard(address, "cnp");
         Donor donor = new Donor("a", "a", "e", "0", "AB", "positive", address,
-                Date.valueOf("1999-2-2"), idCard, "male");
+                LocalDate.parse("1999-02-02"), idCard, "male");
 
         try{
             donorRepository.getById(donor.getId());

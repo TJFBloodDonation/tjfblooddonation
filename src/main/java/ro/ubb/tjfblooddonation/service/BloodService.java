@@ -1,6 +1,8 @@
 package ro.ubb.tjfblooddonation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
 import ro.ubb.tjfblooddonation.exceptions.ServiceError;
 import ro.ubb.tjfblooddonation.model.*;
@@ -15,17 +17,15 @@ import java.util.stream.Collectors;
 @Service
 public class BloodService {
     @Autowired
-    LoginInformationRepository loginInformationRepository;
+    private LoginInformationRepository loginInformationRepository;
     @Autowired
     DonorRepository donorRepository;
     @Autowired
-    HealthWorkerRepository healthWorkerRepository;
+    private BloodRepository bloodRepository;
     @Autowired
-    BloodRepository bloodRepository;
+    private BloodComponentRepository bloodComponentRepository;
     @Autowired
-    BloodComponentRepository bloodComponentRepository;
-    @Autowired
-    RequestRepository requestRepository;
+    private RequestRepository requestRepository;
 
     /**
      * Function to donate blood. It checks for the donor by username, and in case the donor
@@ -37,18 +37,28 @@ public class BloodService {
      * @param blood         - the Blood sample collected from the donor
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the LoginInformation with the specified
      * donorUsername as ID is not in the Repository
+     * @throws ServiceError if the Donor did not pass both Forms
      */
     public void donateBlood(String donorUsername, Blood blood) {
 
-        Person person = loginInformationRepository.getById(donorUsername).getPerson();
+        LoginInformation loginInformation = loginInformationRepository.getById(donorUsername);
+        Person person = loginInformation.getPerson();
         Donor donor = new Donor();
         if (person instanceof Donor)
             donor = (Donor) person;
 
         if (donor.getForm().getPassedBasicCheckForm() && donor.getForm().getPassedDonateForm())
             bloodRepository.add(blood);
+        else {
+            System.out.println(donor.getForm().getPassedBasicCheckForm().toString() + donor.getForm().getPassedDonateForm().toString());
+            throw new ServiceError("Donor did not complete both forms required" +
+                    ", or does not fit the requirements to donate");
+        }
 
-        donor.setForm(null);
+        donor.setForm(new Form());
+        donorRepository.update(donor);
+        loginInformation.setPerson(donor);
+        loginInformationRepository.update(loginInformation);
     }
 
     /**
@@ -86,8 +96,10 @@ public class BloodService {
     public void analyseBlood(Long bloodId, Analysis analysis) {
 
         Blood blood = bloodRepository.getById(bloodId);
-        if (blood.getAnalysis() == null)
+        if (blood.getAnalysis() == null) {
             blood.setAnalysis(analysis);
+            bloodRepository.update(blood);
+        }
         else
             throw new ServiceError("Blood with id " + bloodId + " is already analysed!");
     }
@@ -100,7 +112,7 @@ public class BloodService {
     public Set<Blood> getUnseparatedBlood() {
 
         return bloodRepository.getAll().stream()
-                .filter(Blood::isSeparated)
+                .filter(blood -> !blood.isSeparated())
                 .collect(Collectors.toSet());
     }
 
@@ -120,6 +132,7 @@ public class BloodService {
         Blood blood = bloodRepository.getById(bloodId);
         if (!blood.isSeparated()) {
             blood.setSeparated(true);
+            bloodRepository.update(blood);
             //add  1 unit of THROMBOCYTES derived from the Blood
             bloodComponentRepository.add(
                     BloodComponent.builder()
@@ -150,7 +163,7 @@ public class BloodService {
      * Request instance with the ID given as parameter; It checks in the BloodComponentRepository for instances whose
      * bloodType and Rh (stored in the bloodType and rH fields of the Donor associated to the Blood from which
      * the BloodComponent was derived) is either equal to the ones the Patient has,
-     * or are the universally compatible (O_I Rh-)
+     * or are the universally compatible (O_I Rh-); Also it excludes expired components
      *
      * @param requestId - the ID of the request for which thrombocytes are needed
      * @return the set of compatible BloodComponents of type THROMBOCYTES
@@ -162,7 +175,8 @@ public class BloodService {
         Request request = requestRepository.getById(requestId);
 
         return bloodComponentRepository.getAll().stream()
-                .filter(bloodComponent -> bloodComponent.getType().equals(BloodComponent.types.THROMBOCYTES))
+                .filter(bloodComponent -> bloodComponent.getType().equals("thrombocytes"))
+                .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusDays(5).isBefore(LocalDate.now()))
                 .filter(bloodComponent ->
                         (bloodComponent.getBlood().getDonor().getBloodType().equals(request.getPatient().getBloodType())
                                 && bloodComponent.getBlood().getDonor().getRH().equals(request.getPatient().getRH()))
@@ -176,7 +190,7 @@ public class BloodService {
      * Request instance with the ID given as parameter; It checks in the BloodComponentRepository for instances whose
      * bloodType and Rh (stored in the bloodType and rH fields of the Donor associated to the Blood from which
      * the BloodComponent was derived) is either equal to the ones the Patient has,
-     * or are universally compatible (O_I Rh-)
+     * or are universally compatible (O_I Rh-); Also it excludes expired components
      *
      * @param requestId - the ID of the request for which thrombocytes are needed
      * @return the set of compatible BloodComponents of type RED_BLOOD_CELLS
@@ -188,7 +202,8 @@ public class BloodService {
         Request request = requestRepository.getById(requestId);
 
         return bloodComponentRepository.getAll().stream()
-                .filter(bloodComponent -> bloodComponent.getType().equals(BloodComponent.types.RED_BLOOD_CELLS))
+                .filter(bloodComponent -> bloodComponent.getType().equals("red blood cells"))
+                .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusDays(42).isBefore(LocalDate.now()))
                 .filter(bloodComponent ->
                         (bloodComponent.getBlood().getDonor().getBloodType().equals(request.getPatient().getBloodType())
                                 && bloodComponent.getBlood().getDonor().getRH().equals(request.getPatient().getRH()))
@@ -202,7 +217,7 @@ public class BloodService {
      * Request instance with the ID given as parameter; It checks in the BloodComponentRepository for instances whose
      * bloodType and Rh (stored in the bloodType and rH fields of the Donor associated to the Blood from which
      * the BloodComponent was derived) is either equal to the ones the Patient has,
-     * or are the universally compatible (O_I Rh-)
+     * or are the universally compatible (O_I Rh-); Also it excludes expired components
      *
      * @param requestId - the ID of the request for which thrombocytes are needed
      * @return the set of compatible BloodComponents of type PLASMA
@@ -214,7 +229,8 @@ public class BloodService {
         Request request = requestRepository.getById(requestId);
 
         return bloodComponentRepository.getAll().stream()
-                .filter(bloodComponent -> bloodComponent.getType().equals(BloodComponent.types.PLASMA))
+                .filter(bloodComponent -> bloodComponent.getType().equals("plasma"))
+                .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusMonths(5).isBefore(LocalDate.now()))
                 .filter(bloodComponent ->
                         (bloodComponent.getBlood().getDonor().getBloodType().equals(request.getPatient().getBloodType())
                                 && bloodComponent.getBlood().getDonor().getRH().equals(request.getPatient().getRH()))
@@ -249,17 +265,17 @@ public class BloodService {
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the LoginInformation with the specified
      * donorUsername as ID is not in the Repository
      */
-    public Date getNextDonateTime(String donorUsername) {
+    public LocalDate getNextDonateTime(String donorUsername) {
 
         Optional<Blood> bloodOpt = getUserBlood(donorUsername).stream()
                 .max(Comparator.comparing(Blood::getRecoltationDate));
 
         if (bloodOpt.isPresent()) {
-            LocalDate lastDonated = bloodOpt.get().getRecoltationDate().toLocalDate();
-            return Date.from(lastDonated.plusMonths(4).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            LocalDate lastDonated = bloodOpt.get().getRecoltationDate();
+            return LocalDate.from(lastDonated.plusMonths(4));
         }
 
-        return Date.from(Instant.now());
+        return LocalDate.now();
     }
 
 }
