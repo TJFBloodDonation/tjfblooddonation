@@ -75,7 +75,7 @@ public class RequestService {
      */
     public void fulfillRequest(Long requestId, List<Long> thrombocytes, List<Long> plasma, List<Long> redBloodCells) {
         Request request = requestRepository.getById(requestId);
-        request.setIsSatisfied(true);
+
         String err = "";
 
         if(thrombocytes.size() != request.getThrombocytesUnits())
@@ -90,6 +90,9 @@ public class RequestService {
 
         if(!err.equals(""))
             throw new ServiceError(err);
+
+        request.setIsSatisfied(true);
+        requestRepository.update(request);
 
         thrombocytes.forEach(thrombocytesID -> bloodComponentRepository.remove(thrombocytesID));
         plasma.forEach(plasmaID -> bloodComponentRepository.remove(plasmaID));
@@ -108,7 +111,7 @@ public class RequestService {
     public List<Request> getDoctorRequest(String healthWorkerUsername) {
         Person healthWorker = loginInformationRepository.getById(healthWorkerUsername).getPerson();
         return requestRepository.getAll().stream()
-                .filter(request -> request.getHealthWorker().getId().equals(healthWorker.getId()))
+                 .filter(request -> request.getHealthWorker().getId().equals(healthWorker.getId()))
                 .sorted(Comparator.comparing(Request::getRequestDate))
                 .collect(Collectors.toList());
     }

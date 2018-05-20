@@ -1,17 +1,16 @@
 package ro.ubb.tjfblooddonation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
 import ro.ubb.tjfblooddonation.exceptions.ServiceError;
 import ro.ubb.tjfblooddonation.model.*;
 import ro.ubb.tjfblooddonation.repository.*;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +30,7 @@ public class BloodService {
      * Function to donate blood. It checks for the donor by username, and in case the donor
      * passed both the basic check form, completed by the clinic staff the day of donation
      * and the donate form completed by the donor when registering it will allow for the blood
-     * collected from the donor to be added into the system
+     * collected from the donor to be added into the system; Afterwards it resets the form
      *
      * @param donorUsername - the username of the donor
      * @param blood         - the Blood sample collected from the donor
@@ -55,7 +54,9 @@ public class BloodService {
                     ", or does not fit the requirements to donate");
         }
 
-        donor.setForm(new Form());
+        donor.getForm().setPassedDonateForm(false);
+        donor.getForm().setPassedBasicCheckForm(false);
+        donor.getForm().setTimeCompletedDonateForm(null);
         donorRepository.update(donor);
         loginInformation.setPerson(donor);
         loginInformationRepository.update(loginInformation);
