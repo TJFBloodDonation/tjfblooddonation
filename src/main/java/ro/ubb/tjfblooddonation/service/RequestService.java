@@ -23,12 +23,17 @@ public class RequestService {
     private LoginInformationRepository loginInformationRepository;
 
     /**
-     * Function to add a request to the repository
+     * Function to add a request to the repository; Checks if the HealthWorker is a DOCTOR before adding the Request
      *
      * @param request - the request to be added
+     * @throws ServiceError if the HealthWorker associated to the request is not of type DOCTOR
      */
     public void addRequest(Request request) {
-        requestRepository.add(request);
+
+        if(request.getHealthWorker().getType().equals("doctor"))
+            requestRepository.add(request);
+        else
+            throw new ServiceError("Request can't be performed by anyone but a doctor.");
     }
 
     /**

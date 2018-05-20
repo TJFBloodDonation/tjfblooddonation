@@ -1,6 +1,9 @@
 package ro.ubb.tjfblooddonation.model;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,6 +32,34 @@ public class Request extends BaseEntity{
     }
 
     /**
+     * Constructor without status
+     */
+    @Builder
+    public Request(HealthWorker healthWorker, Patient patient, Byte plasmaUnits, Byte thrombocytesUnits,
+                   Byte redBloodCellsUnits, LocalDate requestDate, urgencyLevels urgency) {
+        this.healthWorker = healthWorker;
+        this.patient = patient;
+        this.plasmaUnits = plasmaUnits;
+        this.thrombocytesUnits = thrombocytesUnits;
+        this.redBloodCellsUnits = redBloodCellsUnits;
+        this.requestDate = requestDate;
+        this.status = "processing";
+        this.isSatisfied = false;
+
+        switch (urgency) {
+            case LOW:
+                this.urgency = 1;
+                break;
+            case MEDIUM:
+                this.urgency = 2;
+                break;
+            case HIGH:
+                this.urgency = 3;
+                break;
+        }
+    }
+
+    /**
      * All args constructor ( removed @AllArgsConstructor annotation from class
      * so as to set the id when instance is created)
      */
@@ -42,6 +73,7 @@ public class Request extends BaseEntity{
         this.redBloodCellsUnits = redBloodCellsUnits;
         this.requestDate = requestDate;
         this.status = status;
+        this.isSatisfied = false;
 
         switch (urgency) {
             case LOW:
