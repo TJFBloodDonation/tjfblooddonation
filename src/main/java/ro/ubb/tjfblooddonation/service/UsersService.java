@@ -100,5 +100,9 @@ public class UsersService {
         }
         return null;
     }
+
+    public Person getPerson(String username, String password){
+        return null;
+    }
 }
 
