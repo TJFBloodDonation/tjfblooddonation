@@ -17,11 +17,28 @@ public class HealthWorker extends Person{
     @ManyToOne(cascade = CascadeType.ALL)
     private Institution institution;
 
+    public enum types {
+        ADMIN, CLINIC_STAFF, DOCTOR, BLOOD_ANALYST
+    }
+
     @Builder
     public HealthWorker(String firstName, String lastName, String email, String phoneNumber,
-                        String type, Institution institution) {
+                        types type, Institution institution) {
         super(firstName, lastName, email, phoneNumber);
         this.institution = institution;
-        this.type = type;
+
+        switch (type) {
+            case ADMIN:
+                this.type = "admin";
+                break;
+            case CLINIC_STAFF:
+                this.type = "clinicStaff";
+                break;
+            case DOCTOR:
+                this.type = "doctor";
+                break;
+            case BLOOD_ANALYST:
+                this.type = "bloodAnalyst";
+        }
     }
 }
