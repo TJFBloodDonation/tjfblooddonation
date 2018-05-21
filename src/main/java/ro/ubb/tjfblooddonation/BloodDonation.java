@@ -5,9 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ro.ubb.tjfblooddonation.model.Address;
-import ro.ubb.tjfblooddonation.model.Donor;
-import ro.ubb.tjfblooddonation.model.IdCard;
+import ro.ubb.tjfblooddonation.model.*;
 import ro.ubb.tjfblooddonation.repository.BloodRepository;
 import ro.ubb.tjfblooddonation.repository.DonorRepository;
 import ro.ubb.tjfblooddonation.service.UsersService;
@@ -21,11 +19,33 @@ public class BloodDonation extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = loader.load("/fxml/Admin.fxml");
-        primaryStage.setTitle("Blood donation!");
-        primaryStage.setScene(new Scene(root, 450, 450));
-        primaryStage.show();
+        loader.createNewWindow("/fxml/logIn.fxml", "Blood donation", null);
         //addDonor();
+//        addHealthWorker(HealthWorker.types.ADMIN, "clinicStaff");
+    }
+
+    private void addHealthWorker(HealthWorker.types type, String username) {
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext("ro.ubb.tjfblooddonation.config");
+        UsersService usersService = context.getBean(UsersService.class);
+        Address a = new Address("a", "b", "c", "d");
+        Address b = new Address("a", "b", "c", "d");
+        IdCard idCard = new IdCard(a, "cnp");
+        Institution institution = Institution.builder()
+                .address(a)
+                .name("Spital")
+                .type("idk")
+                .build();
+        HealthWorker healthWorker = HealthWorker.builder()
+                .email("email")
+                .firstName("health ")
+                .lastName("worker")
+                .institution(institution)
+                .phoneNumber("048327592")
+                .type(type)
+                .build();
+
+        usersService.createHealthWorkerAccont(username, username, healthWorker);
     }
 
 
@@ -55,6 +75,7 @@ public class BloodDonation extends Application {
         d.setFirstName("firts");
         d.setLastName("last");
         usersService.addDonor(d);
+        usersService.createDonorAccount("donor", "donor", d);
         usersService.getAllDonors().forEach(System.out::println);
     }
 }

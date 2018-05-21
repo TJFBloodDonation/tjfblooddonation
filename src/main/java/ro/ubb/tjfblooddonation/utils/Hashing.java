@@ -22,6 +22,8 @@ public class Hashing {
             }
             //Get complete hashed password in hex format
             generatedPassword = sb.toString();
+            System.out.println(generatedPassword);
+            System.out.println(generatedPassword.length());
             return generatedPassword;
         }
         catch (NoSuchAlgorithmException e)

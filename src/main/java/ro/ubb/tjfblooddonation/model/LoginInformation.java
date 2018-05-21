@@ -17,7 +17,7 @@ public class LoginInformation implements IdClass<String> {
     @Id
     private String username;
     private String password;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne//(cascade = CascadeType.ALL)
     private Person person;
 
 
