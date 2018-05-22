@@ -35,7 +35,7 @@ public class AdminController {
     void AddClicked(ActionEvent event) {
         try {
             loader.createNewWindow("/fxml/AddStuff.fxml", "Add Health Worker Page", null);
-            loader.createNewWindow("/fxml/AddStuff.fxml", "Admin Page", null);
+           // loader.createNewWindow("/fxml/AddStuff.fxml", "Admin Page", null);
         }
         catch (IOException e) {
             e.printStackTrace();
