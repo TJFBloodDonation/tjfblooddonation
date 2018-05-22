@@ -21,7 +21,8 @@ public class BloodDonation extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = loader.load("/fxml/logIn.fxml");
+        Parent root = loader.load("/fxml/donationFormwkkdhfh.fxml");
+
         primaryStage.setTitle("Blood donation!");
         primaryStage.setScene(new Scene(root, 450, 450));
         primaryStage.show();
