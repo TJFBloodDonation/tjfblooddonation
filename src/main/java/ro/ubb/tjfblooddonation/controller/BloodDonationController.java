@@ -11,6 +11,7 @@ import ro.ubb.tjfblooddonation.model.Donor;
 import ro.ubb.tjfblooddonation.model.Institution;
 import ro.ubb.tjfblooddonation.service.BloodService;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class BloodDonationController {
@@ -22,7 +23,7 @@ public class BloodDonationController {
     private TextField rhTxt;
 
     @FXML
-    private Date recoltationTxt;
+    private LocalDate recoltationTxt;
 
     @FXML
     private Institution institutionTxt;
@@ -43,19 +44,19 @@ public class BloodDonationController {
         Long bloodId = Long.valueOf(bloodIdTxt.getText());
         Analysis analysis=analysisTxt;
         String rH = rhTxt.getText();
-        Date rDate=recoltationTxt;
+        LocalDate rDate = recoltationTxt;
         Institution institution=institutionTxt;
         Donor donor=donorTxt;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         Blood blood = Blood.builder()
                 .donor(donor)
-                .recoltationDate((java.sql.Date) rDate)
+                .recoltationDate(rDate)
                 .institution(institution)
                 .build();
 
             alert.setContentText(blood.toString() + "\n" +
                     "Example of sample of blood:" +
-                    bloodService.getBlood(bloodId));
+                    bloodService.getBloodById(bloodId));
 
         }
 
