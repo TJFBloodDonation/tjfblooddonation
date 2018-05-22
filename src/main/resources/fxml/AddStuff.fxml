@@ -17,7 +17,7 @@
       <Label layoutX="316.0" layoutY="241.0" text="Institution" />
       <TextField layoutX="52.0" layoutY="69.0" />
       <TextField layoutX="52.0" layoutY="136.0" />
-      <TextField layoutX="52.0" layoutY="199.0" />
+      <TextField fx:id="hwUsernameTextBox" layoutX="52.0" layoutY="199.0" />
       <TextField layoutX="52.0" layoutY="266.0" />
       <TextField layoutX="316.0" layoutY="69.0" />
       <TextField layoutX="316.0" layoutY="136.0" />

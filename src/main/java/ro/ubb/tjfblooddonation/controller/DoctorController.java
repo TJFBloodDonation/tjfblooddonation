@@ -21,7 +21,7 @@ public class DoctorController {
     @FXML
     public void ChechRequestClicked(ActionEvent event) {
         try {
-            loader.createNewWindow("/fxml/doctor.fxml", "Doctor Main Page", null);
+            loader.createNewWindow("/fxml/requests.fxml", "Check Requests", null);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -31,7 +31,7 @@ public class DoctorController {
     @FXML
     public void RequestBloodClicked(ActionEvent event) {
         try {
-            loader.createNewWindow("/fxml/doctor.fxml", "Doctor Main Page", null);
+            loader.createNewWindow("/fxml/RequestForm.fxml", "Request Form", null);
         }
         catch (IOException e) {
             e.printStackTrace();
