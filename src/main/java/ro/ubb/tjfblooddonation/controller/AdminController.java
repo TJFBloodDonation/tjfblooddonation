@@ -20,7 +20,7 @@ public class AdminController {
     @FXML
     void AddClicked(ActionEvent event) {
         try {
-            loader.createNewWindow("/fxml/Admin.fxml", "Admin Page", null);
+            loader.createNewWindow("/fxml/AddStuff.fxml", "Add Health Worker Page", null);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -30,6 +30,7 @@ public class AdminController {
     @FXML
     void DeleteClicked(ActionEvent event) {
             try {
+                //usersService.deleteHealthWorkerAccount(somehow determine selected health worker);
                 loader.createNewWindow("/fxml/Admin.fxml", "Admin Page", null);
             }
             catch (IOException e) {
@@ -39,6 +40,11 @@ public class AdminController {
 
     @FXML
     void UpdateClicked(ActionEvent event) {
-
+        try{
+            loader.createNewWindow("/fxml/UpdateStuff", "User Info Page", null);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }
