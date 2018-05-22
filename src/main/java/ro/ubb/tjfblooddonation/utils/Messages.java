@@ -10,4 +10,12 @@ public class Messages {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    public static void showConfirmation(String title, String message){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText("Success!");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }
