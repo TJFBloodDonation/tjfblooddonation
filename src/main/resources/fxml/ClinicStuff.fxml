@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.ClinicStuffController">
+   <children>
+      <Accordion layoutX="43.0" layoutY="90.0" />
+      <Accordion layoutX="50.0" layoutY="65.0" prefHeight="305.0" prefWidth="298.0">
+        <panes>
+          <TitledPane animated="false" text="untitled 1" />
+          <TitledPane animated="false" text="untitled 2" />
+        </panes>
+      </Accordion>
+      <TextField layoutX="50.0" layoutY="29.0" prefHeight="26.0" prefWidth="298.0" />
+      <Text fill="#8a8181" layoutX="68.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search donors" />
+   </children>
+</AnchorPane>

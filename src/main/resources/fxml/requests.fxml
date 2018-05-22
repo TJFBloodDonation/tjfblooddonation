@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" prefHeight="360.0" prefWidth="393.0" vgap="10" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.DonorController">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <Pane prefHeight="365.0" prefWidth="396.0">
+         <children>
+            <Label layoutX="154.0" layoutY="41.0" text="Requests" textFill="#9c4c1e">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
+            <Label layoutX="55.0" layoutY="94.0" text="Search for requests:" />
+            <ComboBox layoutX="55.0" layoutY="128.0" onAction="#requestComboBox" prefWidth="150.0" />
+            <TextField fx:id="pacientNameTxt" layoutX="185.0" layoutY="168.0" />
+            <Label layoutX="55.0" layoutY="172.0" text="Name:" />
+            <Label layoutX="55.0" layoutY="209.0" text="CNP:" />
+            <Label layoutX="54.0" layoutY="247.0" />
+            <TextField fx:id="cnpTxt" layoutX="185.0" layoutY="205.0" />
+            <Button layoutX="55.0" layoutY="251.0" mnemonicParsing="false" onAction="#checkBloodAvailability" text="Check Blood Availability" />
+         </children>
+      </Pane>
+   </children>
+</GridPane>
