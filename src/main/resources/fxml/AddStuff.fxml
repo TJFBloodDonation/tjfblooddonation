@@ -22,9 +22,9 @@
       <TextField fx:id="hwPasswordTextBox" layoutX="52.0" layoutY="266.0" />
       <TextField fx:id="hwEmailTextBox" layoutX="316.0" layoutY="69.0" />
       <TextField fx:id="hwPhoneNumberTextBox" layoutX="316.0" layoutY="136.0" />
-      <Button layoutX="201.0" layoutY="342.0" mnemonicParsing="false" onAction="#addHealthWorkerClicked" text="Add Health Worker" />
-      <Button fx:id="addNewInstitutionButton" layoutX="476.0" layoutY="266.0" mnemonicParsing="false" text="AddNew" />
-      <ComboBox fx:id="typeComboBox" layoutX="316.0" layoutY="199.0" prefWidth="150.0" />
+      <Button fx:id="addHealthWorkerButton" layoutX="201.0" layoutY="342.0" mnemonicParsing="false" onAction="#addHealthWorkerClicked" text="Add Health Worker" />
+      <Button fx:id="addNewInstitutionButton" layoutX="476.0" layoutY="266.0" mnemonicParsing="false" onAction="#addNewInstitution" text="AddNew" />
+      <ComboBox fx:id="typesComboBox" layoutX="316.0" layoutY="199.0" prefWidth="150.0" />
       <ComboBox fx:id="institutionComboBox" layoutX="316.0" layoutY="266.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

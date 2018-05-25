@@ -3,6 +3,9 @@ package ro.ubb.tjfblooddonation.utils;
 import javafx.scene.control.Alert;
 
 public class Messages {
+    public static void showError(String message){
+        showError("Error!", message);
+    }
     public static void showError(String title, String message){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

@@ -4,18 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.ubb.tjfblooddonation.exceptions.LogInException;
 import ro.ubb.tjfblooddonation.exceptions.ServiceError;
-import ro.ubb.tjfblooddonation.model.Donor;
-import ro.ubb.tjfblooddonation.model.HealthWorker;
-import ro.ubb.tjfblooddonation.model.LoginInformation;
-import ro.ubb.tjfblooddonation.model.Person;
+import ro.ubb.tjfblooddonation.model.*;
 import ro.ubb.tjfblooddonation.repository.DonorRepository;
 import ro.ubb.tjfblooddonation.repository.HealthWorkerRepository;
+import ro.ubb.tjfblooddonation.repository.InstitutionRepository;
 import ro.ubb.tjfblooddonation.repository.LoginInformationRepository;
 import ro.ubb.tjfblooddonation.utils.Credentials;
 import ro.ubb.tjfblooddonation.utils.Hashing;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsersService {
@@ -29,6 +28,8 @@ public class UsersService {
     private HealthWorkerRepository healthWorkerRepository;
     @Autowired
     private LoginInformationRepository loginInformationRepository;
+    @Autowired
+    private InstitutionRepository institutionRepository;
 
     public List<Donor> getAllDonors(){
         return donorRepository.findAll();
@@ -63,6 +64,8 @@ public class UsersService {
 
     public void createHealthWorkerAccont(String healthWorkerUsername, String healthWorkerPassword, HealthWorker healthWorker){
         //check if user exists in login info repo + check if admin with function isAdmin() -- verifies id(username)
+        if(loginInformationRepository.existsById(healthWorkerUsername))
+            throw new ServiceError("Username is already taken!");
         LoginInformation loginInformation = new LoginInformation();
         loginInformation.setPassword(Hashing.hash(healthWorkerPassword));
         loginInformation.setUsername(healthWorkerUsername);         //so, based on the schema, the id(username) will not be generated automaticly by the system, but rather given by the admin???
@@ -71,18 +74,19 @@ public class UsersService {
         loginInformationRepository.add(loginInformation);           //also need to add a new account(LoginInformation entity)
     }
 
-    public void deleteHealthWorkerAccount(String username, String password, String healthWorkerUsername) {
-        Long healthWorkerId = loginInformationRepository.getById(healthWorkerUsername).getPerson().getId();       //here we are using the Person attribute of the LoginInformation entity to get the id
+    public void deleteHealthWorkerAccount(String username) {
+        Long healthWorkerId = loginInformationRepository.getById(username).getPerson().getId();       //here we are using the Person attribute of the LoginInformation entity to get the id
+        loginInformationRepository.remove(username);                        //also need to remove user from LoginInformation
         healthWorkerRepository.remove(healthWorkerId);
-        loginInformationRepository.remove(healthWorkerUsername);                        //also need to remove user from LoginInformation
     }
 
-    public void updateHealthWorkerAccount(String username, String password, String healthWorkerUsername, HealthWorker healthWorker){
-        if(loginInformationRepository.getById(username) == null && credentials.isAdmin(username, password)) {
-            //not sure if I should set here the id of the healthWorker to match
-            healthWorkerRepository.update(healthWorker);
-            loginInformationRepository.getById(healthWorkerUsername).setPerson(healthWorker);   //Also need to update the person linked to the LoginInformation of the user
-        }
+    public void updateHealthWorkerAccount(String username, String password, HealthWorker healthWorker){
+//        healthWorkerRepository.update(healthWorker);
+        if(!password.equals(""))
+            password = Hashing.hash(password);
+        else
+            password = loginInformationRepository.getById(username).getPassword();
+        loginInformationRepository.update(new LoginInformation(username, password, healthWorker));   //Also need to update the person linked to the LoginInformation of the user
     }
 
     public Donor getDonor(String username, String password, String donorUsername){
@@ -104,5 +108,24 @@ public class UsersService {
         throw new LogInException("Wrong password!");
     }
 
+    public List<HealthWorker> getAllHealthWorkers(){
+        return healthWorkerRepository.getAll();
+    }
+
+    public HealthWorker getHealthWorker(Long id){
+        return healthWorkerRepository.getById(id);
+    }
+
+    public List<LoginInformation> getHealthWorkersAccounts(){
+        return loginInformationRepository.getAll().stream().filter(l -> l.getPerson() instanceof HealthWorker).collect(Collectors.toList());
+    }
+
+    public LoginInformation getLoginInformationByUsername(String username){
+        return loginInformationRepository.getById(username);
+    }
+
+    public List<Institution> getAllInstitutions() {
+        return institutionRepository.getAll();
+    }
 }
 

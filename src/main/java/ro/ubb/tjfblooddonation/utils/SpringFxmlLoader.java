@@ -16,7 +16,7 @@ public class SpringFxmlLoader {
     private static final ApplicationContext applicationContext =
             new AnnotationConfigApplicationContext("ro.ubb.tjfblooddonation.config");
 
-    private static final Integer width = 450, height = 450;
+    private static final Integer width = 600, height = 450;
 
     public FXMLLoader getLoader(String url) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -30,17 +30,18 @@ public class SpringFxmlLoader {
         return loader.load();
     }
 
-    public void createNewWindow(String resource, String title, Event event) throws IOException {
-        createNewWindow(this.load(resource), title, event);
+    public Stage createNewWindow(String resource, String title, Event event) throws IOException {
+        return createNewWindow(this.load(resource), title, event);
     }
 
-    public void createNewWindow(Parent root, String title, Event event){
+    public Stage createNewWindow(Parent root, String title, Event event){
         Stage stage = new Stage();
         stage.setTitle(title);
         stage.setScene(new Scene(root, width, height));
         stage.show();
         if(event != null)
             ((Node)(event.getSource())).getScene().getWindow().hide();
+        return stage;
     }
 
 }
