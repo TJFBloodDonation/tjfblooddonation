@@ -2,6 +2,8 @@ package ro.ubb.tjfblooddonation.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +58,10 @@ public class AdminController {
     @FXML
     void UpdateClicked(ActionEvent event) {
         try{
-            loader.createNewWindow("/fxml/UpdateStuff", "User Info Page", null);
+            FXMLLoader ld = loader.getLoader("/fxml/UpdateStuff.fxml");
+            loader.createNewWindow((Parent) ld.load(), "User Info Page", null);
+            System.out.println(ld.<UpdateStuffControler>getController());
+            ld.<UpdateStuffControler>getController().setId(1L);
         }
         catch (IOException e){
             e.printStackTrace();

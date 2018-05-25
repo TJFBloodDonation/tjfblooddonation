@@ -18,30 +18,29 @@ public class SpringFxmlLoader {
 
     private static final Integer width = 450, height = 450;
 
-    public Parent load(String url) throws IOException {//, String resources) {
+    public FXMLLoader getLoader(String url) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setControllerFactory(applicationContext::getBean);
         loader.setLocation(getClass().getResource(url));
-        //loader.setResources(ResourceBundle.getBundle(resources));
-        try {
-            return loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IOException(e);
-        }
+        return loader;
+    }
+
+    public Parent load(String url) throws IOException {//, String resources) {
+        FXMLLoader loader = getLoader(url);
+        return loader.load();
     }
 
     public void createNewWindow(String resource, String title, Event event) throws IOException {
+        createNewWindow(this.load(resource), title, event);
+    }
 
-        Parent root;
-        root = this.load(resource);
+    public void createNewWindow(Parent root, String title, Event event){
         Stage stage = new Stage();
         stage.setTitle(title);
         stage.setScene(new Scene(root, width, height));
         stage.show();
         if(event != null)
             ((Node)(event.getSource())).getScene().getWindow().hide();
-
     }
 
 }

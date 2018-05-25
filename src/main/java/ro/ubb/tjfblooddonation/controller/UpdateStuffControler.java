@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ro.ubb.tjfblooddonation.service.UsersService;
+import ro.ubb.tjfblooddonation.utils.Messages;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
 import java.io.IOException;
@@ -16,6 +17,13 @@ public class UpdateStuffControler {
 
     @Autowired
     UsersService usersService;
+
+    private Long id;
+
+    public void setId(Long id) {
+        this.id = id;
+        Messages.showError("This is the id", "" + id);
+    }
 
     @FXML
     void saveClicked(ActionEvent event) {

@@ -1,7 +1,6 @@
 package ro.ubb.tjfblooddonation.model;
 
 
-import com.sun.istack.Nullable;
 import lombok.*;
 
 import javax.persistence.CascadeType;
@@ -24,7 +23,6 @@ public class Donor extends Person {
     @ManyToOne(cascade = CascadeType.ALL)
     private IdCard idCard;
     private String gender;
-    @Nullable
     @ManyToOne(cascade = CascadeType.ALL)
     private Form form;
     private String message;
