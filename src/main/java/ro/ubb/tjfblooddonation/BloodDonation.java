@@ -16,7 +16,7 @@ public class BloodDonation extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        loader.createNewWindow("/fxml/Admin.fxml", "Blood donation", null);
+        loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", null);
         //addDonor();
         //addHealthWorker(HealthWorker.types.DOCTOR, "doctor");
     }

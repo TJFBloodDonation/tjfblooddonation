@@ -37,7 +37,8 @@ public class SpringFxmlLoader {
     public Stage createNewWindow(Parent root, String title, Event event){
         Stage stage = new Stage();
         stage.setTitle(title);
-        stage.setScene(new Scene(root, width, height));
+//        stage.setScene(new Scene(root, width, height));
+        stage.setScene(new Scene(root));
         stage.show();
         if(event != null)
             ((Node)(event.getSource())).getScene().getWindow().hide();

@@ -36,6 +36,7 @@ public class AdminController {
 
     public void initialize(){
         try {
+            searchBox.textProperty().addListener((observable, oldValue, newValue) -> refresh());
             staffListView.setCellFactory(c -> new ListCell<LoginInformation>(){
                 @Override
                 protected void updateItem(LoginInformation loginInformation, boolean empty){
@@ -53,13 +54,22 @@ public class AdminController {
     }
     private void refresh() {
         staffListView.setItems(FXCollections.observableArrayList());
-        usersService.getHealthWorkersAccounts().forEach(hw -> staffListView.getItems().add(hw));
+        usersService.getHealthWorkersAccounts()
+                .stream()
+                .filter(
+                        hw -> hw.getUsername()
+                        .toLowerCase()
+                        .contains(searchBox
+                                .getText()
+                                .toLowerCase())
+                )
+                .forEach(hw -> staffListView.getItems().add(hw));
     }
 
     @FXML
     void AddClicked(ActionEvent event) {
         try {
-            Stage childStage = loader.createNewWindow("/fxml/AddStuff.fxml", "Add Health Worker Page", null);
+            Stage childStage = loader.createNewWindow("/fxml/admin/AddStuff.fxml", "Add Health Worker Page", null);
             childStage.setOnHidden((p) -> refresh());
         }
         catch (Exception e) {
@@ -92,7 +102,7 @@ public class AdminController {
             if(list.size() == 0){
                 throw new ControllerError("No user selected!");
             }
-            FXMLLoader ld = loader.getLoader("/fxml/AddStuff.fxml");
+            FXMLLoader ld = loader.getLoader("/fxml/admin/AddStuff.fxml");
             Stage childStage = loader.createNewWindow((Parent) ld.load(), "User Info Page", null);
             ld.<AddStuffControler>getController().setId(list.get(0).getUsername());
             childStage.setOnHidden((p) -> refresh());
@@ -103,8 +113,5 @@ public class AdminController {
         catch (Exception e){
             Messages.showError(e.getMessage());
         }
-    }
-
-    public void searchTextChanged(ActionEvent actionEvent) {
     }
 }

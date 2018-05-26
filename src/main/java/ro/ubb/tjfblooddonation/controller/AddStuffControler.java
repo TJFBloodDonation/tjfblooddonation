@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ro.ubb.tjfblooddonation.model.HealthWorker;
@@ -43,6 +44,8 @@ public class AddStuffControler {
     private ComboBox<HealthWorker.types> typesComboBox;
     @FXML
     private ComboBox<Institution> institutionComboBox;
+    @FXML
+    private Button addNewInstitutionButton;
 
     private LoginInformation loginInformation = null;
     public void setId(String username) {
@@ -120,10 +123,13 @@ public class AddStuffControler {
 
     public void addNewInstitution(ActionEvent actionEvent) {
         try{
-
-
+            Stage childStage = loader.createNewWindow("/fxml/admin/addNewInstitution.fxml", "Add Health Worker Page", null);
+            childStage.setOnHidden((p) -> {
+                ObservableList<Institution> institutions = FXCollections.observableArrayList(usersService.getAllInstitutions());
+                institutionComboBox.setItems(institutions);
+            });
         } catch (Exception e){
-            Messages.showError(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

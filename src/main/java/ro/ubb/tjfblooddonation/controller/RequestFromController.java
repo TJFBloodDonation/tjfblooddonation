@@ -20,7 +20,7 @@ public class RequestFromController {
     @FXML
     void SubmitRequestClicked(ActionEvent event) {
         try {
-            loader.createNewWindow("/fxml/RequestForm.fxml", "Request Form Page", null);
+            loader.createNewWindow("/fxml/doctor/RequestForm.fxml", "Request Form Page", null);
         }
         catch (IOException e) {
             e.printStackTrace();

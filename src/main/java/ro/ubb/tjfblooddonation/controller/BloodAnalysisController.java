@@ -13,7 +13,7 @@ public class BloodAnalysisController {
     @FXML
     void donationsButtonPressed(ActionEvent event) {
         try {
-            loader.createNewWindow("/fxml/bloodDonations.fxml", "Blood Donations Page", null);
+            loader.createNewWindow("/fxml/bloodAnalyst/BloodDonations.fxml", "Blood Donations Page", null);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -24,7 +24,7 @@ public class BloodAnalysisController {
     @FXML
     void requestsButtonPressed(ActionEvent event) {
         try {
-            loader.createNewWindow("/fxml/requests.fxml", "Requests Page", null);
+            loader.createNewWindow("/fxml/doctor/Requests.fxml", "Requests Page", null);
         }
         catch (IOException e) {
             e.printStackTrace();

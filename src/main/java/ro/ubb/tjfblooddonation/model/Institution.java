@@ -32,16 +32,30 @@ public class Institution extends BaseEntity {
         this.name = name;
         this.address = address;
 
+        this.type = typeToString(type);
+    }
+
+    public static types stringToType(String s){
+        switch (s){
+            case "clinic":
+                return types.CLINIC;
+            case "hospital":
+                return types.HOSPITAL;
+            case "laboratory":
+                return types.LABORATORY;
+            default:
+                return null;
+        }
+    }
+    public static String typeToString(types type){
         switch (type) {
             case CLINIC:
-                this.type = "clinic";
-                break;
+                return "clinic";
             case HOSPITAL:
-                this.type = "hospital";
-                break;
+                return "hospital";
             case LABORATORY:
-                this.type = "laboratory";
-                break;
+                return "laboratory";
         }
+        return null;
     }
 }
