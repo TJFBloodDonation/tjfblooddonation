@@ -22,7 +22,7 @@ public class RequestsController {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         try {
-            loader.createNewWindow("/fxml/bloodAvailability.fxml", "Blood Availability Page", null);
+            loader.createNewWindow("/fxml/BloodAvailability.fxml", "Blood Availability Page", null);
         }
         catch (IOException e) {
             e.printStackTrace();

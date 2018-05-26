@@ -69,7 +69,7 @@ public class AdminController {
     @FXML
     void AddClicked(ActionEvent event) {
         try {
-            Stage childStage = loader.createNewWindow("/fxml/AddStuff.fxml", "Add Health Worker Page", null);
+            Stage childStage = loader.createNewWindow("/fxml/admin/AddStuff.fxml", "Add Health Worker Page", null);
             childStage.setOnHidden((p) -> refresh());
         }
         catch (Exception e) {
@@ -102,7 +102,7 @@ public class AdminController {
             if(list.size() == 0){
                 throw new ControllerError("No user selected!");
             }
-            FXMLLoader ld = loader.getLoader("/fxml/AddStuff.fxml");
+            FXMLLoader ld = loader.getLoader("/fxml/admin/AddStuff.fxml");
             Stage childStage = loader.createNewWindow((Parent) ld.load(), "User Info Page", null);
             ld.<AddStuffControler>getController().setId(list.get(0).getUsername());
             childStage.setOnHidden((p) -> refresh());

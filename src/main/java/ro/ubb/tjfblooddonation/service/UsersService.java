@@ -127,5 +127,9 @@ public class UsersService {
     public List<Institution> getAllInstitutions() {
         return institutionRepository.getAll();
     }
+
+    public void addInstitution(Institution institution){
+        institutionRepository.add(institution);
+    }
 }
 
