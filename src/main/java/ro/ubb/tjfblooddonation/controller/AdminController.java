@@ -1,8 +1,11 @@
 package ro.ubb.tjfblooddonation.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,6 +42,7 @@ public class AdminController {
 
     public void initialize(){
         try {
+            searchBox.textProperty().addListener((observable, oldValue, newValue) -> refresh());
             staffListView.setCellFactory(c -> new ListCell<LoginInformation>(){
                 @Override
                 protected void updateItem(LoginInformation loginInformation, boolean empty){
@@ -56,7 +60,16 @@ public class AdminController {
     }
     private void refresh() {
         staffListView.setItems(FXCollections.observableArrayList());
-        usersService.getHealthWorkersAccounts().forEach(hw -> staffListView.getItems().add(hw));
+        usersService.getHealthWorkersAccounts()
+                .stream()
+                .filter(
+                        hw -> hw.getUsername()
+                        .toLowerCase()
+                        .contains(searchBox
+                                .getText()
+                                .toLowerCase())
+                )
+                .forEach(hw -> staffListView.getItems().add(hw));
     }
 
     @FXML
@@ -106,8 +119,5 @@ public class AdminController {
         catch (Exception e){
             Messages.showError(e.getMessage());
         }
-    }
-
-    public void searchTextChanged(ActionEvent actionEvent) {
     }
 }
