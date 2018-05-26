@@ -325,10 +325,10 @@ public class RequestServiceTest {
         requestRepository.add(request2);
         requestRepository.add(request3);
 
-        assert requestService.getDoctorRequest(loginInformation1.getUsername()).containsAll(Arrays.asList(request1,request3));
+        assert requestService.getDoctorRequest(loginInformation1.getUsername()).containsAll(Arrays.asList(request1, request3));
         assert !requestService.getDoctorRequest(loginInformation1.getUsername()).contains(request2);
         assert requestService.getDoctorRequest(loginInformation2.getUsername()).contains(request2);
-        assert !requestService.getDoctorRequest(loginInformation2.getUsername()).containsAll(Arrays.asList(request1,request3));
+        assert !requestService.getDoctorRequest(loginInformation2.getUsername()).containsAll(Arrays.asList(request1, request3));
 
         assert requestService.getDoctorRequest(loginInformation1.getUsername()).get(0).getId().equals(request3.getId());
         assert requestService.getDoctorRequest(loginInformation1.getUsername()).get(1).getId().equals(request1.getId());
@@ -342,5 +342,6 @@ public class RequestServiceTest {
 
         healthWorkerRepository.remove(doctor1.getId());
         healthWorkerRepository.remove(doctor2.getId());
+
     }
 }

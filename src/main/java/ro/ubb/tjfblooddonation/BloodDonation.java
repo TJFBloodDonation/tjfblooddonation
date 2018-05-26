@@ -1,17 +1,12 @@
 package ro.ubb.tjfblooddonation;
 
 import javafx.application.Application;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ro.ubb.tjfblooddonation.model.*;
-import ro.ubb.tjfblooddonation.repository.BloodRepository;
-import ro.ubb.tjfblooddonation.repository.DonorRepository;
 import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 
@@ -46,7 +41,7 @@ public class BloodDonation extends Application {
                 .type(type)
                 .build();
 
-        usersService.createHealthWorkerAccont(username, username, healthWorker);
+        usersService.createUserAccount(username, username, healthWorker);
     }
 
 
@@ -76,7 +71,7 @@ public class BloodDonation extends Application {
         d.setFirstName("firts");
         d.setLastName("last");
         usersService.addDonor(d);
-        usersService.createDonorAccount("donor", "donor", d);
+        usersService.createUserAccount("donor", "donor", d);
         usersService.getAllDonors().forEach(System.out::println);
     }
 }

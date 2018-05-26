@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ro.ubb.tjfblooddonation.exceptions.ServiceError;
 import ro.ubb.tjfblooddonation.model.*;
 import ro.ubb.tjfblooddonation.repository.*;
+import ro.ubb.tjfblooddonation.utils.InfoCheck;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -29,8 +30,9 @@ public class BloodService {
     /**
      * Function to donate blood. It checks for the donor by username, and in case the donor
      * passed both the basic check form, completed by the clinic staff the day of donation
-     * and the donate form completed by the donor when registering it will allow for the blood
-     * collected from the donor to be added into the system; Afterwards it resets the form
+     * and the donate form completed by the donor nt more than a week before when registering,
+     * it will allow for the blood collected from the donor to be added into the system;
+     * Afterwards it resets the form
      *
      * @param donorUsername - the username of the donor
      * @param blood         - the Blood sample collected from the donor
@@ -46,13 +48,11 @@ public class BloodService {
         if (person instanceof Donor)
             donor = (Donor) person;
 
-        if (donor.getForm().getPassedBasicCheckForm() && donor.getForm().getPassedDonateForm())
+        String err = InfoCheck.canDonate(donor);
+        if(err.equals(""))
             bloodRepository.add(blood);
-        else {
-            System.out.println(donor.getForm().getPassedBasicCheckForm().toString() + donor.getForm().getPassedDonateForm().toString());
-            throw new ServiceError("Donor did not complete both forms required" +
-                    ", or does not fit the requirements to donate");
-        }
+        else
+            throw new ServiceError(err);
 
         donor.getForm().setPassedDonateForm(false);
         donor.getForm().setPassedBasicCheckForm(false);
@@ -277,6 +277,33 @@ public class BloodService {
         }
 
         return LocalDate.now();
+    }
+
+    /**
+     * Function that sets the message attribute for each Donor instance that did not donate in the last 4 months to
+     * a request to come donate;
+     */
+    public void askUsersToDonate() {
+        loginInformationRepository.getAll().stream()
+                .filter(loginInformation -> {
+                    if(loginInformation.getPerson() instanceof Donor) {
+                        return this.getNextDonateTime(loginInformation.getUsername()).isBefore(LocalDate.now());
+                    }
+                    else
+                        return false;
+                })
+                .forEach(loginInformation -> {
+                    Person person = loginInformation.getPerson();
+                    Donor donor;
+                    if(person instanceof Donor) {
+                        donor = (Donor) person;
+                        donor.setMessage("It's been a while since you last donated, and there is a blood shortage." +
+                                " Please come donate whenever you can.");
+                        donorRepository.update(donor);
+                        loginInformation.setPerson(donor);
+                        loginInformationRepository.update(loginInformation);
+                    }
+                });
     }
 
 }
