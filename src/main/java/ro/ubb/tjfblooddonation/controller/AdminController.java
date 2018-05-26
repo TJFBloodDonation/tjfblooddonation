@@ -10,7 +10,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ro.ubb.tjfblooddonation.exceptions.ControllerError;
@@ -20,8 +19,6 @@ import ro.ubb.tjfblooddonation.utils.Messages;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
 import java.io.IOException;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
@@ -77,7 +74,7 @@ public class AdminController {
             if (list.size() == 0) {
                 throw new ControllerError("No user selected!");
             }
-            usersService.deleteHealthWorkerAccount(
+            usersService.deleteUserAccount(
                     list.get(0).getUsername()
             );
             refresh();

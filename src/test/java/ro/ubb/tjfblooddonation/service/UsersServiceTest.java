@@ -14,6 +14,7 @@ import ro.ubb.tjfblooddonation.exceptions.ServiceError;
 import ro.ubb.tjfblooddonation.model.*;
 import ro.ubb.tjfblooddonation.repository.DonorRepository;
 import ro.ubb.tjfblooddonation.repository.HealthWorkerRepository;
+import ro.ubb.tjfblooddonation.repository.InstitutionRepository;
 import ro.ubb.tjfblooddonation.repository.LoginInformationRepository;
 
 import java.sql.Timestamp;
@@ -36,6 +37,8 @@ public class UsersServiceTest {
     HealthWorkerRepository healthWorkerRepository;
     @Autowired
     LoginInformationRepository loginInformationRepository;
+    @Autowired
+    InstitutionRepository institutionRepository;
 
     @Test
     public void getAllDonors() {
@@ -116,6 +119,52 @@ public class UsersServiceTest {
     }
 
     @Test
+    public void createUserAccount() {
+        Address res1 = Address.builder().country("CTRY1").region("R1").city("CITY1").street("S1 NO.1").build();
+
+        IdCard idCard1 = IdCard.builder().cnp("1234567890000").address(res1).build();
+
+        Donor donor1 = Donor.builder().firstName("FND1").lastName("LND1")
+                .email("d1@email.com").phoneNumber("+40712345678")
+                .dateOfBirth(LocalDate.parse("1990-05-20")).gender("female")
+                .bloodType("AB").rH("-")
+                .idCard(idCard1).residence(res1)
+                .build();
+
+        HealthWorker healthWorker1 = HealthWorker.builder()
+                .firstName("FNHW1").lastName("LNHW1")
+                .email("hw1@email.com").phoneNumber("+040712345678")
+                .type(HealthWorker.types.BLOOD_ANALYST)
+                .build();
+
+
+        usersService.createUserAccount("don1", "p1", donor1);
+        assert donorRepository.getAll().contains(donor1);
+        assert donorRepository.getById(donor1.getId()).getFirstName().equals("FND1");
+        assertNotNull(loginInformationRepository.getById("don1"));
+
+        usersService.createUserAccount("hw1", "p2", healthWorker1);
+        assert healthWorkerRepository.getAll().contains(healthWorker1);
+        assert healthWorkerRepository.getById(healthWorker1.getId()).getFirstName().equals("FNHW1");
+        assertNotNull(loginInformationRepository.getById("hw1"));
+
+        try {
+            usersService.createUserAccount("don1", "pass", healthWorker1);
+            assert false;
+        }
+        catch (ServiceError ex) {
+            assert ex.getMessage().contains("is already taken");
+        }
+
+
+        loginInformationRepository.remove("don1");
+        loginInformationRepository.remove("hw1");
+
+        healthWorkerRepository.remove(healthWorker1.getId());
+        donorRepository.remove(donor1.getId());
+    }
+
+    @Test
     public void updateUserAccount() {
         Address res1 = Address.builder().country("CTRY1").region("R1").city("CITY1").street("S1 NO.1").build();
 
@@ -178,6 +227,52 @@ public class UsersServiceTest {
     }
 
     @Test
+    public void deleteUserAccount() {
+        Address res1 = Address.builder().country("CTRY1").region("R1").city("CITY1").street("S1 NO.1").build();
+
+        IdCard idCard1 = IdCard.builder().cnp("1234567890000").address(res1).build();
+
+        Donor donor1 = Donor.builder().firstName("FND1").lastName("LND1")
+                .email("d1@email.com").phoneNumber("+40712345678")
+                .dateOfBirth(LocalDate.parse("1990-05-20")).gender("female")
+                .bloodType("AB").rH("-")
+                .idCard(idCard1).residence(res1)
+                .build();
+        donorRepository.add(donor1);
+        HealthWorker healthWorker1 = HealthWorker.builder()
+                .firstName("FNHW1").lastName("LNHW1")
+                .email("hw1@email.com").phoneNumber("+040712345678")
+                .type(HealthWorker.types.BLOOD_ANALYST)
+                .build();
+        healthWorkerRepository.add(healthWorker1);
+
+        LoginInformation loginInformation1 = LoginInformation.builder()
+                .username("don1").password("p1")
+                .person(donor1)
+                .build();
+        LoginInformation loginInformation2 = LoginInformation.builder()
+                .username("hw1").password("p2")
+                .person(healthWorker1)
+                .build();
+        loginInformationRepository.add(loginInformation1);
+        loginInformationRepository.add(loginInformation2);
+
+
+        assert loginInformationRepository.getAll().contains(loginInformation1);
+        assert donorRepository.getAll().contains(donor1);
+        assert loginInformationRepository.getAll().contains(loginInformation2);
+        assert healthWorkerRepository.getAll().contains(healthWorker1);
+
+        usersService.deleteUserAccount(loginInformation1.getUsername());
+        usersService.deleteUserAccount(loginInformation2.getUsername());
+
+        assert !loginInformationRepository.getAll().contains(loginInformation1);
+        assert !donorRepository.getAll().contains(donor1);
+        assert !loginInformationRepository.getAll().contains(loginInformation2);
+        assert !healthWorkerRepository.getAll().contains(healthWorker1);
+    }
+
+    @Test
     public void getDonor() {
         Address res1 = Address.builder().country("CTRY1").region("R1").city("CITY1").street("S1 NO.1").build();
 
@@ -190,6 +285,7 @@ public class UsersServiceTest {
                 .idCard(idCard1).residence(res1)
                 .build();
         donorRepository.add(donor1);
+
         HealthWorker healthWorker1 = HealthWorker.builder()
                 .firstName("FNHW1").lastName("LNHW1")
                 .email("hw1@email.com").phoneNumber("+040712345678")
@@ -497,45 +593,58 @@ public class UsersServiceTest {
     }
 
     @Test
-    public void createUserAccount() {
-        Address res1 = Address.builder().country("CTRY1").region("R1").city("CITY1").street("S1 NO.1").build();
-
-        IdCard idCard1 = IdCard.builder().cnp("1234567890000").address(res1).build();
-
-        Donor donor1 = Donor.builder().firstName("FND1").lastName("LND1")
-                .email("d1@email.com").phoneNumber("+40712345678")
-                .dateOfBirth(LocalDate.parse("1990-05-20")).gender("female")
-                .bloodType("AB").rH("-")
-                .idCard(idCard1).residence(res1)
-                .build();
-
+    public void getAllHealthWorkers() {
         HealthWorker healthWorker1 = HealthWorker.builder()
                 .firstName("FNHW1").lastName("LNHW1")
                 .email("hw1@email.com").phoneNumber("+040712345678")
                 .type(HealthWorker.types.BLOOD_ANALYST)
                 .build();
+        HealthWorker healthWorker2 = HealthWorker.builder()
+                .firstName("FNHW2").lastName("LNHW2")
+                .email("hw2@email.com").phoneNumber("+040712345679")
+                .type(HealthWorker.types.DOCTOR)
+                .build();
+        HealthWorker healthWorker3 = HealthWorker.builder()
+                .firstName("FNHW3").lastName("LNHW3")
+                .email("hw3@email.com").phoneNumber("+040712345680")
+                .type(HealthWorker.types.CLINIC_STAFF)
+                .build();
+
+        healthWorkerRepository.add(healthWorker1);
+        healthWorkerRepository.add(healthWorker2);
 
 
-        usersService.createUserAccount("don1", "p1", donor1);
-        assert donorRepository.getAll().contains(donor1);
-        assert donorRepository.getById(donor1.getId()).getFirstName().equals("FND1");
-        assertNotNull(loginInformationRepository.getById("don1"));
+        assert usersService.getAllHealthWorkers().containsAll(Arrays.asList(healthWorker1, healthWorker2));
+        assert !usersService.getAllHealthWorkers().contains(healthWorker3);
 
-        usersService.createUserAccount("hw1", "p2", healthWorker1);
-        assert healthWorkerRepository.getAll().contains(healthWorker1);
-        assert healthWorkerRepository.getById(healthWorker1.getId()).getFirstName().equals("FNHW1");
-        assertNotNull(loginInformationRepository.getById("hw1"));
+        healthWorkerRepository.add(healthWorker3);
 
+        assert usersService.getAllHealthWorkers().containsAll(Arrays.asList(healthWorker1, healthWorker2, healthWorker3));
 
-        loginInformationRepository.remove("don1");
-        loginInformationRepository.remove("hw1");
 
         healthWorkerRepository.remove(healthWorker1.getId());
-        donorRepository.remove(donor1.getId());
+        healthWorkerRepository.remove(healthWorker2.getId());
+        healthWorkerRepository.remove(healthWorker3.getId());
     }
 
     @Test
-    public void deleteUserAccount() {
+    public void getHealthWorker() {
+        HealthWorker healthWorker1 = HealthWorker.builder()
+                .firstName("FNHW1").lastName("LNHW1")
+                .email("hw1@email.com").phoneNumber("+040712345678")
+                .type(HealthWorker.types.BLOOD_ANALYST)
+                .build();
+        healthWorkerRepository.add(healthWorker1);
+
+
+        assert usersService.getHealthWorker(healthWorker1.getId()).getFirstName().equals("FNHW1");
+
+
+        healthWorkerRepository.remove(healthWorker1.getId());
+    }
+
+    @Test
+    public void getHealthWorkersAccounts() {
         Address res1 = Address.builder().country("CTRY1").region("R1").city("CITY1").street("S1 NO.1").build();
 
         IdCard idCard1 = IdCard.builder().cnp("1234567890000").address(res1).build();
@@ -547,6 +656,7 @@ public class UsersServiceTest {
                 .idCard(idCard1).residence(res1)
                 .build();
         donorRepository.add(donor1);
+
         HealthWorker healthWorker1 = HealthWorker.builder()
                 .firstName("FNHW1").lastName("LNHW1")
                 .email("hw1@email.com").phoneNumber("+040712345678")
@@ -566,17 +676,63 @@ public class UsersServiceTest {
         loginInformationRepository.add(loginInformation2);
 
 
-        assert loginInformationRepository.getAll().contains(loginInformation1);
-        assert donorRepository.getAll().contains(donor1);
-        assert loginInformationRepository.getAll().contains(loginInformation2);
-        assert healthWorkerRepository.getAll().contains(healthWorker1);
+        assert !usersService.getHealthWorkersAccounts().contains(loginInformation1);
+        assert usersService.getHealthWorkersAccounts().contains(loginInformation2);
 
-        usersService.deleteUserAccount(loginInformation1.getUsername());
-        usersService.deleteUserAccount(loginInformation2.getUsername());
 
-        assert !loginInformationRepository.getAll().contains(loginInformation1);
-        assert !donorRepository.getAll().contains(donor1);
-        assert !loginInformationRepository.getAll().contains(loginInformation2);
-        assert !healthWorkerRepository.getAll().contains(healthWorker1);
+        loginInformationRepository.remove(loginInformation1.getId());
+        loginInformationRepository.remove(loginInformation2.getId());
+
+        healthWorkerRepository.remove(healthWorker1.getId());
+
+        donorRepository.remove(donor1.getId());
+    }
+
+    @Test
+    public void getLoginInformationByUsername() {
+        HealthWorker healthWorker1 = HealthWorker.builder()
+                .firstName("FNHW1").lastName("LNHW1")
+                .email("hw1@email.com").phoneNumber("+040712345678")
+                .type(HealthWorker.types.BLOOD_ANALYST)
+                .build();
+        healthWorkerRepository.add(healthWorker1);
+
+        LoginInformation loginInformation1 = LoginInformation.builder()
+                .username("hw1").password("p1")
+                .person(healthWorker1)
+                .build();
+        loginInformationRepository.add(loginInformation1);
+
+
+        assert usersService.getLoginInformationByUsername("hw1").equals(loginInformation1);
+
+
+        loginInformationRepository.remove(loginInformation1.getId());
+        healthWorkerRepository.remove(healthWorker1.getId());
+    }
+
+    @Test
+    public void getAllInstitutions() {
+        Address adr1 = Address.builder().country("CTRY1").region("R1").city("CITY1").street("S1 NO.1").build();
+        Address adr2 = Address.builder().country("CTRY2").region("R2").city("CITY2").street("S2 NO.2").build();
+
+        Institution institution1 = Institution.builder()
+                .address(adr1).name("I1")
+                .type(Institution.types.CLINIC)
+                .build();
+        Institution institution2 = Institution.builder()
+                .address(adr2).name("I2")
+                .type(Institution.types.HOSPITAL)
+                .build();
+
+        institutionRepository.add(institution1);
+        institutionRepository.add(institution2);
+
+
+        assert usersService.getAllInstitutions().containsAll(Arrays.asList(institution1, institution2));
+
+
+        institutionRepository.remove(institution1.getId());
+        institutionRepository.remove(institution2.getId());
     }
 }

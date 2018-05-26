@@ -14,8 +14,6 @@ import ro.ubb.tjfblooddonation.utils.Hashing;
 import ro.ubb.tjfblooddonation.utils.InfoCheck;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -62,8 +60,13 @@ public class UsersService {
      * @param username - the username of the account to be created
      * @param password - the password of the account
      * @param user - the Person instance associated to the account
+     *
+     * @throws ServiceError if the username is already present in the DB
      */
     public void createUserAccount(String username, String password, Person user){
+        if(loginInformationRepository.existsById(username))
+            throw new ServiceError("Username " + username + " is already taken.");
+
         LoginInformation loginInformation = new LoginInformation();
         loginInformation.setPassword(Hashing.hash(password));
         loginInformation.setUsername(username);
@@ -235,22 +238,51 @@ public class UsersService {
         throw new LogInException("Wrong password!");
     }
 
+    /**
+     * Function to get all the HealthWorkers;
+     *
+     * @return the list of HealthWorkers
+     */
     public List<HealthWorker> getAllHealthWorkers(){
         return healthWorkerRepository.getAll();
     }
 
+    /**
+     * Function to get the HealthWorker instance with the associated ID
+     *
+     * @param id - the ID to be searched by
+     * @return the HealthWorker instance with the given ID
+     */
     public HealthWorker getHealthWorker(Long id){
         return healthWorkerRepository.getById(id);
     }
 
+    /**
+     * Function to get all the accounts of HealthWorkers
+     *
+     * @return a List of all LoginInformation with an associated HealthWorker
+     */
     public List<LoginInformation> getHealthWorkersAccounts(){
-        return loginInformationRepository.getAll().stream().filter(l -> l.getPerson() instanceof HealthWorker).collect(Collectors.toList());
+        return loginInformationRepository.getAll().stream()
+                .filter(l -> l.getPerson() instanceof HealthWorker)
+                .collect(Collectors.toList());
     }
 
+    /**
+     * Function to get the LoginInformation with the given username
+     *
+     * @param username - the username by which to search
+     * @return the LoginInformation with the given username as ID
+     */
     public LoginInformation getLoginInformationByUsername(String username){
         return loginInformationRepository.getById(username);
     }
 
+    /**
+     * Function that returns all Institutions
+     *
+     * @return a List of Institutions
+     */
     public List<Institution> getAllInstitutions() {
         return institutionRepository.getAll();
     }

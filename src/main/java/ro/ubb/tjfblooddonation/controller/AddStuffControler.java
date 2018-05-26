@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -17,8 +16,6 @@ import ro.ubb.tjfblooddonation.model.LoginInformation;
 import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.Messages;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
-
-import java.io.IOException;
 
 
 @Controller
@@ -99,7 +96,7 @@ public class AddStuffControler {
                     institution
             );
             if (loginInformation == null) {
-                usersService.createHealthWorkerAccont(
+                usersService.createUserAccount(
                         hwUsernameTextBox.getText(),
                         hwPasswordTextBox.getText(),
                         healthWorker
@@ -108,9 +105,8 @@ public class AddStuffControler {
                         "Health worker account: " + hwUsernameTextBox.getText() + " successfully created!");
             } else {
                 healthWorker.setId(loginInformation.getPerson().getId());
-                usersService.updateHealthWorkerAccount(
+                usersService.updateUserAccount(
                         hwUsernameTextBox.getText(),
-                        hwPasswordTextBox.getText(),
                         healthWorker
                 );
                 Messages.showConfirmation("Success!",
