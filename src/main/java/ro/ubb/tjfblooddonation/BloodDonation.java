@@ -1,12 +1,18 @@
 package ro.ubb.tjfblooddonation;
 
 import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ro.ubb.tjfblooddonation.model.*;
+import ro.ubb.tjfblooddonation.repository.BloodRepository;
+import ro.ubb.tjfblooddonation.repository.DonorRepository;
+import ro.ubb.tjfblooddonation.repository.InstitutionRepository;
 import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 
@@ -15,9 +21,9 @@ public class BloodDonation extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        loader.createNewWindow("/fxml/logIn.fxml", "Blood donation", null);
+        loader.createNewWindow("/fxml/Admin.fxml", "Blood donation", null);
         //addDonor();
-//        addHealthWorker(HealthWorker.types.ADMIN, "clinicStaff");
+        //addHealthWorker(HealthWorker.types.DOCTOR, "doctor");
     }
 
     private void addHealthWorker(HealthWorker.types type, String username) {
@@ -40,8 +46,9 @@ public class BloodDonation extends Application {
                 .phoneNumber("048327592")
                 .type(type)
                 .build();
+        context.getBean(InstitutionRepository.class).add(institution);
 
-        usersService.createUserAccount(username, username, healthWorker);
+        usersService.createHealthWorkerAccont(username, username, healthWorker);
     }
 
 
@@ -71,7 +78,7 @@ public class BloodDonation extends Application {
         d.setFirstName("firts");
         d.setLastName("last");
         usersService.addDonor(d);
-        usersService.createUserAccount("donor", "donor", d);
+        usersService.createDonorAccount("donor", "donor", d);
         usersService.getAllDonors().forEach(System.out::println);
     }
 }

@@ -66,7 +66,7 @@ public class LogInController {
                     case "bloodAnalyst":
                         throw new LogInException("Not yet implemented!");
                         //loader.createNewWindow("/fxml/.fxml", "Blood Analyst Main Page", actionEvent);
-                        //break;
+//                        break;
                     default:
                         throw new LogInException("The health worker does not match any of the known types!");
                 }

@@ -25,19 +25,33 @@ public class HealthWorker extends Person{
                         types type, Institution institution) {
         super(firstName, lastName, email, phoneNumber);
         this.institution = institution;
+        this.type = HealthWorker.typeToString(type);
+    }
 
+    public static String typeToString(types type){
         switch (type) {
             case ADMIN:
-                this.type = "admin";
-                break;
+                return "admin";
             case CLINIC_STAFF:
-                this.type = "clinicStaff";
-                break;
+                return "clinicStaff";
             case DOCTOR:
-                this.type = "doctor";
-                break;
+                return "doctor";
             case BLOOD_ANALYST:
-                this.type = "bloodAnalyst";
+                return "bloodAnalyst";
         }
+        return null;
+    }
+    public static types stringToType(String s){
+        switch (s){
+            case "admin":
+                return types.ADMIN;
+            case "clinicStaff":
+                return types.CLINIC_STAFF;
+            case "doctor":
+                return types.DOCTOR;
+            case "bloodAnalyst":
+                return types.BLOOD_ANALYST;
+        }
+        return null;
     }
 }

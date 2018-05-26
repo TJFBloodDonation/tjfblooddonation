@@ -8,11 +8,14 @@ import ro.ubb.tjfblooddonation.exceptions.ServiceError;
 import ro.ubb.tjfblooddonation.model.*;
 import ro.ubb.tjfblooddonation.repository.DonorRepository;
 import ro.ubb.tjfblooddonation.repository.HealthWorkerRepository;
+import ro.ubb.tjfblooddonation.repository.InstitutionRepository;
 import ro.ubb.tjfblooddonation.repository.LoginInformationRepository;
 import ro.ubb.tjfblooddonation.utils.Hashing;
 import ro.ubb.tjfblooddonation.utils.InfoCheck;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,6 +31,8 @@ public class UsersService {
     private HealthWorkerRepository healthWorkerRepository;
     @Autowired
     private LoginInformationRepository loginInformationRepository;
+    @Autowired
+    private InstitutionRepository institutionRepository;
 
 
     /**
@@ -230,5 +235,24 @@ public class UsersService {
         throw new LogInException("Wrong password!");
     }
 
+    public List<HealthWorker> getAllHealthWorkers(){
+        return healthWorkerRepository.getAll();
+    }
+
+    public HealthWorker getHealthWorker(Long id){
+        return healthWorkerRepository.getById(id);
+    }
+
+    public List<LoginInformation> getHealthWorkersAccounts(){
+        return loginInformationRepository.getAll().stream().filter(l -> l.getPerson() instanceof HealthWorker).collect(Collectors.toList());
+    }
+
+    public LoginInformation getLoginInformationByUsername(String username){
+        return loginInformationRepository.getById(username);
+    }
+
+    public List<Institution> getAllInstitutions() {
+        return institutionRepository.getAll();
+    }
 }
 
