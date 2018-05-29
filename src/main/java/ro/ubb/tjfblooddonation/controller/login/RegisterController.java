@@ -1,4 +1,4 @@
-package ro.ubb.tjfblooddonation.controller;
+package ro.ubb.tjfblooddonation.controller.login;
 
 
         import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package ro.ubb.tjfblooddonation.controller;
+package ro.ubb.tjfblooddonation.controller.admin;
 
 import com.sun.deploy.util.FXLoader;
 import javafx.collections.FXCollections;

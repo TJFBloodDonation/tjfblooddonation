@@ -1,12 +1,15 @@
-package ro.ubb.tjfblooddonation.controller;
+package ro.ubb.tjfblooddonation.controller.login;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ro.ubb.tjfblooddonation.controller.clinicStaff.ClinicStaffController;
 import ro.ubb.tjfblooddonation.exceptions.BaseException;
 import ro.ubb.tjfblooddonation.exceptions.LogInException;
 import ro.ubb.tjfblooddonation.model.Donor;
@@ -51,7 +54,10 @@ public class LogInController {
                         loader.createNewWindow("/fxml/admin/Admin.fxml", "Admin Main Page", actionEvent);
                         break;
                     case "clinicStaff":
-                        loader.createNewWindow("/fxml/clinicStaff/ClinicStaff.fxml", "Clinic Stuff Main Page", actionEvent);
+                        FXMLLoader ld = loader.getLoader("/fxml/clinicStaff/ClinicStaff.fxml");
+                        loader.createNewWindow((Parent) ld.load(), "Clinic Staff Main Page!", actionEvent);
+                        ld.<ClinicStaffController>getController().setHealthWorker(healthWorker);
+//                        loader.createNewWindow("/fxml/clinicStaff/ClinicStaff.fxml", "Clinic Stuff Main Page", actionEvent);
                         break;
                     case "doctor":
                         loader.createNewWindow("/fxml/doctor/Doctor.fxml", "Doctor Main Page", actionEvent);
