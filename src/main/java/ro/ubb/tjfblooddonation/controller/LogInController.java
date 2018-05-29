@@ -51,13 +51,14 @@ public class LogInController {
                         loader.createNewWindow("/fxml/admin/Admin.fxml", "Admin Main Page", actionEvent);
                         break;
                     case "clinicStaff":
-                        loader.createNewWindow("/fxml/ClinicStuff.fxml", "Clinic Stuff Main Page", actionEvent);
+                        loader.createNewWindow("/fxml/clinicStaff/ClinicStaff.fxml", "Clinic Stuff Main Page", actionEvent);
                         break;
                     case "doctor":
                         loader.createNewWindow("/fxml/doctor/Doctor.fxml", "Doctor Main Page", actionEvent);
                         break;
                     case "bloodAnalyst":
-                        throw new LogInException("Not yet implemented!");
+                        loader.createNewWindow("/fxml/bloodAnalyst/BloodAnalysis.fxml", "Blood analyst Main Page", actionEvent);
+                        break;
                         //loader.createNewWindow("/fxml/.fxml", "Blood Analyst Main Page", actionEvent);
 //                        break;
                     default:

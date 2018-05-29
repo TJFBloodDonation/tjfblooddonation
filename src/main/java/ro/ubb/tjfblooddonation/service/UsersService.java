@@ -62,6 +62,10 @@ public class UsersService {
         }
     }
 
+    public void updateDonor(Donor donor){
+        donorRepository.update(donor);
+    }
+
     public void createHealthWorkerAccont(String healthWorkerUsername, String healthWorkerPassword, HealthWorker healthWorker){
         //check if user exists in login info repo + check if admin with function isAdmin() -- verifies id(username)
         if(loginInformationRepository.existsById(healthWorkerUsername))

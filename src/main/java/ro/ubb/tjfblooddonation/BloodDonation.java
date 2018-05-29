@@ -8,7 +8,9 @@ import ro.ubb.tjfblooddonation.repository.InstitutionRepository;
 import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 public class BloodDonation extends Application {
@@ -16,8 +18,8 @@ public class BloodDonation extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", null);
-        //addDonor();
+        loader.createNewWindow("/fxml/clinicStaff/SearchDonors.fxml", "Blood donation", null);
+//        addDonor();
         //addHealthWorker(HealthWorker.types.DOCTOR, "doctor");
     }
 
@@ -63,15 +65,20 @@ public class BloodDonation extends Application {
         Donor d = Donor.builder()
                 .bloodType("0")
                 .dateOfBirth(LocalDate.parse("2000-12-12"))
-                .gender("male")
+                .gender("female")
                 .idCard(idCard)
                 .residence(b)
-                .rH("positive")
+
                 .build();
         d.setEmail("fjks@fdjlk.com");
         d.setPhoneNumber("jfdk");
-        d.setFirstName("firts");
-        d.setLastName("last");
+        d.setFirstName("abc");
+        d.setLastName("def");
+        d.setForm(Form.builder()
+                .passedDonateForm(true)
+                .timeCompletedDonateForm(Timestamp.valueOf(LocalDateTime.now()))
+                .passedBasicCheckForm(false)
+                .build());
         usersService.addDonor(d);
         usersService.createDonorAccount("donor", "donor", d);
         usersService.getAllDonors().forEach(System.out::println);

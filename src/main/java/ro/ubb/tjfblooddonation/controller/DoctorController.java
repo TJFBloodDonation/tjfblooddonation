@@ -21,7 +21,7 @@ public class DoctorController {
     @FXML
     public void ChechRequestClicked(ActionEvent event) {
         try {
-            loader.createNewWindow("/fxml/doctor/Requests.fxml", "Check Requests", null);
+            loader.createNewWindow("/fxml/clinicStaff/Requests.fxml", "Check Requests", null);
         }
         catch (IOException e) {
             e.printStackTrace();

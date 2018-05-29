@@ -4,10 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import org.springframework.stereotype.Controller;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
 import java.io.IOException;
 
+@Controller
 public class RequestsController {
     private static final SpringFxmlLoader loader = new SpringFxmlLoader();
 

@@ -20,7 +20,7 @@ public class MyRequestsController {
     @FXML
     void ViewStatusClicked(ActionEvent event) {
         try {
-            loader.createNewWindow("/fxml/MyRequests.fxml", "Requests Page", null);
+            loader.createNewWindow("/fxml/doctor/MyRequests.fxml", "Requests Page", null);
         }
         catch (IOException e) {
             e.printStackTrace();
