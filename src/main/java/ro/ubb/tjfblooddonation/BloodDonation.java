@@ -45,7 +45,7 @@ public class BloodDonation extends Application {
                 .build();
         context.getBean(InstitutionRepository.class).add(institution);
 
-        usersService.createHealthWorkerAccont(username, username, healthWorker);
+        usersService.createUserAccount(username, username, healthWorker);
     }
 
 
@@ -80,7 +80,7 @@ public class BloodDonation extends Application {
                 .passedBasicCheckForm(false)
                 .build());
         usersService.addDonor(d);
-        usersService.createDonorAccount("donor", "donor", d);
+        usersService.createUserAccount("donor", "donor", d);
         usersService.getAllDonors().forEach(System.out::println);
     }
 }

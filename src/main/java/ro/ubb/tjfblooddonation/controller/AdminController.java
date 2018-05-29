@@ -84,7 +84,7 @@ public class AdminController {
             if (list.size() == 0) {
                 throw new ControllerError("No user selected!");
             }
-            usersService.deleteHealthWorkerAccount(
+            usersService.deleteUserAccount(
                     list.get(0).getUsername()
             );
             refresh();

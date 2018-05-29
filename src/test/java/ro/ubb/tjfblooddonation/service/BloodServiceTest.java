@@ -742,4 +742,68 @@ public class BloodServiceTest {
         loginInformationRepository.remove(loginInformation.getId());
         donorRepository.remove(donor.getId());
     }
+
+    @Test
+    public void askUsersToDonate() {
+        Address res1 = Address.builder().country("CTRY1").region("R1").city("CITY1").street("S1 NO.1").build();
+        Address res2 = Address.builder().country("CTRY2").region("R2").city("CITY2").street("S2 NO.2").build();
+
+        IdCard idCard1 = IdCard.builder().cnp("1234567890000").address(res1).build();
+        IdCard idCard2 = IdCard.builder().cnp("1234567890001").address(res2).build();
+
+        Donor donor1 = Donor.builder().firstName("FND1").lastName("LND1")
+                .email("d1@email.com").phoneNumber("+40712345678")
+                .dateOfBirth(LocalDate.parse("1990-05-20")).gender("female")
+                .bloodType("AB").rH("-")
+                .idCard(idCard1).residence(res1)
+                .build();
+        Donor donor2 = Donor.builder().firstName("FND2").lastName("LND2")
+                .email("d2@email.com").phoneNumber("+40712345678")
+                .dateOfBirth(LocalDate.parse("1990-05-20")).gender("male")
+                .bloodType("A").rH("+")
+                .idCard(idCard2).residence(res2)
+                .build();
+
+        donorRepository.add(donor1);
+        donorRepository.add(donor2);
+
+        LoginInformation loginInformation1 = LoginInformation.builder().username("D1").password("p1")
+                .person(donor1).build();
+        LoginInformation loginInformation2 = LoginInformation.builder().username("D2").password("p2")
+                .person(donor2).build();
+
+        loginInformationRepository.add(loginInformation1);
+        loginInformationRepository.add(loginInformation2);
+
+        Blood blood1 = Blood.builder().recoltationDate(LocalDate.now().minusMonths(6))
+                .donor(donor1).build();
+        Blood blood2 = Blood.builder().recoltationDate(LocalDate.now().minusMonths(3))
+                .donor(donor1).build();
+        Blood blood3 = Blood.builder().recoltationDate(LocalDate.now().minusMonths(5))
+                .donor(donor2).build();
+
+        bloodRepository.add(blood1);
+        bloodRepository.add(blood2);
+        bloodRepository.add(blood3);
+
+
+        bloodService.askUsersToDonate();
+
+        assertNotEquals(donorRepository.getById(donor1.getId()), "It's been a while since you last donated," +
+                " and there is a blood shortage. Please come donate whenever you can.");
+        assert donorRepository.getById(donor2.getId()).getMessage().equals("It's been a while since you last donated," +
+                " and there is a blood shortage. Please come donate whenever you can.");
+
+
+        bloodRepository.remove(blood1.getId());
+        bloodRepository.remove(blood2.getId());
+        bloodRepository.remove(blood3.getId());
+
+        loginInformationRepository.remove(loginInformation1.getId());
+        loginInformationRepository.remove(loginInformation2.getId());
+
+        donorRepository.remove(donor1.getId());
+        donorRepository.remove(donor2.getId());
+
+    }
 }
