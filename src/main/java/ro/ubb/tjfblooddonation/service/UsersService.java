@@ -13,6 +13,7 @@ import ro.ubb.tjfblooddonation.repository.LoginInformationRepository;
 import ro.ubb.tjfblooddonation.utils.Hashing;
 import ro.ubb.tjfblooddonation.utils.InfoCheck;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -289,6 +290,12 @@ public class UsersService {
 
     public void addInstitution(Institution institution){
         institutionRepository.add(institution);
+    }
+
+    public List<LoginInformation> getDonorsAccounts() {
+        return loginInformationRepository.getAll().stream()
+                .filter(l -> l.getPerson() instanceof Donor)
+                .collect(Collectors.toList());
     }
 }
 

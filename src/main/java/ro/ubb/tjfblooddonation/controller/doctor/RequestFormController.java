@@ -1,4 +1,4 @@
-package ro.ubb.tjfblooddonation.controller;
+package ro.ubb.tjfblooddonation.controller.doctor;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 
 @Controller
-public class RequestFromController {
+public class RequestFormController {
     private static final SpringFxmlLoader loader = new SpringFxmlLoader();
 
     @Autowired

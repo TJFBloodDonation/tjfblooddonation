@@ -5,12 +5,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.SearchDonors">
+<AnchorPane prefHeight="641.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.clinicStaff.SearchDonors">
    <children>
       <TextField fx:id="searchTextField" layoutX="50.0" layoutY="29.0" prefHeight="26.0" prefWidth="298.0" promptText="Search donors" />
-      <ScrollPane layoutX="50.0" layoutY="65.0" prefHeight="307.0" prefWidth="304.0">
+      <ScrollPane layoutX="50.0" layoutY="65.0" prefHeight="558.0" prefWidth="308.0">
          <content>
-            <Accordion fx:id="accordion" prefHeight="305.0" prefWidth="298.0" />
+            <Accordion fx:id="accordion" prefHeight="554.0" prefWidth="298.0" />
          </content>
       </ScrollPane>
    </children>

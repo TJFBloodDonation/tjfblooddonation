@@ -1,4 +1,4 @@
-package ro.ubb.tjfblooddonation.controller;
+package ro.ubb.tjfblooddonation.controller.admin;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ro.ubb.tjfblooddonation.controller.admin.AddStaffController;
 import ro.ubb.tjfblooddonation.exceptions.ControllerError;
 import ro.ubb.tjfblooddonation.model.LoginInformation;
 import ro.ubb.tjfblooddonation.service.UsersService;
@@ -104,7 +105,7 @@ public class AdminController {
             }
             FXMLLoader ld = loader.getLoader("/fxml/admin/AddStuff.fxml");
             Stage childStage = loader.createNewWindow((Parent) ld.load(), "User Info Page", null);
-            ld.<AddStuffControler>getController().setId(list.get(0).getUsername());
+            ld.<AddStaffController>getController().setId(list.get(0).getUsername());
             childStage.setOnHidden((p) -> refresh());
         }
         catch (IOException e){

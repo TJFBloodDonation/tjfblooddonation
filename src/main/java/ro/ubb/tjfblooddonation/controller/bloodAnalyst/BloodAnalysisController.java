@@ -1,4 +1,4 @@
-package ro.ubb.tjfblooddonation.controller;
+package ro.ubb.tjfblooddonation.controller.bloodAnalyst;
 
 
 import javafx.event.ActionEvent;

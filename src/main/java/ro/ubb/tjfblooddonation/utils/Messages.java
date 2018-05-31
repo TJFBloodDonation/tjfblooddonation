@@ -14,6 +14,9 @@ public class Messages {
         alert.showAndWait();
     }
 
+    public static void showConfirmation(String message){
+        showConfirmation("Success!", message);
+    }
     public static void showConfirmation(String title, String message){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);

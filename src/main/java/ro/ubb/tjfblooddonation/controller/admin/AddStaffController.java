@@ -1,4 +1,4 @@
-package ro.ubb.tjfblooddonation.controller;
+package ro.ubb.tjfblooddonation.controller.admin;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +20,7 @@ import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
 
 @Controller
-public class AddStuffControler {
+public class AddStaffController {
     private static final SpringFxmlLoader loader = new SpringFxmlLoader();
 
     @Autowired

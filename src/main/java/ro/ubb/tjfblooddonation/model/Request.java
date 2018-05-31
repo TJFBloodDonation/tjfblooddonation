@@ -23,11 +23,11 @@ public class Request extends BaseEntity{
     private Byte thrombocytesUnits;
     private Byte redBloodCellsUnits;
     private LocalDate requestDate;
-    private Byte urgency;
+    private UrgencyLevel urgency;
     private String status;
     private Boolean isSatisfied;
 
-    public enum urgencyLevels {
+    public enum UrgencyLevel {
         LOW, MEDIUM, HIGH
     }
 
@@ -36,7 +36,7 @@ public class Request extends BaseEntity{
      */
     @Builder
     public Request(HealthWorker healthWorker, Patient patient, Byte plasmaUnits, Byte thrombocytesUnits,
-                   Byte redBloodCellsUnits, LocalDate requestDate, urgencyLevels urgency) {
+                   Byte redBloodCellsUnits, LocalDate requestDate, UrgencyLevel urgency) {
         this.healthWorker = healthWorker;
         this.patient = patient;
         this.plasmaUnits = plasmaUnits;
@@ -45,18 +45,7 @@ public class Request extends BaseEntity{
         this.requestDate = requestDate;
         this.status = "processing";
         this.isSatisfied = false;
-
-        switch (urgency) {
-            case LOW:
-                this.urgency = 1;
-                break;
-            case MEDIUM:
-                this.urgency = 2;
-                break;
-            case HIGH:
-                this.urgency = 3;
-                break;
-        }
+        this.urgency = urgency;
     }
 
     /**
@@ -65,7 +54,7 @@ public class Request extends BaseEntity{
      */
     @Builder
     public Request(HealthWorker healthWorker, Patient patient, Byte plasmaUnits, Byte thrombocytesUnits,
-                   Byte redBloodCellsUnits, LocalDate requestDate, urgencyLevels urgency, String status) {
+                   Byte redBloodCellsUnits, LocalDate requestDate, UrgencyLevel urgency, String status) {
         this.healthWorker = healthWorker;
         this.patient = patient;
         this.plasmaUnits = plasmaUnits;
@@ -74,17 +63,6 @@ public class Request extends BaseEntity{
         this.requestDate = requestDate;
         this.status = status;
         this.isSatisfied = false;
-
-        switch (urgency) {
-            case LOW:
-                this.urgency = 1;
-                break;
-            case MEDIUM:
-                this.urgency = 2;
-                break;
-            case HIGH:
-                this.urgency = 3;
-                break;
-        }
+        this.urgency = urgency;
     }
 }
