@@ -57,6 +57,7 @@ public class JPAConfig {
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        config.setDriverClassName("org.postgresql.Driver"); //----------------------------------------------------------
         HikariDataSource dataSource = new HikariDataSource(config);
         return dataSource;
     }
@@ -64,7 +65,8 @@ public class JPAConfig {
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setDatabase(Database.SQL_SERVER);
+//        vendorAdapter.setDatabase(Database.SQL_SERVER); //------------------------------------------------------------
+        vendorAdapter.setDatabase(Database.POSTGRESQL); //--------------------------------------------------------------
         vendorAdapter.setGenerateDdl(generateDDL);
         vendorAdapter.setShowSql(true);
 

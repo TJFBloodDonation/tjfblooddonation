@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="408.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.doctor.MyRequestsController">
+   <children>
+      <TextField layoutX="55.0" layoutY="31.0" prefHeight="26.0" prefWidth="266.0" />
+      <Text fill="#b5a6a6" layoutX="70.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search patients" />
+      <Accordion layoutX="55.0" layoutY="82.0" prefHeight="275.0" prefWidth="266.0">
+        <panes>
+          <TitledPane animated="false" text="untitled 1">
+               <content>
+                  <Label text="Request status:" />
+               </content>
+            </TitledPane>
+          <TitledPane animated="false" text="untitled 2">
+               <content>
+                  <Label text="Request status" />
+               </content>
+            </TitledPane>
+        </panes>
+      </Accordion>
+   </children>
+</AnchorPane>
