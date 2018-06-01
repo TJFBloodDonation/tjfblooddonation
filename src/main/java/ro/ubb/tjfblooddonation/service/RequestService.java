@@ -54,13 +54,16 @@ public class  RequestService {
 
         List<Request> donorRequests = requestRepository.getAll().stream()
                 .filter(request -> !request.getIsSatisfied())
+                .filter(request -> request.getPatient() != null)
+                .filter(request -> request.getPatient().getIdCard() != null)
                 .filter(request -> cnps.contains(request.getPatient().getIdCard().getCnp()))
                 .sorted((r1,r2) -> -r1.getUrgency().compareTo(r2.getUrgency()))
                 .collect(Collectors.toList());
 
         List<Request> normalPatientRequests = requestRepository.getAll().stream()
                 .filter(request -> !request.getIsSatisfied())
-                .filter(request -> !cnps.contains(request.getPatient().getIdCard().getCnp()))
+                .filter(request -> request.getPatient() == null || request.getPatient().getIdCard() == null ||
+                        !cnps.contains(request.getPatient().getIdCard().getCnp()))
                 .sorted((r1,r2) -> -r1.getUrgency().compareTo(r2.getUrgency()))
                 .collect(Collectors.toList());
 

@@ -130,7 +130,8 @@ public class RequestsController{
                     });
 
         } catch (Exception e){
-            Messages.showError(e.getMessage());
+            e.printStackTrace();
+            Messages.showError(e.toString());
         }
 
     }

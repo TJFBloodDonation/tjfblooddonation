@@ -18,7 +18,9 @@ import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.Messages;
 
 import javax.swing.event.ChangeListener;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,9 +38,9 @@ public class BloodAvailabilityController {
 
     private Request request;
 
-    private Set<BloodComponent> bloodComponents;
+    private List<BloodComponent> bloodComponents;
 
-    private Set<BloodComponent> chosenBloodComponents;
+    private List<BloodComponent> chosenBloodComponents;
 
     @FXML
     public Label label;
@@ -92,7 +94,7 @@ public class BloodAvailabilityController {
         }
     }
     private void refreshBloodList() {
-        Set<BloodComponent> components = new HashSet<>();
+        List<BloodComponent> components = new ArrayList<>();
         if(request == null)
             return;
         if(thrombocytesRadioButton.selectedProperty().get() &&
@@ -100,21 +102,21 @@ public class BloodAvailabilityController {
             components = bloodComponents
                     .stream()
                     .filter(bc -> bc.getType().equals("thrombocytes"))
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         }
         if(plasmaRadioButton.selectedProperty().get() &&
             getNumber(chosenBloodComponents, "plasma") != request.getPlasmaUnits()) {
             components = bloodComponents
                     .stream()
                     .filter(bc -> bc.getType().equals("plasma"))
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         }
         if(redBloodCellsRadioButton.selectedProperty().get() &&
             getNumber(chosenBloodComponents, "red blood cells") != request.getRedBloodCellsUnits()) {
             components = bloodComponents
                     .stream()
                     .filter(bc -> bc.getType().equals("red blood cells"))
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
         }
 
         componentsListView.setItems(FXCollections.observableArrayList(components));
@@ -122,7 +124,7 @@ public class BloodAvailabilityController {
         updateLabel();
     }
 
-    private long getNumber(Set<BloodComponent> set, String type){
+    private long getNumber(List<BloodComponent> set, String type){
         return set.stream().filter(bc -> bc.getType().equals(type)).count();
     }
 
@@ -159,7 +161,7 @@ public class BloodAvailabilityController {
 
             componentsListView.setCellFactory(c -> getListCell());
             selectedList.setCellFactory(c -> getListCell());
-            chosenBloodComponents = new HashSet<>();
+            chosenBloodComponents = new ArrayList<>();
             bloodComponents = bloodService.getOkRedBloodCells(request.getId());
             bloodComponents.addAll(bloodService.getOkPlasma(request.getId()));
             bloodComponents.addAll(bloodService.getOkThrombocytes(request.getId()));
@@ -186,7 +188,7 @@ public class BloodAvailabilityController {
         }
     }
 
-    private void transfer(Set<BloodComponent> bloodComponents, Set<BloodComponent> chosenBloodComponents,
+    private void transfer(List<BloodComponent> bloodComponents, List<BloodComponent> chosenBloodComponents,
                           BloodComponent bloodComponent) {
         if(bloodComponent == null)
             return;
