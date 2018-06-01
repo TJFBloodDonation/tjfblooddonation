@@ -71,7 +71,7 @@ public class DonorSettingsController {
     private Consumer saveClickedCallback ;
 
 
-    void setInfo(String username) {
+    public void setInfo(String username) {
         donorLogin = usersService.getLoginInformationByUsername(username);
         ObservableList<Integer> years = FXCollections.observableArrayList();
         for (int i = 0; i < 150; i++) {

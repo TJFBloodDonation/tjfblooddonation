@@ -96,7 +96,8 @@ public class BloodDonation extends Application {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext("ro.ubb.tjfblooddonation.config");
         BloodService bloodService = context.getBean(BloodService.class);
-        bloodService.askUsersToDonate();
+        InstitutionRepository institutionRepository = context.getBean(InstitutionRepository.class);
+        bloodService.askUsersToDonate(institutionRepository.getAll().get(0));
     }
 
     public static void addBlood() {

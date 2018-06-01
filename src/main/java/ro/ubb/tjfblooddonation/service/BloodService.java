@@ -287,26 +287,6 @@ public class BloodService {
      * Function that sets the message attribute for each Donor instance that did not donate in the last 4 months to
      * a request to come donate;
      */
-    public void askUsersToDonate() {
-        loginInformationRepository.getAll().stream()
-                .filter(loginInformation -> {
-                    if (loginInformation.getPerson() instanceof Donor) {
-                        return this.getNextDonateTime(loginInformation.getUsername()).isBefore(LocalDate.now()) ||
-                                this.getNextDonateTime(loginInformation.getUsername()).equals(LocalDate.now());
-                    } else
-                        return false;
-                })
-                .forEach(loginInformation -> {
-                    Person person = loginInformation.getPerson();
-                    Donor donor;
-                    if (person instanceof Donor) {
-                        donor = (Donor) person;
-                        donor.setMessage("It's been a while since you last donated, and there is a blood shortage." +
-                                " Please come donate whenever you can.");
-                        donorRepository.update(donor);
-                        loginInformation.setPerson(donor);
-                        loginInformationRepository.update(loginInformation);
-                    }
     public void askUsersToDonate(Institution institution) {
         List<Blood> allBlood = bloodRepository.findAll();
         List<Donor> allDonors = donorRepository.findAll();

@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ro.ubb.tjfblooddonation.controller.clinicStaff.ClinicStaffController;
+import ro.ubb.tjfblooddonation.controller.donor.DonorController;
 import ro.ubb.tjfblooddonation.exceptions.BaseException;
 import ro.ubb.tjfblooddonation.exceptions.LogInException;
 import ro.ubb.tjfblooddonation.model.Donor;

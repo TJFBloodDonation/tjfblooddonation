@@ -9,6 +9,9 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ro.ubb.tjfblooddonation.controller.DonateFormController;
+import ro.ubb.tjfblooddonation.controller.DonationHistoryController;
+import ro.ubb.tjfblooddonation.controller.DonorSettingsController;
 import ro.ubb.tjfblooddonation.model.Donor;
 import ro.ubb.tjfblooddonation.model.LoginInformation;
 import ro.ubb.tjfblooddonation.service.BloodService;
@@ -50,7 +53,7 @@ public class DonorController {
     private Button donateButton;
 
 
-    void setLoginInfo(String username) {
+    public void setLoginInfo(String username) {
         donorLogin = usersService.getLoginInformationByUsername(username);
         populate();
     }
