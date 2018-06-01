@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
-<AnchorPane minHeight="353.0" prefHeight="353.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.DonateFormController">
+<AnchorPane minHeight="353.0" prefHeight="353.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.donor.DonateFormController">
   <children>
     <CheckBox fx:id="hepatitisCheckBox" layoutX="59.0" layoutY="116.0" mnemonicParsing="false" onAction="#checkedBox" text="Hepatitis" />
     <Text layoutX="50.0" layoutY="68.0" scaleX="1.0650139380772399" scaleY="1.3533039647577092" strokeType="OUTSIDE" strokeWidth="0.0" text="Please check the boxes if you have or have had any of the listed affections:" />

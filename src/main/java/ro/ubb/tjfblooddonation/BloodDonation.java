@@ -1,7 +1,6 @@
 package ro.ubb.tjfblooddonation;
 
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ro.ubb.tjfblooddonation.model.*;
@@ -9,7 +8,6 @@ import ro.ubb.tjfblooddonation.repository.InstitutionRepository;
 import ro.ubb.tjfblooddonation.repository.PatientRepository;
 import ro.ubb.tjfblooddonation.service.BloodService;
 import ro.ubb.tjfblooddonation.service.RequestService;
-import ro.ubb.tjfblooddonation.service.BloodService;
 import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
@@ -96,7 +94,7 @@ public class BloodDonation extends Application {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext("ro.ubb.tjfblooddonation.config");
         BloodService bloodService = context.getBean(BloodService.class);
-        bloodService.askUsersToDonate();
+        //bloodService.askUsersToDonate();
     }
 
     public static void addBlood() {

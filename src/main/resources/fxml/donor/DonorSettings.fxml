@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import java.lang.*?>
-<AnchorPane prefHeight="611.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.DonorSettingsController">
+<AnchorPane prefHeight="611.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.donor.DonorSettingsController">
   <children>
     <TextField fx:id="firstNameTextBox" layoutX="109.0" layoutY="85.0" prefWidth="234.287109375" />
     <Text fill="#ff6433" layoutX="309.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit my info" textAlignment="LEFT">

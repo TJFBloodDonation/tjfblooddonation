@@ -1,4 +1,4 @@
-package ro.ubb.tjfblooddonation.controller;
+package ro.ubb.tjfblooddonation.controller.donor;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;

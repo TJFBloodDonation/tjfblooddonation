@@ -50,7 +50,7 @@ public class DonorController {
     private Button donateButton;
 
 
-    void setLoginInfo(String username) {
+    public void setLoginInfo(String username) {
         donorLogin = usersService.getLoginInformationByUsername(username);
         populate();
     }

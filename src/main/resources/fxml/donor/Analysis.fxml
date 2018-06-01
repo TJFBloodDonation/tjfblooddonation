@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="352.0" prefWidth="333.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.AnalysisController">
+<AnchorPane prefHeight="352.0" prefWidth="333.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.donor.AnalysisController">
   <children>
     <Label fx:id="recoltationDateLabel" alignment="CENTER" layoutX="81.0" layoutY="72.0" prefWidth="171.0" text="Label" />
     <Label layoutX="39.0" layoutY="43.0" prefWidth="256.0" text="Analysis result for blood collected on:" />
