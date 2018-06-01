@@ -2,9 +2,12 @@ package ro.ubb.tjfblooddonation.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ro.ubb.tjfblooddonation.exceptions.BaseException;
@@ -41,7 +44,9 @@ public class LogInController {
         try {
             Person p = usersService.getPerson(username, password);
             if(p instanceof Donor) {
-                loader.createNewWindow("/fxml/donor/Donor.fxml", "Donor Main Page", actionEvent);
+                FXMLLoader ld = loader.getLoader("/fxml/donor/Donor.fxml");
+                Stage childStage = loader.createNewWindow((Parent) ld.load(), "Donor Main Page", actionEvent);
+                ld.<DonorController>getController().setLoginInfo(username);
             }
             if(p instanceof HealthWorker) {
                 HealthWorker healthWorker = (HealthWorker) p;

@@ -806,4 +806,170 @@ public class BloodServiceTest {
         donorRepository.remove(donor2.getId());
 
     }
+
+    @Test
+    public void areCompatible() {
+        Donor donor = Donor.builder().bloodType("O").rH("-").build();
+        Patient patient = Patient.builder().bloodType("O").rH("-").build();
+
+        assert bloodService.areCompatible(donor, patient) == 0;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("AB");
+        assert bloodService.areCompatible(donor, patient) == 1;
+
+        patient.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("O");
+        assert bloodService.areCompatible(donor, patient) == 1;
+
+        patient.setBloodType("O");
+        patient.setRH("-");
+        donor.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("AB");
+        assert bloodService.areCompatible(donor, patient) == -1;
+
+        patient.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("O");
+        assert bloodService.areCompatible(donor, patient) == 0;
+
+        patient.setBloodType("O");
+        patient.setRH("-");
+        donor.setRH("-");
+        donor.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == 0;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("AB");
+        assert bloodService.areCompatible(donor, patient) == 1;
+
+        patient.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("O");
+        assert bloodService.areCompatible(donor, patient) == -1;
+
+        patient.setBloodType("O");
+        patient.setRH("-");
+        donor.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("AB");
+        assert bloodService.areCompatible(donor, patient) == -1;
+
+        patient.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == 0;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("O");
+        assert bloodService.areCompatible(donor, patient) == -1;
+
+        patient.setBloodType("O");
+        patient.setRH("-");
+        donor.setRH("-");
+        donor.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == 0;
+        patient.setBloodType("AB");
+        assert bloodService.areCompatible(donor, patient) == 1;
+
+        patient.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("O");
+        assert bloodService.areCompatible(donor, patient) == -1;
+
+        patient.setBloodType("O");
+        patient.setRH("-");
+        donor.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("AB");
+        assert bloodService.areCompatible(donor, patient) == -1;
+
+        patient.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == 0;
+        patient.setBloodType("O");
+        assert bloodService.areCompatible(donor, patient) == -1;
+
+        patient.setBloodType("O");
+        patient.setRH("-");
+        donor.setRH("-");
+        donor.setBloodType("AB");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("AB");
+        assert bloodService.areCompatible(donor, patient) == 0;
+
+        patient.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == 1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("O");
+        assert bloodService.areCompatible(donor, patient) == -1;
+
+        patient.setBloodType("O");
+        patient.setRH("-");
+        donor.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("AB");
+        assert bloodService.areCompatible(donor, patient) == -1;
+
+        patient.setRH("+");
+        assert bloodService.areCompatible(donor, patient) == 0;
+        patient.setBloodType("A");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("B");
+        assert bloodService.areCompatible(donor, patient) == -1;
+        patient.setBloodType("O");
+        assert bloodService.areCompatible(donor, patient) == -1;
+    }
 }

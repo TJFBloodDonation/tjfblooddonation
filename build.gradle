@@ -84,7 +84,7 @@ allprojects {
 
         compile group: 'javax.xml.bind', name: 'jaxb-api', version: "$jaxbapiVersion"
 
-       // compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '6.4.0.jre8'// ------------------------
+//        compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '6.4.0.jre8'// ------------------------
         compile group: 'org.postgresql', name: 'postgresql', version: "$postgresqlVersion" // --------------------------
     }
 }

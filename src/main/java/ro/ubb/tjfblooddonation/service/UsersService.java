@@ -142,7 +142,10 @@ public class UsersService {
                 donor = (Donor) person;
 
             if(donor != null) {
-                donor.setForm(form);
+                if(donor.getForm() == null)
+                    donor.setForm(form);
+                else
+                    donor.getForm().setPassedBasicCheckForm(form.getPassedBasicCheckForm());
 
                 donorRepository.update(donor);
                 loginInformation.setPerson(donor);

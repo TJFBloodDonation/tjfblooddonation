@@ -20,7 +20,7 @@ public class Form implements Serializable{
     @Id
     @GeneratedValue
     private Long formId;
-    private Boolean passedDonateForm;
+    private Boolean passedDonateForm = false;
     private Timestamp timeCompletedDonateForm;
-    private Boolean passedBasicCheckForm;
+    private Boolean passedBasicCheckForm = false;
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane prefHeight="352.0" prefWidth="333.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.AnalysisController">
+  <children>
+    <Label fx:id="recoltationDateLabel" alignment="CENTER" layoutX="81.0" layoutY="72.0" prefWidth="171.0" text="Label" />
+    <Label layoutX="39.0" layoutY="43.0" prefWidth="256.0" text="Analysis result for blood collected on:" />
+    <CheckBox fx:id="hivCheckBox" disable="true" layoutX="57.0" layoutY="124.0" mnemonicParsing="false" text="HIV/AIDS" />
+    <CheckBox fx:id="hbCheckBox" disable="true" layoutX="57.0" layoutY="151.0" mnemonicParsing="false" text="Hepatitis B" />
+    <CheckBox fx:id="hcCheckBox" disable="true" layoutX="57.0" layoutY="180.0" mnemonicParsing="false" text="Hepatitis C" />
+    <CheckBox fx:id="syphilisCheckBox" disable="true" layoutX="57.0" layoutY="209.0" mnemonicParsing="false" text="Syphilis" />
+    <CheckBox fx:id="htlvCheckBox" disable="true" layoutX="57.0" layoutY="237.0" mnemonicParsing="false" text="HTLV" />
+    <CheckBox fx:id="altCheckBox" disable="true" layoutX="57.0" layoutY="267.0" mnemonicParsing="false" text="ALT" />
+    <CheckBox fx:id="immunoCheckBox" disable="true" layoutX="56.0" layoutY="298.0" mnemonicParsing="false" text="Immunohematology" />
+  </children>
+</AnchorPane>
