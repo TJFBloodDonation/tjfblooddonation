@@ -277,20 +277,20 @@ public class BloodService {
     }
 
 
-    public boolean isCloseBy(Institution institution, Donor donor){
+    private boolean isCloseBy(Institution institution, Donor donor){
         return institution.getAddress().getCity().equals(donor.getResidence().getCity());
     }
 
-    /**
-     * Function that sets the message attribute for each Donor instance that did not donate in the last 4 months to
-     * a request to come donate;
-     */
 
     private LocalDate max(LocalDate a, LocalDate b){
         if(a.isBefore(b))
             return b;
         return a;
     }
+    /**
+     * Function that sets the message attribute for each Donor instance that did not donate in the last 4 months to
+     * a request to come donate;
+     */
     public void askUsersToDonate(Institution institution) {
         List<Blood> allBlood = bloodRepository.findAll();
         List<Donor> allDonors = donorRepository.findAll();
