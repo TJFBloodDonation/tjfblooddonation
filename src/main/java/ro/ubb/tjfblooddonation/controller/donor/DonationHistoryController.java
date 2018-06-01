@@ -1,4 +1,4 @@
-package ro.ubb.tjfblooddonation.controller;
+package ro.ubb.tjfblooddonation.controller.donor;
 
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;

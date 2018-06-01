@@ -1,6 +1,7 @@
 package ro.ubb.tjfblooddonation.controller.donor;
 
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,9 +10,6 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import ro.ubb.tjfblooddonation.controller.DonateFormController;
-import ro.ubb.tjfblooddonation.controller.DonationHistoryController;
-import ro.ubb.tjfblooddonation.controller.DonorSettingsController;
 import ro.ubb.tjfblooddonation.model.Donor;
 import ro.ubb.tjfblooddonation.model.LoginInformation;
 import ro.ubb.tjfblooddonation.service.BloodService;
@@ -116,6 +114,17 @@ public class DonorController {
             DonationHistoryController childController = ld.getController();
             childController.setInfo(donorLogin.getUsername());
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            Messages.showError(e.getMessage());
+        }
+    }
+
+    @FXML
+    void logoutClicked(ActionEvent actionEvent) {
+        try {
+        loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", actionEvent);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
