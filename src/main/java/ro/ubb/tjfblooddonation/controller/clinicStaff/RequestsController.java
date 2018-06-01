@@ -47,13 +47,26 @@ public class RequestsController{
             stringBuffer.append("    ");
             stringBuffer.append(request.getPatient().getIdCard().getCnp());
         }
+        stringBuffer.append(" ");
+        stringBuffer.append(request.getPatient().getBloodType());
+        stringBuffer.append(" ");
+        stringBuffer.append(request.getPatient().getRH());
         stringBuffer.append("\n(");
+        stringBuffer.append(bloodService.getOkThrombocytes(request.getId()).size());
+        stringBuffer.append("/");
         stringBuffer.append(request.getThrombocytesUnits());
         stringBuffer.append(", ");
+        stringBuffer.append(bloodService.getOkRedBloodCells(request.getId()).size());
+        stringBuffer.append("/");
         stringBuffer.append(request.getRedBloodCellsUnits());
         stringBuffer.append(", ");
+        stringBuffer.append(bloodService.getOkPlasma(request.getId()).size());
+        stringBuffer.append("/");
         stringBuffer.append(request.getPlasmaUnits());
         stringBuffer.append(")");
+        stringBuffer.append("  No. People who donated for this patient: ");
+        stringBuffer.append(bloodService.getNoOfPeopleWhoDonatedForPatient(request.getPatient()));
+
         return stringBuffer.toString();
     }
 

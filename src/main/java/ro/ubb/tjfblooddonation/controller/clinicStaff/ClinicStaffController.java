@@ -4,14 +4,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ro.ubb.tjfblooddonation.model.Blood;
 import ro.ubb.tjfblooddonation.model.HealthWorker;
 import ro.ubb.tjfblooddonation.model.LoginInformation;
+import ro.ubb.tjfblooddonation.service.BloodService;
+import ro.ubb.tjfblooddonation.utils.Messages;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
+import sun.plugin2.message.Message;
 
 @Controller
 public class ClinicStaffController {
     private static final SpringFxmlLoader loader = new SpringFxmlLoader();
+
+    @Autowired
+    BloodService bloodService;
 
     private HealthWorker healthWorker;
 
@@ -24,7 +32,6 @@ public class ClinicStaffController {
             FXMLLoader ld = loader.getLoader("/fxml/clinicStaff/SearchDonors.fxml");
             loader.createNewWindow((Parent) ld.load(), "Pick a donor!", null);
             ld.<SearchDonors>getController().setHealthWorker(healthWorker);
-//            loader.createNewWindow("/fxml/clinicStaff/SearchDonors.fxml", "Pick a donor!", null);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -35,6 +42,15 @@ public class ClinicStaffController {
             loader.createNewWindow("/fxml/clinicStaff/Requests.fxml", "Fulfill requests!", null);
         }catch(Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public void callForDonation(ActionEvent actionEvent) {
+        try {
+            bloodService.askUsersToDonate(healthWorker.getInstitution());
+            Messages.showConfirmation("Successfully announced the donors to come donate!");
+        } catch (Exception e){
+            Messages.showError(e.getMessage());
         }
     }
 }

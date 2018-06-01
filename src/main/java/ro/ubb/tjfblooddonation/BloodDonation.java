@@ -19,44 +19,35 @@ import java.time.LocalDateTime;
 
 public class BloodDonation extends Application {
     private static final SpringFxmlLoader loader = new SpringFxmlLoader();
+    static AnnotationConfigApplicationContext context =
+            new AnnotationConfigApplicationContext("ro.ubb.tjfblooddonation.config");
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 //        addRequest();
 //        separateAllUnseparatedBlood();
-        loader.createNewWindow("/fxml/login/Logindm.fxml", "Blood donation", null);
-//        addDonor(1);
-//        addDonor(2);
-//        addDonor(3);
-//        addDonor(4);
-//        addDonor(5);
-//        addDonor(6);
-//        addDonor(7);
-//        addDonor(8);
-
+        loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", null);
+//        for(int i = 31 ; i <= 35 ; i++)
+//            addDonor(i);
         //addHealthWorker(HealthWorker.types.DOCTOR, "doctor");
     }
 
     private void separateAllUnseparatedBlood(){
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext("ro.ubb.tjfblooddonation.config");
         BloodService bloodService = context.getBean(BloodService.class);
         bloodService.getUnseparatedBlood().forEach(b -> bloodService.separateBlood(b.getId()));
     }
 
     private void addRequest(){
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext("ro.ubb.tjfblooddonation.config");
         RequestService requestService = context.getBean(RequestService.class);
         UsersService usersService = context.getBean(UsersService.class);
         IdCard idCard = IdCard.builder()
-                .cnp("1982329489252")
+                .cnp("4982389999997")
                 .build();
         Patient patient = Patient.builder()
-                .bloodType("A")
-                .firstName("Sefu")
-                .lastName("Nechita")
-                .rH("negative")
+                .bloodType("B")
+                .firstName("Andrei")
+                .lastName("Sebi")
+                .rH("+")
                 .idCard(idCard)
                 .build();
         PatientRepository patientRepository = context.getBean(PatientRepository.class);
@@ -65,9 +56,9 @@ public class BloodDonation extends Application {
                 .requestDate(LocalDate.now())
                 .healthWorker((HealthWorker)usersService.getHealthWorkersAccounts().get(1).getPerson())
                 .patient(patient)
-                .plasmaUnits((byte) 5)
-                .thrombocytesUnits((byte) 5)
-                .redBloodCellsUnits((byte) 5)
+                .plasmaUnits((byte) 1)
+                .thrombocytesUnits((byte) 1)
+                .redBloodCellsUnits((byte) 1)
                 .status("pending")
                 .urgency(Request.UrgencyLevel.HIGH)
                 .build();
@@ -75,8 +66,6 @@ public class BloodDonation extends Application {
     }
 
     private void addHealthWorker(HealthWorker.types type, String username) {
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext("ro.ubb.tjfblooddonation.config");
         UsersService usersService = context.getBean(UsersService.class);
         Address a = new Address("a", "b", "c", "d");
         Address b = new Address("a", "b", "c", "d");
@@ -105,8 +94,6 @@ public class BloodDonation extends Application {
     }
 
     public static void addDonor(Integer x) {
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext("ro.ubb.tjfblooddonation.config");
         UsersService usersService = context.getBean(UsersService.class);
         usersService.getAllDonors().forEach(System.out::println);
         System.out.println("----------------------------------");
@@ -130,6 +117,7 @@ public class BloodDonation extends Application {
                 .build());
         usersService.addDonor(d);
         usersService.createUserAccount("donor" + x.toString(), "donor", d);
+
         usersService.getAllDonors().forEach(System.out::println);
     }
 }

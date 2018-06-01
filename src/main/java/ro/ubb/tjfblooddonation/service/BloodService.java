@@ -8,10 +8,7 @@ import ro.ubb.tjfblooddonation.repository.*;
 import ro.ubb.tjfblooddonation.utils.InfoCheck;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -276,34 +273,60 @@ public class BloodService {
             return LocalDate.from(lastDonated.plusMonths(4));
         }
 
-        return LocalDate.now();
+        return LocalDate.now().minusDays(1);
+    }
+
+
+    public boolean isCloseBy(Institution institution, Donor donor){
+        return institution.getAddress().getCity().equals(donor.getResidence().getCity());
     }
 
     /**
      * Function that sets the message attribute for each Donor instance that did not donate in the last 4 months to
      * a request to come donate;
      */
-    public void askUsersToDonate() {
-        loginInformationRepository.getAll().stream()
-                .filter(loginInformation -> {
-                    if(loginInformation.getPerson() instanceof Donor) {
-                        return this.getNextDonateTime(loginInformation.getUsername()).isBefore(LocalDate.now());
-                    }
-                    else
-                        return false;
-                })
-                .forEach(loginInformation -> {
-                    Person person = loginInformation.getPerson();
-                    Donor donor;
-                    if(person instanceof Donor) {
-                        donor = (Donor) person;
-                        donor.setMessage("It's been a while since you last donated, and there is a blood shortage." +
-                                " Please come donate whenever you can.");
-                        donorRepository.update(donor);
-                        loginInformation.setPerson(donor);
-                        loginInformationRepository.update(loginInformation);
-                    }
+
+    private LocalDate max(LocalDate a, LocalDate b){
+        if(a.isBefore(b))
+            return b;
+        return a;
+    }
+    public void askUsersToDonate(Institution institution) {
+        List<Blood> allBlood = bloodRepository.findAll();
+        List<Donor> allDonors = donorRepository.findAll();
+        Map<Donor, LocalDate> nextAvailable = new HashMap<>();
+        allDonors.forEach(d -> nextAvailable.put(d, LocalDate.now().minusDays(1)));
+        allBlood.forEach(b ->
+            nextAvailable.put(b.getDonor(), max(nextAvailable.get(b.getDonor()), b.getRecoltationDate().plusMonths(4)))
+        );
+        Set<Donor> readyToDonateDonors = nextAvailable.entrySet()
+                .stream()
+                .filter(e -> e.getValue().isBefore(LocalDate.now()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+        Set<Donor> readyAndNearBy = readyToDonateDonors.stream()
+                .filter(d -> isCloseBy(institution, d)).collect(Collectors.toSet());
+        Set<Donor> toAnnounce;
+        if(readyAndNearBy.size() >= 10)
+            toAnnounce = readyAndNearBy;
+        else
+            toAnnounce = readyToDonateDonors;
+        toAnnounce
+                .forEach(donor -> {
+                    donor.setMessage("It's been a while since you last donated, and there is a blood shortage." +
+                            " Please come donate whenever you can.");
+                    donorRepository.update(donor);
                 });
     }
 
+    public long getNoOfPeopleWhoDonatedForPatient(Patient patient) {
+        return bloodRepository
+                .findAll()
+                .stream()
+                .filter(b -> b.getPatient() != null)
+                .filter(b -> b.getPatient().equals(patient))
+                .filter(Blood::isSeparated)
+                .filter(Blood::isHealthy)
+                .count();
+    }
 }

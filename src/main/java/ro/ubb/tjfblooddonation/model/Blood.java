@@ -19,6 +19,8 @@ public class Blood extends BaseEntity{
     @ManyToOne(cascade = CascadeType.ALL)
     private Analysis analysis;
     private boolean isSeparated;
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
+    private Patient patient;
 
     /** Constructor without Analysis, since when the blood enters the system,
      *  the analysis is not yet completed
@@ -28,5 +30,20 @@ public class Blood extends BaseEntity{
         this.donor = donor;
         this.institution = institution;
         this.recoltationDate = recoltationDate;
+    }
+
+    public boolean isHealthy(){
+        return analysis != null && analysis.equals(
+                new Analysis(
+                        analysis.getAnalysisId(),
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false
+                )
+        );
     }
 }
