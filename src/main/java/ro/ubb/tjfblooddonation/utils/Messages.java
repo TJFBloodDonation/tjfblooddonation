@@ -24,4 +24,20 @@ public class Messages {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    public static void showWarning(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText("Warning!");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public static void showSomething(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText("Consider donating again, please.");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

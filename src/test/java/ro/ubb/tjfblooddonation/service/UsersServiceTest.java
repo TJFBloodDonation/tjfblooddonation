@@ -337,13 +337,11 @@ public class UsersServiceTest {
                 .idCard(idCard1).residence(res1)
                 .build();
 
-        Form form1 = new Form();
-        Form form2 = Form.builder()
+        Form form1 = Form.builder()
                 .passedDonateForm(true).passedBasicCheckForm(false)
                 .timeCompletedDonateForm(Timestamp.from(Instant.now()))
                 .build();
 
-        donor1.setForm(form1);
         donorRepository.add(donor1);
 
         LoginInformation loginInformation1 = LoginInformation.builder()
@@ -353,18 +351,37 @@ public class UsersServiceTest {
         loginInformationRepository.add(loginInformation1);
 
 
+        usersService.completeForm(loginInformation1.getUsername(), form1);
         assert ((Donor)loginInformationRepository.getById(loginInformation1.getUsername()).getPerson())
-                .getForm().equals(form1);
-        usersService.completeForm(loginInformation1.getUsername(), form2);
-        assert ((Donor)loginInformationRepository.getById(loginInformation1.getUsername()).getPerson())
-                .getForm().getTimeCompletedDonateForm().equals(form2.getTimeCompletedDonateForm());
+                .getForm().getTimeCompletedDonateForm().equals(form1.getTimeCompletedDonateForm());
         try {
-            usersService.completeForm("noUsernameLikeThisExistsHopefullyInTheDatabase6245", form2);
+            usersService.completeForm("noUsernameLikeThisExistsHopefullyInTheDatabase6245", form1);
             assert false;
         }
         catch (ServiceError ex){
             assert ex.getMessage().contains("Invalid donor username.");
         }
+
+        form1 = Form.builder().passedDonateForm(true).passedBasicCheckForm(false)
+                .timeCompletedDonateForm(Timestamp.valueOf(LocalDateTime.now().minusDays(5)))
+                .build();
+        Form form2 = Form.builder().passedBasicCheckForm(true).passedDonateForm(false)
+                .timeCompletedDonateForm(Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+
+        donor1.setForm(form1);
+        donorRepository.update(donor1);
+        loginInformation1.setPerson(donor1);
+        loginInformationRepository.update(loginInformation1);
+
+        usersService.completeForm(loginInformation1.getUsername(), form2);
+        assert ((Donor)loginInformationRepository.getById(loginInformation1.getUsername()).getPerson())
+                .getForm().getTimeCompletedDonateForm().equals(form1.getTimeCompletedDonateForm());
+        assert ((Donor)loginInformationRepository.getById(loginInformation1.getUsername()).getPerson())
+                .getForm().getPassedDonateForm().equals(form1.getPassedDonateForm());
+        assert ((Donor)loginInformationRepository.getById(loginInformation1.getUsername()).getPerson())
+                .getForm().getPassedBasicCheckForm().equals(form2.getPassedBasicCheckForm());
+
 
         loginInformationRepository.remove(loginInformation1.getId());
         donorRepository.remove(donor1.getId());

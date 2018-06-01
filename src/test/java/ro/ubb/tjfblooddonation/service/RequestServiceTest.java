@@ -102,21 +102,59 @@ public class RequestServiceTest {
     @Test
     public void getUnsatisfiedRequests() {
 
+        Address addr1 = Address.builder().country("CTRY1").region("R1").city("CITY1").street("S1 NO.1")
+                .build();
+        Address addr2 = Address.builder().country("CTRY2").region("R2").city("CITY2").street("S2 NO.2")
+                .build();
+        Address addr3 = Address.builder().country("CTRY2").region("R2").city("CITY2").street("S2 NO.2")
+                .build();
+
+        IdCard idCard1 = IdCard.builder().cnp("1234567890000").address(addr1)
+                .build();
+        IdCard idCard2 = IdCard.builder().cnp("1234567890001").address(addr2)
+                .build();
+        IdCard idCard3 = IdCard.builder().cnp("1234567890001").address(addr3)
+                .build();
+
+        Patient patient1 = Patient.builder()
+                .firstName("FNP1").lastName("LNP1").idCard(idCard1)
+                .email("p1@email.com").phoneNumber("+40712345678")
+                .bloodType("AB").rH("-")
+                .build();
+        Patient patient2 = Patient.builder()
+                .firstName("FNP2").lastName("LNP2").idCard(idCard2)
+                .email("p2@email.com").phoneNumber("+40712345679")
+                .bloodType("AB").rH("-")
+                .build();
+        patientRepository.add(patient1);
+        patientRepository.add(patient2);
+
+        Donor donor1 = Donor.builder().firstName("FND1").lastName("LND1")
+                .email("d1@email.com").phoneNumber("+40712345678")
+                .dateOfBirth(LocalDate.parse("1990-05-20")).gender("female")
+                .bloodType("AB").rH("-")
+                .idCard(idCard3).residence(addr3)
+                .build();
+        donorRepository.add(donor1);
+
+        Blood blood = Blood.builder().donor(donor1).recoltationDate(LocalDate.now()).build();
+        bloodRepository.add(blood);
+
         Request request1 = Request.builder()
-                .urgency(Request.urgencyLevels.HIGH)
+                .urgency(Request.urgencyLevels.HIGH).patient(patient1)
                 .build();
         request1.setIsSatisfied(true);
         Request request2 = Request.builder()
-                .urgency(Request.urgencyLevels.MEDIUM)
+                .urgency(Request.urgencyLevels.MEDIUM).patient(patient1)
                 .build();
         Request request3 = Request.builder()
-                .urgency(Request.urgencyLevels.LOW)
+                .urgency(Request.urgencyLevels.LOW).patient(patient1)
                 .build();
         Request request4 = Request.builder()
-                .urgency(Request.urgencyLevels.HIGH)
+                .urgency(Request.urgencyLevels.HIGH).patient(patient1)
                 .build();
         Request request5 = Request.builder()
-                .urgency(Request.urgencyLevels.HIGH)
+                .urgency(Request.urgencyLevels.HIGH).patient(patient1)
                 .build();
         request5.setIsSatisfied(true);
 
@@ -143,11 +181,20 @@ public class RequestServiceTest {
         assert requestService.getUnsatisfiedRequests().get(2).getId().equals(request2.getId());
         assert requestService.getUnsatisfiedRequests().get(3).getId().equals(request3.getId());
 
+        request3.setPatient(patient2);
+        requestRepository.update(request3);
+
+        assert requestService.getUnsatisfiedRequests().get(0).getId().equals(request3.getId());
+
+
         requestRepository.remove(request1.getId());
         requestRepository.remove(request2.getId());
         requestRepository.remove(request3.getId());
         requestRepository.remove(request4.getId());
         requestRepository.remove(request5.getId());
+
+        bloodRepository.remove(blood.getId());
+        donorRepository.remove(donor1.getId());
     }
 
     @Test

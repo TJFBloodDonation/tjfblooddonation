@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+<AnchorPane minHeight="353.0" prefHeight="353.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.DonateFormController">
+  <children>
+    <CheckBox fx:id="hepatitisCheckBox" layoutX="59.0" layoutY="116.0" mnemonicParsing="false" onAction="#checkedBox" text="Hepatitis" />
+    <Text layoutX="50.0" layoutY="68.0" scaleX="1.0650139380772399" scaleY="1.3533039647577092" strokeType="OUTSIDE" strokeWidth="0.0" text="Please check the boxes if you have or have had any of the listed affections:" />
+    <Button fx:id="submitFormButton" layoutX="244.0" layoutY="297.0" mnemonicParsing="false" text="Submit form" onAction="#submitButtonClicked"/>
+    <CheckBox fx:id="tuberculosisCheckBox" layoutX="59.0" layoutY="148.0" mnemonicParsing="false" text="Tuberculosis" onAction="#checkedBox"/>
+    <CheckBox fx:id="ulcerCheckBox" layoutX="416.0" layoutY="238.0" mnemonicParsing="false" prefWidth="83.0" text="Ulcer" onAction="#checkedBox"/>
+    <CheckBox fx:id="mentalCheckBox" layoutX="243.0" layoutY="116.0" mnemonicParsing="false" text="Mental illness" onAction="#checkedBox"/>
+    <CheckBox fx:id="epilepsyCheckBox" layoutX="59.0" layoutY="207.0" mnemonicParsing="false" text="Epilepsy or other neurological diseases" onAction="#checkedBox"/>
+    <CheckBox fx:id="malariaCheckBox" layoutX="417.0" layoutY="178.0" mnemonicParsing="false" text="Malaria" onAction="#checkedBox"/>
+    <CheckBox fx:id="poxCheckBox" layoutX="243.0" layoutY="148.0" mnemonicParsing="false" text="Pox virus infection" onAction="#checkedBox"/>
+    <CheckBox fx:id="diabetesCheckBox" layoutX="417.0" layoutY="207.0" mnemonicParsing="false" text="Diabetes" onAction="#checkedBox"/>
+    <CheckBox fx:id="heartCheckBox" layoutX="417.0" layoutY="148.0" mnemonicParsing="false" text="Heart disease" />
+    <CheckBox fx:id="skinCheckBox" layoutX="59.0" layoutY="238.0" mnemonicParsing="false" text="Psoriasis, Vitiligo or other skin diseases" onAction="#checkedBox"/>
+    <CheckBox fx:id="cancerCheckBox" layoutX="417.0" layoutY="116.0" mnemonicParsing="false" text="Cancer" onAction="#checkedBox"/>
+    <CheckBox fx:id="myopiaCheckBox" layoutX="59.0" layoutY="178.0" mnemonicParsing="false" text="Myopia over (-) 6 diopters" onAction="#checkedBox"/>
+  </children>
+</AnchorPane>
