@@ -29,34 +29,43 @@ public class BloodService {
      * passed both the basic check form, completed by the clinic staff the day of donation
      * and the donate form completed by the donor nt more than a week before when registering,
      * it will allow for the blood collected from the donor to be added into the system;
-     * Afterwards it resets the form
+     * Afterwards it resets the form; If the patient donated for a specific person,
+     * it will take the Patient from the Form and will insert it into the Patient field
+     * of the created Blood
      *
      * @param donorUsername - the username of the donor
      * @param blood         - the Blood sample collected from the donor
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the LoginInformation with the specified
      *                                                                donorUsername as ID is not in the Repository
      * @throws ServiceError                                           if the Donor did not pass both Forms
+     * @throws ServiceError if the username does not belong to a donor
      */
     public void donateBlood(String donorUsername, Blood blood) {
 
         LoginInformation loginInformation = loginInformationRepository.getById(donorUsername);
         Person person = loginInformation.getPerson();
-        Donor donor = new Donor();
-        if (person instanceof Donor)
-            donor = (Donor) person;
 
-        String err = InfoCheck.canDonate(donor);
-        if (err.equals(""))
-            bloodRepository.add(blood);
+        if (person instanceof Donor) {
+            Donor donor = (Donor) person;
+
+            String err = InfoCheck.canDonate(donor);
+
+            if (err.equals("")) {
+                if (donor.getForm().getPatient() != null)
+                    blood.setPatient(donor.getForm().getPatient());
+                bloodRepository.add(blood);
+            } else
+                throw new ServiceError(err);
+
+            donor.getForm().setPassedDonateForm(false);
+            donor.getForm().setPassedBasicCheckForm(false);
+            donor.getForm().setTimeCompletedDonateForm(null);
+            donorRepository.update(donor);
+            loginInformation.setPerson(donor);
+            loginInformationRepository.update(loginInformation);
+        }
         else
-            throw new ServiceError(err);
-
-        donor.getForm().setPassedDonateForm(false);
-        donor.getForm().setPassedBasicCheckForm(false);
-        donor.getForm().setTimeCompletedDonateForm(null);
-        donorRepository.update(donor);
-        loginInformation.setPerson(donor);
-        loginInformationRepository.update(loginInformation);
+            throw  new ServiceError("The provided username is not a donor!");
     }
 
     /**

@@ -1,7 +1,6 @@
 package ro.ubb.tjfblooddonation;
 
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ro.ubb.tjfblooddonation.model.*;
@@ -9,7 +8,6 @@ import ro.ubb.tjfblooddonation.repository.InstitutionRepository;
 import ro.ubb.tjfblooddonation.repository.PatientRepository;
 import ro.ubb.tjfblooddonation.service.BloodService;
 import ro.ubb.tjfblooddonation.service.RequestService;
-import ro.ubb.tjfblooddonation.service.BloodService;
 import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
@@ -91,6 +89,37 @@ public class BloodDonation extends Application {
 
 
     public static void main(String[] args) { launch(args); }
+
+    public static void addPatients() {
+
+        UsersService usersService = context.getBean(UsersService.class);
+
+        Address addr1 = new Address("Country1", "Region1", "City1", "Street1");
+        Address addr2 = new Address("Country1", "Region1", "City1", "Street2");
+        Address addr3 = new Address("Country1", "Region1", "City1", "Street3");
+
+        IdCard idCard1 = new IdCard(addr1, "1234567890123");
+        IdCard idCard2 = new IdCard(addr2, "1234567890124");
+
+        Institution institution = Institution.builder()
+                .type(Institution.types.HOSPITAL).address(addr3).name("Hospital1")
+                .build();
+        usersService.addInstitution(institution);
+
+        Patient patient1 = Patient.builder()
+                .firstName("FNPatient1").lastName("LNPatient1")
+                .email("pat1@email.com").idCard(idCard1).institution(institution)
+                .bloodType("A").rH("+")
+                .build();
+        Patient patient2 = Patient.builder()
+                .firstName("FNPatient2").lastName("LNPatient2")
+                .email("pat2@email.com").idCard(idCard2).institution(institution)
+                .bloodType("AB").rH("-")
+                .build();
+
+        usersService.addPatient(patient1);
+        usersService.addPatient(patient2);
+    }
 
     public static void askToDonate() {
         AnnotationConfigApplicationContext context =

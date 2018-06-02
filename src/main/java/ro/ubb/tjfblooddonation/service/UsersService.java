@@ -6,14 +6,10 @@ import ro.ubb.tjfblooddonation.exceptions.LogInException;
 import ro.ubb.tjfblooddonation.exceptions.RepositoryException;
 import ro.ubb.tjfblooddonation.exceptions.ServiceError;
 import ro.ubb.tjfblooddonation.model.*;
-import ro.ubb.tjfblooddonation.repository.DonorRepository;
-import ro.ubb.tjfblooddonation.repository.HealthWorkerRepository;
-import ro.ubb.tjfblooddonation.repository.InstitutionRepository;
-import ro.ubb.tjfblooddonation.repository.LoginInformationRepository;
+import ro.ubb.tjfblooddonation.repository.*;
 import ro.ubb.tjfblooddonation.utils.Hashing;
 import ro.ubb.tjfblooddonation.utils.InfoCheck;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,6 +28,8 @@ public class UsersService {
     private LoginInformationRepository loginInformationRepository;
     @Autowired
     private InstitutionRepository institutionRepository;
+    @Autowired
+    private PatientRepository patientRepository;
 
 
     /**
@@ -127,7 +125,7 @@ public class UsersService {
     }
 
     /**
-     * Function that associates the Forms sent from the UI with the Donor with the given username
+     * Function that associates the Form sent from the UI with the Donor with the given username
      *
      * @param donorUsername - username of the Donor
      * @param form - the completed Form
@@ -143,11 +141,7 @@ public class UsersService {
                 donor = (Donor) person;
 
             if(donor != null) {
-                if(donor.getForm() == null)
-                    donor.setForm(form);
-                else
-                    donor.getForm().setPassedBasicCheckForm(form.getPassedBasicCheckForm());
-
+                donor.setForm(form);
                 donorRepository.update(donor);
                 loginInformation.setPerson(donor);
                 loginInformationRepository.update(loginInformation);
@@ -299,6 +293,24 @@ public class UsersService {
         return loginInformationRepository.getAll().stream()
                 .filter(l -> l.getPerson() instanceof Donor)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Function to add a Patient to the repository
+     *
+     * @param patient the Patient to be added
+     */
+    public void addPatient(Patient patient) {
+        patientRepository.add(patient);
+    }
+
+    /**
+     * Function that returns a list of all Patients
+     *
+     * @return the List of Patients
+     */
+    public List<Patient> getAllPatients() {
+        return patientRepository.getAll();
     }
 }
 

@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @Data
 public class Patient extends Person{
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH })
     private Institution institution;
     @ManyToOne(cascade = CascadeType.ALL)
     private IdCard idCard;
@@ -28,5 +28,9 @@ public class Patient extends Person{
         this.idCard = idCard;
         this.bloodType = bloodType;
         this.rH = rH;
+    }
+
+    public String shortToString() {
+        return this.getFirstName() + " " + this.getLastName() + " CNP: " + this.getIdCard().getCnp() + " Patient at: " + this.institution.getName();
     }
 }
