@@ -23,4 +23,5 @@ public class Form implements Serializable{
     private Boolean passedDonateForm;
     private Timestamp timeCompletedDonateForm;
     private Boolean passedBasicCheckForm;
+    private Patient patient;
 }

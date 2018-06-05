@@ -7,9 +7,11 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ro.ubb.tjfblooddonation.controller.clinicStaff.ClinicStaffController;
+import ro.ubb.tjfblooddonation.controller.donor.DonorController;
 import ro.ubb.tjfblooddonation.exceptions.BaseException;
 import ro.ubb.tjfblooddonation.exceptions.LogInException;
 import ro.ubb.tjfblooddonation.model.Donor;
@@ -44,7 +46,9 @@ public class LogInController {
         try {
             Person p = usersService.getPerson(username, password);
             if(p instanceof Donor) {
-                loader.createNewWindow("/fxml/donor/Donor.fxml", "Donor Main Page", actionEvent);
+                FXMLLoader ld = loader.getLoader("/fxml/donor/Donor.fxml");
+                Stage childStage = loader.createNewWindow((Parent) ld.load(), "Donor Main Page", actionEvent);
+                ld.<DonorController>getController().setLoginInfo(username);
             }
             if(p instanceof HealthWorker) {
                 HealthWorker healthWorker = (HealthWorker) p;

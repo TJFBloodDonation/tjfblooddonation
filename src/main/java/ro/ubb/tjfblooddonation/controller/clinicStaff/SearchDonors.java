@@ -195,6 +195,8 @@ public class SearchDonors {
                     bloodService.donateBlood(donorLoginInfo.getUsername(), blood);
                     refresh();
                     Messages.showConfirmation("Blood successfully introduced into the DB!");
+                    bloodService.separateBlood(blood.getId());
+                    Messages.showConfirmation("Blood successfully separated!");
                 } catch (Exception e){
                     Messages.showError(e.getMessage());
                 }

@@ -8,18 +8,15 @@ import ro.ubb.tjfblooddonation.repository.*;
 import ro.ubb.tjfblooddonation.utils.InfoCheck;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class BloodService {
     @Autowired
-    private LoginInformationRepository loginInformationRepository;
-    @Autowired
     DonorRepository donorRepository;
+    @Autowired
+    private LoginInformationRepository loginInformationRepository;
     @Autowired
     private BloodRepository bloodRepository;
     @Autowired
@@ -32,34 +29,43 @@ public class BloodService {
      * passed both the basic check form, completed by the clinic staff the day of donation
      * and the donate form completed by the donor nt more than a week before when registering,
      * it will allow for the blood collected from the donor to be added into the system;
-     * Afterwards it resets the form
+     * Afterwards it resets the form; If the patient donated for a specific person,
+     * it will take the Patient from the Form and will insert it into the Patient field
+     * of the created Blood
      *
      * @param donorUsername - the username of the donor
      * @param blood         - the Blood sample collected from the donor
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the LoginInformation with the specified
-     * donorUsername as ID is not in the Repository
-     * @throws ServiceError if the Donor did not pass both Forms
+     *                                                                donorUsername as ID is not in the Repository
+     * @throws ServiceError                                           if the Donor did not pass both Forms
+     * @throws ServiceError if the username does not belong to a donor
      */
     public void donateBlood(String donorUsername, Blood blood) {
 
         LoginInformation loginInformation = loginInformationRepository.getById(donorUsername);
         Person person = loginInformation.getPerson();
-        Donor donor = new Donor();
-        if (person instanceof Donor)
-            donor = (Donor) person;
 
-        String err = InfoCheck.canDonate(donor);
-        if(err.equals(""))
-            bloodRepository.add(blood);
+        if (person instanceof Donor) {
+            Donor donor = (Donor) person;
+
+            String err = InfoCheck.canDonate(donor);
+
+            if (err.equals("")) {
+                if (donor.getForm().getPatient() != null)
+                    blood.setPatient(donor.getForm().getPatient());
+                bloodRepository.add(blood);
+            } else
+                throw new ServiceError(err);
+
+            donor.getForm().setPassedDonateForm(false);
+            donor.getForm().setPassedBasicCheckForm(false);
+            donor.getForm().setTimeCompletedDonateForm(null);
+            donorRepository.update(donor);
+            loginInformation.setPerson(donor);
+            loginInformationRepository.update(loginInformation);
+        }
         else
-            throw new ServiceError(err);
-
-        donor.getForm().setPassedDonateForm(false);
-        donor.getForm().setPassedBasicCheckForm(false);
-        donor.getForm().setTimeCompletedDonateForm(null);
-        donorRepository.update(donor);
-        loginInformation.setPerson(donor);
-        loginInformationRepository.update(loginInformation);
+            throw  new ServiceError("The provided username is not a donor!");
     }
 
     /**
@@ -90,9 +96,9 @@ public class BloodService {
      *
      * @param bloodId  - the ID of the Blood sample for which the analysis was performed
      * @param analysis - the analysis to be associated to the blood
-     * @throws ServiceError if the Blood instance with the given ID already has an associated analysis
+     * @throws ServiceError                                           if the Blood instance with the given ID already has an associated analysis
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Blood with the specified ID is not
-     * in the Repository
+     *                                                                in the Repository
      */
     public void analyseBlood(Long bloodId, Analysis analysis) {
 
@@ -100,8 +106,7 @@ public class BloodService {
         if (blood.getAnalysis() == null) {
             blood.setAnalysis(analysis);
             bloodRepository.update(blood);
-        }
-        else
+        } else
             throw new ServiceError("Blood with id " + bloodId + " is already analysed!");
     }
 
@@ -124,9 +129,9 @@ public class BloodService {
      * or PLASMA (one of each) and sets the isSeparated field of the Blood instance to true
      *
      * @param bloodId - ID of the Blood instance to be separated
-     * @throws ServiceError if the Blood instance is already separated
+     * @throws ServiceError                                           if the Blood instance is already separated
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Blood with the specified ID is not
-     * in the Repository
+     *                                                                in the Repository
      */
     public void separateBlood(Long bloodId) {
 
@@ -164,26 +169,25 @@ public class BloodService {
      * Request instance with the ID given as parameter; It checks in the BloodComponentRepository for instances whose
      * bloodType and Rh (stored in the bloodType and rH fields of the Donor associated to the Blood from which
      * the BloodComponent was derived) is either equal to the ones the Patient has,
-     * or are the universally compatible (O_I Rh-); Also it excludes expired components
+     * or are the universally compatible (O_I Rh-); Also it excludes expired or unhealthy components
      *
      * @param requestId - the ID of the request for which thrombocytes are needed
      * @return the set of compatible BloodComponents of type THROMBOCYTES
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
-     * in the Repository
+     *                                                                in the Repository
      */
-    public Set<BloodComponent> getOkThrombocytes(Long requestId) {
+    public List<BloodComponent> getOkThrombocytes(Long requestId) {
 
         Request request = requestRepository.getById(requestId);
 
         return bloodComponentRepository.getAll().stream()
+                //.filter(bloodComponent -> bloodComponent.getBlood().isHealthy())
                 .filter(bloodComponent -> bloodComponent.getType().equals("thrombocytes"))
                 .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusDays(5).isBefore(LocalDate.now()))
-                .filter(bloodComponent ->
-                        (bloodComponent.getBlood().getDonor().getBloodType().equals(request.getPatient().getBloodType())
-                                && bloodComponent.getBlood().getDonor().getRH().equals(request.getPatient().getRH()))
-                                || (bloodComponent.getBlood().getDonor().getBloodType().equals("0")
-                                && bloodComponent.getBlood().getDonor().getRH().equals("-")))
-                .collect(Collectors.toSet());
+                .filter(bloodComponent -> areCompatible(bloodComponent.getBlood().getDonor(), request.getPatient()) > -1)
+                .sorted((bc1, bc2) -> Integer.compare(areCompatible(bc1.getBlood().getDonor(), request.getPatient()),
+                        areCompatible(bc2.getBlood().getDonor(), request.getPatient())))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -191,26 +195,25 @@ public class BloodService {
      * Request instance with the ID given as parameter; It checks in the BloodComponentRepository for instances whose
      * bloodType and Rh (stored in the bloodType and rH fields of the Donor associated to the Blood from which
      * the BloodComponent was derived) is either equal to the ones the Patient has,
-     * or are universally compatible (O_I Rh-); Also it excludes expired components
+     * or are universally compatible (O_I Rh-); Also it excludes expired or unhealthy components
      *
      * @param requestId - the ID of the request for which thrombocytes are needed
      * @return the set of compatible BloodComponents of type RED_BLOOD_CELLS
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
-     * in the Repository
+     *                                                                in the Repository
      */
-    public Set<BloodComponent> getOkRedBloodCells(Long requestId) {
+    public List<BloodComponent> getOkRedBloodCells(Long requestId) {
 
         Request request = requestRepository.getById(requestId);
 
         return bloodComponentRepository.getAll().stream()
+                //.filter(bloodComponent -> bloodComponent.getBlood().isHealthy())
                 .filter(bloodComponent -> bloodComponent.getType().equals("red blood cells"))
                 .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusDays(42).isBefore(LocalDate.now()))
-                .filter(bloodComponent ->
-                        (bloodComponent.getBlood().getDonor().getBloodType().equals(request.getPatient().getBloodType())
-                                && bloodComponent.getBlood().getDonor().getRH().equals(request.getPatient().getRH()))
-                                || (bloodComponent.getBlood().getDonor().getBloodType().equals("0")
-                                && bloodComponent.getBlood().getDonor().getRH().equals("-")))
-                .collect(Collectors.toSet());
+                .filter(bloodComponent -> areCompatible(bloodComponent.getBlood().getDonor(), request.getPatient()) > -1)
+                .sorted((bc1, bc2) -> Integer.compare(areCompatible(bc1.getBlood().getDonor(), request.getPatient()),
+                        areCompatible(bc2.getBlood().getDonor(), request.getPatient())))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -218,35 +221,34 @@ public class BloodService {
      * Request instance with the ID given as parameter; It checks in the BloodComponentRepository for instances whose
      * bloodType and Rh (stored in the bloodType and rH fields of the Donor associated to the Blood from which
      * the BloodComponent was derived) is either equal to the ones the Patient has,
-     * or are the universally compatible (O_I Rh-); Also it excludes expired components
+     * or are the universally compatible (O_I Rh-); Also it excludes expired or unhealthy components
      *
      * @param requestId - the ID of the request for which thrombocytes are needed
      * @return the set of compatible BloodComponents of type PLASMA
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
-     * in the Repository
+     *                                                                in the Repository
      */
-    public Set<BloodComponent> getOkPlasma(Long requestId) {
+    public List<BloodComponent> getOkPlasma(Long requestId) {
 
         Request request = requestRepository.getById(requestId);
 
         return bloodComponentRepository.getAll().stream()
+                .filter(bloodComponent -> bloodComponent.getBlood().isHealthy())
                 .filter(bloodComponent -> bloodComponent.getType().equals("plasma"))
                 .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusMonths(5).isBefore(LocalDate.now()))
-                .filter(bloodComponent ->
-                        (bloodComponent.getBlood().getDonor().getBloodType().equals(request.getPatient().getBloodType())
-                                && bloodComponent.getBlood().getDonor().getRH().equals(request.getPatient().getRH()))
-                                || (bloodComponent.getBlood().getDonor().getBloodType().equals("0")
-                                && bloodComponent.getBlood().getDonor().getRH().equals("-")))
-                .collect(Collectors.toSet());
+                .filter(bloodComponent -> areCompatible(bloodComponent.getBlood().getDonor(), request.getPatient()) > -1)
+                .sorted((bc1, bc2) -> Integer.compare(areCompatible(bc1.getBlood().getDonor(), request.getPatient()),
+                        areCompatible(bc2.getBlood().getDonor(), request.getPatient())))
+                .collect(Collectors.toList());
     }
 
     /**
-     * Function to get a list of a users donated Blood sorted by recoltationDate (latest donation first)
+     * Function to get a list of a user's donated Blood sorted by recoltationDate (latest donation first)
      *
      * @param donorUsername - the username of the Donor for which to return the Blood
      * @return the ordered List of Blood instances
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the LoginInformation with the specified
-     * donorUsername as ID is not in the Repository
+     *                                                                donorUsername as ID is not in the Repository
      */
     public List<Blood> getUserBlood(String donorUsername) {
         Person person = loginInformationRepository.getById(donorUsername).getPerson();
@@ -264,7 +266,7 @@ public class BloodService {
      * @param donorUsername - the username of the Donor for which to check
      * @return the next Date at which the specified Donor can donate
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the LoginInformation with the specified
-     * donorUsername as ID is not in the Repository
+     *                                                                donorUsername as ID is not in the Repository
      */
     public LocalDate getNextDonateTime(String donorUsername) {
 
@@ -276,26 +278,65 @@ public class BloodService {
             return LocalDate.from(lastDonated.plusMonths(4));
         }
 
-        return LocalDate.now();
+        return LocalDate.now().minusDays(1);
     }
 
+
+    private boolean isCloseBy(Institution institution, Donor donor){
+        return institution.getAddress().getCity().equals(donor.getResidence().getCity());
+    }
+
+
+    private LocalDate max(LocalDate a, LocalDate b){
+        if(a.isBefore(b))
+            return b;
+        return a;
+    }
     /**
      * Function that sets the message attribute for each Donor instance that did not donate in the last 4 months to
      * a request to come donate;
      */
+    public void askUsersToDonate(Institution institution) {
+        List<Blood> allBlood = bloodRepository.findAll();
+        List<Donor> allDonors = donorRepository.findAll();
+        Map<Donor, LocalDate> nextAvailable = new HashMap<>();
+        allDonors.forEach(d -> nextAvailable.put(d, LocalDate.now().minusDays(1)));
+        allBlood.forEach(b ->
+            nextAvailable.put(b.getDonor(), max(nextAvailable.get(b.getDonor()), b.getRecoltationDate().plusMonths(4)))
+        );
+        Set<Donor> readyToDonateDonors = nextAvailable.entrySet()
+                .stream()
+                .filter(e -> e.getValue().isBefore(LocalDate.now()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+        Set<Donor> readyAndNearBy = readyToDonateDonors.stream()
+                .filter(d -> isCloseBy(institution, d)).collect(Collectors.toSet());
+        Set<Donor> toAnnounce;
+        if(readyAndNearBy.size() >= 10)
+            toAnnounce = readyAndNearBy;
+        else
+            toAnnounce = readyToDonateDonors;
+        toAnnounce
+                .forEach(donor -> {
+                    donor.setMessage("It's been a while since you last donated, and there is a blood shortage." +
+                            " Please come donate whenever you can.");
+                    donorRepository.update(donor);
+                });
+    }
+
     public void askUsersToDonate() {
         loginInformationRepository.getAll().stream()
                 .filter(loginInformation -> {
-                    if(loginInformation.getPerson() instanceof Donor) {
-                        return this.getNextDonateTime(loginInformation.getUsername()).isBefore(LocalDate.now());
-                    }
-                    else
+                    if (loginInformation.getPerson() instanceof Donor) {
+                        return this.getNextDonateTime(loginInformation.getUsername()).isBefore(LocalDate.now()) ||
+                                this.getNextDonateTime(loginInformation.getUsername()).equals(LocalDate.now());
+                    } else
                         return false;
                 })
                 .forEach(loginInformation -> {
                     Person person = loginInformation.getPerson();
                     Donor donor;
-                    if(person instanceof Donor) {
+                    if (person instanceof Donor) {
                         donor = (Donor) person;
                         donor.setMessage("It's been a while since you last donated, and there is a blood shortage." +
                                 " Please come donate whenever you can.");
@@ -306,4 +347,35 @@ public class BloodService {
                 });
     }
 
+    /**
+     * Function that returns the "compatibility degree of a Donor and a Patient;
+     *
+     * @param donor   the Donor
+     * @param patient the Patient
+     * @return 0 if they are a perfect match; 1 if the Donor can donate to the Patient,
+     * even though they are not a perfect match; and -1 is they are not compatible
+     */
+    Integer areCompatible(Donor donor, Patient patient) {
+
+        if (donor.getBloodType().equals(patient.getBloodType())
+                && donor.getRH().equals(patient.getRH()))
+            return 0;
+
+        if ((donor.getRH().equals("+") && patient.getRH().equals("-"))
+                || (!patient.getBloodType().contains(donor.getBloodType()) && !donor.getBloodType().equals("O")))
+            return -1;
+
+        return 1;
+    }
+
+    public long getNoOfPeopleWhoDonatedForPatient(Patient patient) {
+        return bloodRepository
+                .findAll()
+                .stream()
+                .filter(b -> b.getPatient() != null)
+                .filter(b -> b.getPatient().equals(patient))
+                .filter(Blood::isSeparated)
+                .filter(Blood::isHealthy)
+                .count();
+    }
 }

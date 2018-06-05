@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+<AnchorPane minHeight="353.0" prefHeight="731.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.donor.DonateFormController">
+  <children>
+    <CheckBox fx:id="hepatitisCheckBox" layoutX="58.0" layoutY="106.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" text="Hepatitis" />
+    <Text layoutX="50.0" layoutY="68.0" scaleX="1.0650139380772399" scaleY="1.3533039647577092" strokeType="OUTSIDE" strokeWidth="0.0" text="Please check the boxes if you have or have had any of the listed affections:" />
+    <Button fx:id="submitFormButton" layoutX="249.0" layoutY="683.0" mnemonicParsing="false" onAction="#submitButtonClicked" text="Submit form" />
+    <CheckBox fx:id="tuberculosisCheckBox" layoutX="58.0" layoutY="138.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" text="Tuberculosis" />
+    <CheckBox fx:id="ulcerCheckBox" layoutX="415.0" layoutY="228.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" prefWidth="83.0" text="Ulcer" />
+    <CheckBox fx:id="mentalCheckBox" layoutX="242.0" layoutY="106.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" text="Mental illness" />
+    <CheckBox fx:id="epilepsyCheckBox" layoutX="58.0" layoutY="197.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" text="Epilepsy or other neurological diseases" />
+    <CheckBox fx:id="malariaCheckBox" layoutX="416.0" layoutY="168.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" text="Malaria" />
+    <CheckBox fx:id="poxCheckBox" layoutX="242.0" layoutY="138.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" text="Pox virus infection" />
+    <CheckBox fx:id="diabetesCheckBox" layoutX="416.0" layoutY="197.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" text="Diabetes" />
+    <CheckBox fx:id="heartCheckBox" layoutX="416.0" layoutY="138.0" mnemonicParsing="false" text="Heart disease" />
+    <CheckBox fx:id="skinCheckBox" layoutX="58.0" layoutY="228.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" text="Psoriasis, Vitiligo or other skin diseases" />
+    <CheckBox fx:id="cancerCheckBox" layoutX="416.0" layoutY="106.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" text="Cancer" />
+    <CheckBox fx:id="myopiaCheckBox" layoutX="58.0" layoutY="168.0" mnemonicParsing="false" onAction="#checkedDiseaseBox" text="Myopia over (-) 6 diopters" />
+    <Text layoutX="58.0" layoutY="518.0" scaleX="1.0885701301205137" scaleY="1.3533039647577092" strokeType="OUTSIDE" strokeWidth="0.0" text="If you donate for a speciffic person, please select them from the list below:" />
+    <CheckBox id="surgeryTextField" fx:id="surgeryCheckBox" layoutX="58.0" layoutY="343.0" mnemonicParsing="false" onAction="#checkedMinorBox" text="I had at least one surgery performed om me in the last 6 months" />
+    <Text layoutX="55.0" layoutY="307.0" scaleX="1.0885701301205137" scaleY="1.3533039647577092" strokeType="OUTSIDE" strokeWidth="0.0" text="Please check the boxes if the following statements apply to you:" />
+    <CheckBox id="pregnantTextField" fx:id="pregnantCheckBox" layoutX="58.0" layoutY="445.0" mnemonicParsing="false" onAction="#checkedMinorBox" text="I am pregnant, post birth or menstruating" />
+    <CheckBox id="treatementTextField" fx:id="treatmentCheckBox" alignment="TOP_LEFT" contentDisplay="LEFT" layoutX="58.0" layoutY="374.0" mnemonicParsing="false" onAction="#checkedMinorBox" prefHeight="63.0" prefWidth="497.0" text="I am under treatment for one or more of the following: hypertension, &#10;heart disease, kidney disease, mental illness, blood disease, &#10;or endocrine affections" wrapText="false" />
+    <ListView fx:id="patientList" layoutX="36.0" layoutY="541.0" prefHeight="121.0" prefWidth="524.2021484375" />
+  </children>
+</AnchorPane>

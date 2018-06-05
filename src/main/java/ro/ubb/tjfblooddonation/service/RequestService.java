@@ -6,21 +6,25 @@ import ro.ubb.tjfblooddonation.exceptions.ServiceError;
 import ro.ubb.tjfblooddonation.model.Person;
 import ro.ubb.tjfblooddonation.model.Request;
 import ro.ubb.tjfblooddonation.repository.BloodComponentRepository;
+import ro.ubb.tjfblooddonation.repository.BloodRepository;
 import ro.ubb.tjfblooddonation.repository.LoginInformationRepository;
 import ro.ubb.tjfblooddonation.repository.RequestRepository;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RequestService {
+public class  RequestService {
     @Autowired
     private RequestRepository requestRepository;
     @Autowired
     private BloodComponentRepository bloodComponentRepository;
     @Autowired
     private LoginInformationRepository loginInformationRepository;
+    @Autowired
+    private BloodRepository bloodRepository;
 
     /**
      * Function to add a request to the repository; Checks if the HealthWorker is a DOCTOR before adding the Request
@@ -37,15 +41,35 @@ public class RequestService {
     }
 
     /**
-     * Function to get a list of unsatisfied Requests, sorted by urgency (most urgent Requests at the top)
+     * Function to get a list of unsatisfied Requests, sorted by urgency (most urgent Requests at the top);
+     * If patients in Requests are active Donors (i.e donated in the last year), they will appear at the top
+     * of the list, sorted by urgency, and they have priority over all other patients
      *
      * @return the List of sorted Requests
      */
     public List<Request> getUnsatisfiedRequests() {
-        return requestRepository.getAll().stream()
+
+        List<String> cnps = getCnpsOfActiveDonors();
+        System.out.println("\n" + cnps + "\n");
+
+        List<Request> donorRequests = requestRepository.getAll().stream()
                 .filter(request -> !request.getIsSatisfied())
+                .filter(request -> request.getPatient() != null)
+                .filter(request -> request.getPatient().getIdCard() != null)
+                .filter(request -> cnps.contains(request.getPatient().getIdCard().getCnp()))
                 .sorted((r1,r2) -> -r1.getUrgency().compareTo(r2.getUrgency()))
                 .collect(Collectors.toList());
+
+        List<Request> normalPatientRequests = requestRepository.getAll().stream()
+                .filter(request -> !request.getIsSatisfied())
+                .filter(request -> request.getPatient() == null || request.getPatient().getIdCard() == null ||
+                        !cnps.contains(request.getPatient().getIdCard().getCnp()))
+                .sorted((r1,r2) -> -r1.getUrgency().compareTo(r2.getUrgency()))
+                .collect(Collectors.toList());
+
+        donorRequests.addAll(normalPatientRequests);
+
+        return donorRequests;
     }
 
     /**
@@ -103,6 +127,7 @@ public class RequestService {
     /**
      * Function to get all Requests submitted by a HealthWorker of type DOCTOR, sorted by the date when they
      * were submitted (i.e. most recent request at the top)
+     *
      * @param healthWorkerUsername - the username of the DOCTOR for which to search for Requests
      * @return the sorted List of Requests
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the LoginInformation with the specified
@@ -113,6 +138,19 @@ public class RequestService {
         return requestRepository.getAll().stream()
                  .filter(request -> request.getHealthWorker().getId().equals(healthWorker.getId()))
                 .sorted(Comparator.comparing(Request::getRequestDate))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Helper function that returns the list of CNPs of all active Donors,
+     * i.e. Donors that donated in the last year
+     *
+     * @return the List of CNPs
+     */
+    private List<String> getCnpsOfActiveDonors() {
+        return bloodRepository.getAll().stream()
+                .filter(blood -> blood.getRecoltationDate().isAfter(LocalDate.now().minusYears(1)))
+                .map(blood -> blood.getDonor().getIdCard().getCnp())
                 .collect(Collectors.toList());
     }
 }

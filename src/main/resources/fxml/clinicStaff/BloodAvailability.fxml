@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="501.0" prefWidth="543.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.clinicStaff.BloodAvailabilityController">
+<AnchorPane prefHeight="501.0" prefWidth="543.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.clinicStaff.BloodAvailabilityController">
    <children>
       <Label layoutX="177.0" layoutY="33.0" text="Blood Availability">
          <font>
@@ -25,5 +25,6 @@
       <ListView fx:id="componentsListView" layoutX="244.0" layoutY="88.0" prefHeight="362.0" prefWidth="261.0" />
       <ListView fx:id="selectedList" layoutX="30.0" layoutY="220.0" prefHeight="200.0" prefWidth="200.0" />
       <Button fx:id="manageRequestsButton" layoutX="90.0" layoutY="438.0" mnemonicParsing="false" onAction="#manageRequestsButtonClicked" text="Manage request" />
+      <Label fx:id="label" layoutX="54.0" layoutY="79.0" text="Label" />
    </children>
 </AnchorPane>
