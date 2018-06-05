@@ -25,7 +25,8 @@ public class BloodDonation extends Application {
     public void start(Stage primaryStage) throws Exception{
 //        addRequest();
 //        separateAllUnseparatedBlood();
-        loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", null);
+        //loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", null);
+        loader.createNewWindow("/fxml/doctor/Doctor.fxml", "Doctor page", null);
 //        for(int i = 31 ; i <= 35 ; i++)
 //            addDonor(i);
         //addHealthWorker(HealthWorker.types.DOCTOR, "doctor");

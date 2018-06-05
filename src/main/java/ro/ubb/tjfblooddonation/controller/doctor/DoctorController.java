@@ -3,8 +3,14 @@ package ro.ubb.tjfblooddonation.controller.doctor;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ro.ubb.tjfblooddonation.model.HealthWorker;
+import ro.ubb.tjfblooddonation.model.LoginInformation;
+import ro.ubb.tjfblooddonation.model.Request;
+import ro.ubb.tjfblooddonation.service.BloodService;
 import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
@@ -13,15 +19,23 @@ import java.io.IOException;
 
 @Controller
 public class DoctorController {
-    private static final SpringFxmlLoader loader = new SpringFxmlLoader();
+    private static final SpringFxmlLoader Loader = new SpringFxmlLoader();
 
     @Autowired
-    UsersService usersService;
+    BloodService bloodService;
+
+    private LoginInformation loginInformation;
+
+    public void setLoginInformation(LoginInformation loginInformation){
+        this.loginInformation = loginInformation;
+    }
 
     @FXML
-    public void ChechRequestClicked(ActionEvent event) {
+    public void CheckRequestsClicked(ActionEvent event) {
         try {
-            loader.createNewWindow("/fxml/clinicStaff/Requests.fxml", "Check Requests", null);
+            FXMLLoader ld = Loader.getLoader("/fxml/doctor/MyRequests.fxml");
+            Loader.createNewWindow((Parent) ld.load(), "My Requests", null);
+            ld.<MyRequestsController>getController().setLoginInformation(loginInformation);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -31,7 +45,9 @@ public class DoctorController {
     @FXML
     public void RequestBloodClicked(ActionEvent event) {
         try {
-            loader.createNewWindow("/fxml/doctor/RequestForm.fxml", "Request Form", null);
+            FXMLLoader ld = Loader.getLoader("/fxml/doctor/RequestForm.fxml");
+            Loader.createNewWindow((Parent) ld.load(), "Request Blood Form", null);
+            ld.<RequestFormController>getController().setLoginInformation(loginInformation);
         }
         catch (IOException e) {
             e.printStackTrace();
