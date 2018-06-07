@@ -48,4 +48,9 @@ public class Blood extends BaseEntity{
                 )
         );
     }
+
+    public String shortToString() {
+        return "Sample of " + this.getDonor().getBloodType() + this.getDonor().getRH()
+                + " Collected on: " + this.getRecoltationDate();
+    }
 }
