@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" prefHeight="497.0" prefWidth="393.0" vgap="10" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.donor.DonorController">
+<GridPane alignment="center" hgap="10" prefHeight="497.0" prefWidth="393.0" vgap="10" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.bloodAnalyst.BloodDonationController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -42,7 +42,7 @@
                </font>
             </Label>
             <Label layoutX="15.0" layoutY="96.0" text="Search blood samples" />
-            <ComboBox layoutX="15.0" layoutY="130.0" onAction="#bloodComboBox" prefWidth="150.0" />
+            <ComboBox fx:id="bloodComboBox" layoutX="15.0" layoutY="130.0"  prefWidth="150.0" />
          </children>
       </Pane>
    </children>

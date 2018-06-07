@@ -4,12 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import ro.ubb.tjfblooddonation.model.*;
 import ro.ubb.tjfblooddonation.service.BloodService;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
@@ -18,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 //public class BloodDonationController {
@@ -44,33 +43,24 @@ import java.util.stream.Collectors;
 //    private TextField bloodIdTxt;
 
 
-
+@Controller
 public class BloodDonationController {
     private static final SpringFxmlLoader loader = new SpringFxmlLoader();
     @Autowired
     BloodService bloodService;
 
     @FXML
-    void bloodComboBox(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public ComboBox bloodComboBox;
 
-        }
+
     private void refresh(){
-        List<LoginInformation> blood = (List<LoginInformation>) bloodService.getUnanalysedBlood()
-                .stream()
-                .filter(d -> ((Blood) bloodService.getUnanalysedBlood()) != null );
-       //         .sorted(Comparator.comparing(d1 -> (Blood) bloodService.getUnseparatedBlood()));
-                        //.collect((Collectors.toList())));
-        ObservableList<TitledPane> panes = FXCollections.observableArrayList();
-        blood.stream();
-
-
+        Set<Blood> blood = bloodService.getUnanalysedBlood();
+        bloodComboBox.setItems(FXCollections.observableArrayList(blood));
     }
-
-
-
-
+    public void initialize(){
+        refresh();
     }
+}
 
 
 
