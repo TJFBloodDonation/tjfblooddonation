@@ -16,7 +16,6 @@ import ro.ubb.tjfblooddonation.model.Blood;
 import ro.ubb.tjfblooddonation.model.LoginInformation;
 import ro.ubb.tjfblooddonation.service.BloodService;
 import ro.ubb.tjfblooddonation.service.UsersService;
-import ro.ubb.tjfblooddonation.utils.Messages;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
 import java.io.IOException;
@@ -67,9 +66,9 @@ public class DonationHistoryController {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (Exception e) {
-                    Messages.showError(e.getMessage());
-                }
+                } //catch (Exception e) {
+//                    Messages.showError(e.getMessage());
+//                }
             }
         });
 

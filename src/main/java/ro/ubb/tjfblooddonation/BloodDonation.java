@@ -28,7 +28,7 @@ public class BloodDonation extends Application {
         loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", null);
 //        for(int i = 31 ; i <= 35 ; i++)
 //            addDonor(i);
-        //addHealthWorker(HealthWorker.types.DOCTOR, "doctor");
+//        addHealthWorker(HealthWorker.types.ADMIN, "admin");
     }
 
     private void separateAllUnseparatedBlood(){
@@ -142,12 +142,12 @@ public class BloodDonation extends Application {
                 .timeCompletedDonateForm(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
 
-        Analysis analysis1 = Analysis.builder()
-                .hiv(false).hb(false).hcv(false).htlv(false).sifilis(false).imunoHematology(false).alt(false)
-                .build();
-        Analysis analysis2 = Analysis.builder()
-                .hiv(false).hb(false).hcv(false).htlv(false).sifilis(false).imunoHematology(true).alt(false)
-                .build();
+//        Analysis analysis1 = Analysis.builder()
+//                .hiv(false).hb(false).hcv(false).htlv(false).sifilis(false).imunoHematology(false).alt(false)
+//                .build();
+//        Analysis analysis2 = Analysis.builder()
+//                .hiv(false).hb(false).hcv(false).htlv(false).sifilis(false).imunoHematology(true).alt(false)
+//                .build();
 
 
         Donor donor = usersService.getDonor("donor");
@@ -156,12 +156,12 @@ public class BloodDonation extends Application {
                 .donor(donor)
                 .recoltationDate(LocalDate.now().minusMonths(2))
                 .build();
-        blood1.setAnalysis(analysis2);
+//        blood1.setAnalysis(analysis2);
         Blood blood2 = Blood.builder()
                 .donor(donor)
                 .recoltationDate(LocalDate.now().minusMonths(4))
                 .build();
-        blood2.setAnalysis(analysis1);
+//        blood2.setAnalysis(analysis1);
 
         donor.setForm(form1);
 
