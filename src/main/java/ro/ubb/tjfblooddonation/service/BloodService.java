@@ -178,17 +178,6 @@ public class BloodService {
      */
     public List<BloodComponent> getOkThrombocytes(Long requestId) {
         return getOkBloodComponent(requestId, "thrombocytes", 5);
-
-//        Request request = requestRepository.getById(requestId);
-//
-//        return bloodComponentRepository.getAll().stream()
-//                //.filter(bloodComponent -> bloodComponent.getBlood().isHealthy())
-//                .filter(bloodComponent -> bloodComponent.getType().equals("thrombocytes"))
-//                .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusDays(5).isBefore(LocalDate.now()))
-//                .filter(bloodComponent -> areCompatible(bloodComponent.getBlood().getDonor(), request.getPatient()) > -1)
-//                .sorted((bc1, bc2) -> Integer.compare(areCompatible(bc1.getBlood().getDonor(), request.getPatient()),
-//                        areCompatible(bc2.getBlood().getDonor(), request.getPatient())))
-//                .collect(Collectors.toList());
     }
 
     /**
@@ -205,33 +194,18 @@ public class BloodService {
      */
 
     private List<BloodComponent> getOkBloodComponent(Long requestId, String componentName, int expireDays){
-
         Request request = requestRepository.getById(requestId);
-
         return bloodComponentRepository.getAll().stream()
-        //.filter(bloodComponent -> bloodComponent.getBlood().isHealthy())
-                .filter(bloodComponent -> bloodComponent.getType().equals(componentName))
-                .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusDays(expireDays).isBefore(LocalDate.now()))
-                .filter(bloodComponent -> areCompatible(bloodComponent.getBlood().getDonor(), request.getPatient()) > -1)
-                .sorted((bc1, bc2) -> Integer.compare(areCompatible(bc1.getBlood().getDonor(), request.getPatient()),
-                        areCompatible(bc2.getBlood().getDonor(), request.getPatient())))
+        .filter(bc -> bc.getBlood().isHealthy())
+                .filter(bc -> bc.getType().equals(componentName))
+                .filter(bc -> !bc.getBlood().getRecoltationDate().plusDays(expireDays).isBefore(LocalDate.now()))
+                .filter(bc -> areCompatible(bc.getBlood().getDonor(), request.getPatient()) > -1)
+                .sorted(Comparator.comparingInt(bc -> areCompatible(bc.getBlood().getDonor(), request.getPatient())))
                 .collect(Collectors.toList());
-
     }
 
     public List<BloodComponent> getOkRedBloodCells(Long requestId) {
         return getOkBloodComponent(requestId, "red blood cells", 42);
-
-//        Request request = requestRepository.getById(requestId);
-//
-//        return bloodComponentRepository.getAll().stream()
-//                //.filter(bloodComponent -> bloodComponent.getBlood().isHealthy())
-//                .filter(bloodComponent -> bloodComponent.getType().equals("red blood cells"))
-//                .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusDays(42).isBefore(LocalDate.now()))
-//                .filter(bloodComponent -> areCompatible(bloodComponent.getBlood().getDonor(), request.getPatient()) > -1)
-//                .sorted((bc1, bc2) -> Integer.compare(areCompatible(bc1.getBlood().getDonor(), request.getPatient()),
-//                        areCompatible(bc2.getBlood().getDonor(), request.getPatient())))
-//                .collect(Collectors.toList());
     }
 
     /**
@@ -248,17 +222,6 @@ public class BloodService {
      */
     public List<BloodComponent> getOkPlasma(Long requestId) {
         return getOkBloodComponent(requestId, "plasma", 5 * 30);
-
-//        Request request = requestRepository.getById(requestId);
-//
-//        return bloodComponentRepository.getAll().stream()
-//                //.filter(bloodComponent -> bloodComponent.getBlood().isHealthy())
-//                .filter(bloodComponent -> bloodComponent.getType().equals("plasma"))
-//                .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusMonths(5).isBefore(LocalDate.now()))
-//                .filter(bloodComponent -> areCompatible(bloodComponent.getBlood().getDonor(), request.getPatient()) > -1)
-//                .sorted((bc1, bc2) -> Integer.compare(areCompatible(bc1.getBlood().getDonor(), request.getPatient()),
-//                        areCompatible(bc2.getBlood().getDonor(), request.getPatient())))
-//                .collect(Collectors.toList());
     }
 
     /**
