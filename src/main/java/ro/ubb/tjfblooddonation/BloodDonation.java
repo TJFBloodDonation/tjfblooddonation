@@ -40,7 +40,7 @@ public class BloodDonation extends Application {
         RequestService requestService = context.getBean(RequestService.class);
         UsersService usersService = context.getBean(UsersService.class);
         IdCard idCard = IdCard.builder()
-                .cnp("4982389999997")
+                .cnp("1982329489252")
                 .build();
         Patient patient = Patient.builder()
                 .bloodType("B")
@@ -55,9 +55,9 @@ public class BloodDonation extends Application {
                 .requestDate(LocalDate.now())
                 .healthWorker((HealthWorker)usersService.getHealthWorkersAccounts().get(1).getPerson())
                 .patient(patient)
-                .plasmaUnits((byte) 1)
-                .thrombocytesUnits((byte) 1)
-                .redBloodCellsUnits((byte) 1)
+                .plasmaUnits((byte) 5)
+                .thrombocytesUnits((byte) 5)
+                .redBloodCellsUnits((byte) 5)
                 .status("pending")
                 .urgency(Request.UrgencyLevel.HIGH)
                 .build();
@@ -182,7 +182,7 @@ public class BloodDonation extends Application {
         Donor d = Donor.builder()
                 .bloodType("0")
                 .dateOfBirth(LocalDate.parse("2000-12-12"))
-                .gender("male")
+                .gender("female")
                 .idCard(idCard)
                 .residence(b)
                 .rH("+")
