@@ -117,8 +117,8 @@ public class RequestFormController {
 
             LocalDate requestDate = LocalDate.now();
 
-            Patient patient = new Patient(firstName.toString(), lastName.toString(), email.toString(), phoneNumber.toString(), institution, idCard, bloodType, rH);
-            Request request = new Request(healthWorker, patient, Byte.parseByte(plasmaUnits.toString()), Byte.parseByte(tombocitesUnits.toString()), Byte.parseByte(redBloodCellsUnits.toString()), requestDate, urgencyLevel.getItems().get(urgencyLevel.getSelectionModel().getSelectedIndex()));
+            Patient patient = new Patient(firstName.getText(), lastName.getText(), email.getText(), phoneNumber.getText(), institution, idCard, bloodType, rH);
+            Request request = new Request(healthWorker, patient, Byte.parseByte(plasmaUnits.getText()), Byte.parseByte(tombocitesUnits.getText()), Byte.parseByte(redBloodCellsUnits.getText()), requestDate, urgencyLevel.getItems().get(urgencyLevel.getSelectionModel().getSelectedIndex()));
 
             usersService.addPatient(patient);
             usersService.addInstitution(institution);

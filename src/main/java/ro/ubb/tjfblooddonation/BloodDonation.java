@@ -1,8 +1,11 @@
 package ro.ubb.tjfblooddonation;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ro.ubb.tjfblooddonation.controller.doctor.DoctorController;
 import ro.ubb.tjfblooddonation.model.*;
 import ro.ubb.tjfblooddonation.repository.InstitutionRepository;
 import ro.ubb.tjfblooddonation.repository.PatientRepository;
@@ -26,8 +29,12 @@ public class BloodDonation extends Application {
 //        addRequest();
 //        separateAllUnseparatedBlood();
         //loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", null);
-        loader.createNewWindow("/fxml/doctor/Doctor.fxml", "Doctor page", null);
-//        for(int i = 31 ; i <= 35 ; i++)
+        LoginInformation loginInformation = addHealthWorker(HealthWorker.types.DOCTOR, "someOtherDoctor4");
+        FXMLLoader ld = loader.getLoader("/fxml/doctor/Doctor.fxml");
+        loader.createNewWindow((Parent) ld.load(), "Doctor page", null);
+        ld.<DoctorController>getController().setLoginInformation(loginInformation);
+        //
+// for(int i = 31 ; i <= 35 ; i++)
 //            addDonor(i);
         //addHealthWorker(HealthWorker.types.DOCTOR, "doctor");
     }
@@ -65,7 +72,7 @@ public class BloodDonation extends Application {
         requestService.addRequest(request);
     }
 
-    private void addHealthWorker(HealthWorker.types type, String username) {
+    private LoginInformation addHealthWorker(HealthWorker.types type, String username) {
         UsersService usersService = context.getBean(UsersService.class);
         Address a = new Address("a", "b", "c", "d");
         Address b = new Address("a", "b", "c", "d");
@@ -86,6 +93,8 @@ public class BloodDonation extends Application {
         context.getBean(InstitutionRepository.class).add(institution);
 
         usersService.createUserAccount(username, username, healthWorker);
+        LoginInformation loginInformation = usersService.getLoginInformationByUsername(username);
+        return loginInformation;
     }
 
 
