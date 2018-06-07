@@ -3,7 +3,10 @@ package ro.ubb.tjfblooddonation.controller.doctor;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ro.ubb.tjfblooddonation.model.*;
@@ -12,7 +15,6 @@ import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.Messages;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
-import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -21,6 +23,7 @@ import java.time.LocalDate;
 @Controller
 public class RequestFormController {
     private static final SpringFxmlLoader loader = new SpringFxmlLoader();
+
 
     @FXML
     private Button submitRequestButton;
@@ -53,17 +56,17 @@ public class RequestFormController {
     @FXML
     private ComboBox<Request.UrgencyLevel> urgencyLevel;
     @FXML
-    private Checkbox bloodTypeA;
+    private CheckBox bloodTypeA;
     @FXML
-    private Checkbox bloodTypeB;
+    private CheckBox bloodTypeB;
     @FXML
-    private Checkbox bloodTypeAB;
+    private CheckBox bloodTypeAB;
     @FXML
-    private Checkbox bloodTypeO;
+    private CheckBox bloodTypeO;
     @FXML
-    private Checkbox rhPositive;
+    private CheckBox rhPositive;
     @FXML
-    private Checkbox rhNegative;
+    private CheckBox rhNegative;
 
     @Autowired
     UsersService usersService;
@@ -77,7 +80,10 @@ public class RequestFormController {
         this.doctorLogin = loginInformation;
     }
 
-    //public void initialize(){  urgencyLevel.setItems(FXCollections.observableArrayList(Request.UrgencyLevel.values())); }
+    public void initialize(){
+        System.out.println(urgencyLevel);
+        urgencyLevel.setItems(FXCollections.observableArrayList(Request.UrgencyLevel.values()));
+    }
 
     @FXML
     void SubmitRequestClicked(ActionEvent event) {
@@ -89,22 +95,22 @@ public class RequestFormController {
 
             //rh
             String rH = "";
-            if (rhPositive.isCursorSet())
+            if (rhPositive.isSelected())
                 rH = "+";
-            if (rhNegative.isCursorSet())
+            if (rhNegative.isSelected())
                 rH = "-";
             if (rH == "")
                 throw new IOException("There is no rH checked!");
 
             //blood type
             String bloodType = "";
-            if (bloodTypeA.isCursorSet())
+            if (bloodTypeA.isSelected())
                 bloodType = "A";
-            if (bloodTypeB.isCursorSet())
+            if (bloodTypeB.isSelected())
                 bloodType = "B";
-            if (bloodTypeAB.isCursorSet())
+            if (bloodTypeAB.isSelected())
                 bloodType = "AB";
-            if (bloodTypeO.isCursorSet())
+            if (bloodTypeO.isSelected())
                 bloodType = "O";
             if (bloodType == "")
                 throw new IOException("There is no blood type checked!");

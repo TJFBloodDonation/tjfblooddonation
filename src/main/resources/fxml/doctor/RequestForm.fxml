@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.doctor.RequestFormController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.doctor.RequestFormController">
    <children>
       <AnchorPane prefHeight="512.0" prefWidth="681.0">
          <children>
@@ -24,29 +24,29 @@
             <Label layoutX="375.0" layoutY="103.0" text="Patient blood type" />
             <Label layoutX="379.0" layoutY="371.0" text="Trombocites Units" />
             <TextField id="tombocitesUnits" layoutX="375.0" layoutY="389.0" />
-            <CheckBox id="rhPositive" layoutX="371.0" layoutY="200.0" mnemonicParsing="false" text="+" />
-            <CheckBox id="rhNegative" layoutX="413.0" layoutY="200.0" mnemonicParsing="false" text="-" />
-            <CheckBox id="bloodTypeA" layoutX="373.0" layoutY="140.0" mnemonicParsing="false" text="A" />
-            <CheckBox id="bloodTypeB" layoutX="417.0" layoutY="140.0" mnemonicParsing="false" text="B" />
-            <CheckBox id="bloodTypeAB" layoutX="454.0" layoutY="140.0" mnemonicParsing="false" text="AB" />
-            <CheckBox id="bloodTypeO" layoutX="501.0" layoutY="140.0" mnemonicParsing="false" text="O" />
+            <CheckBox fx:id="rhPositive" layoutX="371.0" layoutY="200.0" mnemonicParsing="false" text="+" />
+            <CheckBox fx:id="rhNegative" layoutX="413.0" layoutY="200.0" mnemonicParsing="false" text="-" />
+            <CheckBox fx:id="bloodTypeA" layoutX="373.0" layoutY="140.0" mnemonicParsing="false" text="A" />
+            <CheckBox fx:id="bloodTypeB" layoutX="417.0" layoutY="140.0" mnemonicParsing="false" text="B" />
+            <CheckBox fx:id="bloodTypeAB" layoutX="454.0" layoutY="140.0" mnemonicParsing="false" text="AB" />
+            <CheckBox fx:id="bloodTypeO" layoutX="501.0" layoutY="140.0" mnemonicParsing="false" text="O" />
             <Label layoutX="69.0" layoutY="88.0" text="Last Name" />
-            <TextField id="lastName" layoutX="69.0" layoutY="105.0" />
+            <TextField fx:id="lastName" layoutX="69.0" layoutY="105.0" />
             <Label layoutX="69.0" layoutY="134.0" text="Email" />
-            <TextField id="email" layoutX="69.0" layoutY="151.0" />
+            <TextField fx:id="email" layoutX="69.0" layoutY="151.0" />
             <Label layoutX="69.0" layoutY="184.0" text="Phone Number" />
-            <TextField id="phoneNumber" layoutX="69.0" layoutY="201.0" />
+            <TextField fx:id="phoneNumber" layoutX="69.0" layoutY="201.0" />
             <Label layoutX="69.0" layoutY="231.0" text="Country" />
-            <TextField id="country" layoutX="69.0" layoutY="248.0" />
+            <TextField fx:id="country" layoutX="69.0" layoutY="248.0" />
             <Label layoutX="69.0" layoutY="280.0" text="Region" />
-            <TextField id="region" layoutX="69.0" layoutY="297.0" />
+            <TextField fx:id="region" layoutX="69.0" layoutY="297.0" />
             <Label layoutX="69.0" layoutY="330.0" text="City" />
-            <TextField id="city" layoutX="69.0" layoutY="347.0" />
+            <TextField fx:id="city" layoutX="69.0" layoutY="347.0" />
             <Label layoutX="69.0" layoutY="381.0" text="Street" />
-            <TextField id="street" layoutX="69.0" layoutY="398.0" />
+            <TextField fx:id="street" layoutX="69.0" layoutY="398.0" />
             <Label layoutX="69.0" layoutY="428.0" text="CNP/Serial Number" />
-            <TextField id="cnp" layoutX="69.0" layoutY="445.0" />
-            <ComboBox id="urgencyLevel" layoutX="372.0" layoutY="61.0" prefWidth="150.0" />
+            <TextField fx:id="cnp" layoutX="69.0" layoutY="445.0" />
+            <ComboBox id="urgencyLevel" fx:id="urgencyLevel" layoutX="372.0" layoutY="61.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </children>
