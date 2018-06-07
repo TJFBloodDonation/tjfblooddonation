@@ -164,21 +164,6 @@ public class BloodService {
             throw new ServiceError("Blood with id " + bloodId + " is already separated!");
     }
 
-    /**
-     * Function to return all BloodComponents of type THROMBOCYTES that are a match for the Patient associated to the
-     * Request instance with the ID given as parameter; It checks in the BloodComponentRepository for instances whose
-     * bloodType and Rh (stored in the bloodType and rH fields of the Donor associated to the Blood from which
-     * the BloodComponent was derived) is either equal to the ones the Patient has,
-     * or are the universally compatible (O_I Rh-); Also it excludes expired or unhealthy components
-     *
-     * @param requestId - the ID of the request for which thrombocytes are needed
-     * @return the set of compatible BloodComponents of type THROMBOCYTES
-     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
-     *                                                                in the Repository
-     */
-    public List<BloodComponent> getOkThrombocytes(Long requestId) {
-        return getOkBloodComponent(requestId, "thrombocytes", 5);
-    }
 
     /**
      * Function to return all BloodComponents of type RED_BLOOD_CELLS that are a match for the Patient associated to the
@@ -202,6 +187,22 @@ public class BloodService {
                 .filter(bc -> areCompatible(bc.getBlood().getDonor(), request.getPatient()) > -1)
                 .sorted(Comparator.comparingInt(bc -> areCompatible(bc.getBlood().getDonor(), request.getPatient())))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Function to return all BloodComponents of type THROMBOCYTES that are a match for the Patient associated to the
+     * Request instance with the ID given as parameter; It checks in the BloodComponentRepository for instances whose
+     * bloodType and Rh (stored in the bloodType and rH fields of the Donor associated to the Blood from which
+     * the BloodComponent was derived) is either equal to the ones the Patient has,
+     * or are the universally compatible (O_I Rh-); Also it excludes expired or unhealthy components
+     *
+     * @param requestId - the ID of the request for which thrombocytes are needed
+     * @return the set of compatible BloodComponents of type THROMBOCYTES
+     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
+     *                                                                in the Repository
+     */
+    public List<BloodComponent> getOkThrombocytes(Long requestId) {
+        return getOkBloodComponent(requestId, "thrombocytes", 5);
     }
 
     public List<BloodComponent> getOkRedBloodCells(Long requestId) {
