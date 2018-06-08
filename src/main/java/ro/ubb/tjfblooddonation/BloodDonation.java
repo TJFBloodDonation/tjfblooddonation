@@ -28,7 +28,7 @@ public class BloodDonation extends Application {
         loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", null);
 //        for(int i = 31 ; i <= 35 ; i++)
 //            addDonor(i);
-//        addHealthWorker(HealthWorker.types.ADMIN, "admin");
+//        addHealthWorker(HealthWorker.types.DOCTOR, "doctor");
     }
 
     private void separateAllUnseparatedBlood(){
@@ -44,8 +44,8 @@ public class BloodDonation extends Application {
                 .build();
         Patient patient = Patient.builder()
                 .bloodType("B")
-                .firstName("Andrei")
-                .lastName("Sebi")
+                .firstName("FNPatient3")
+                .lastName("LNPatient3")
                 .rH("+")
                 .idCard(idCard)
                 .build();
@@ -53,7 +53,8 @@ public class BloodDonation extends Application {
         patientRepository.add(patient);
         Request request = Request.builder()
                 .requestDate(LocalDate.now())
-                .healthWorker((HealthWorker)usersService.getHealthWorkersAccounts().get(1).getPerson())
+                .healthWorker(usersService.getAllHealthWorkers().stream()
+                        .filter(healthWorker -> healthWorker.getType().equals("doctor")).findAny().get())
                 .patient(patient)
                 .plasmaUnits((byte) 5)
                 .thrombocytesUnits((byte) 5)
