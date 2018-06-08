@@ -12,10 +12,10 @@
       <AnchorPane prefHeight="512.0" prefWidth="681.0">
          <children>
             <Label layoutX="69.0" layoutY="42.0" text="First Name" />
-            <TextField id="firstName" layoutX="69.0" layoutY="60.0" />
-            <Button id="submitRequestButton" layoutX="550.0" layoutY="460.0" mnemonicParsing="false" onAction="#SubmitRequestClicked" text="Submit Request" textOverrun="CENTER_WORD_ELLIPSIS" />
-            <TextField id="plasmaUnits" layoutX="375.0" layoutY="264.0" />
-            <TextField id="redBloodCellsUnits" layoutX="375.0" layoutY="329.0" />
+            <TextField fx:id="firstName" layoutX="69.0" layoutY="60.0" />
+            <Button fx:id="submitRequestButton" layoutX="550.0" layoutY="460.0" mnemonicParsing="false" onAction="#SubmitRequestClicked" text="Submit Request" textOverrun="CENTER_WORD_ELLIPSIS" />
+            <TextField fx:id="plasmaUnits" layoutX="375.0" layoutY="264.0" />
+            <TextField fx:id="redBloodCellsUnits" layoutX="375.0" layoutY="329.0" />
             <Label layoutX="375.0" layoutY="44.0" text="Urgency status" />
             <Label layoutX="286.0" layoutY="95.0" />
             <Label layoutX="375.0" layoutY="167.0" text="rh" />
@@ -23,7 +23,7 @@
             <Label layoutX="374.0" layoutY="301.0" text="Red Blood Cells Units" />
             <Label layoutX="375.0" layoutY="103.0" text="Patient blood type" />
             <Label layoutX="379.0" layoutY="371.0" text="Trombocites Units" />
-            <TextField id="tombocitesUnits" layoutX="375.0" layoutY="389.0" />
+            <TextField fx:id="tombocitesUnits" layoutX="375.0" layoutY="389.0" />
             <CheckBox fx:id="rhPositive" layoutX="371.0" layoutY="200.0" mnemonicParsing="false" text="+" />
             <CheckBox fx:id="rhNegative" layoutX="413.0" layoutY="200.0" mnemonicParsing="false" text="-" />
             <CheckBox fx:id="bloodTypeA" layoutX="373.0" layoutY="140.0" mnemonicParsing="false" text="A" />

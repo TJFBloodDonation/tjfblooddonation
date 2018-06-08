@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ro.ubb.tjfblooddonation.controller.clinicStaff.ClinicStaffController;
+import ro.ubb.tjfblooddonation.controller.doctor.DoctorController;
 import ro.ubb.tjfblooddonation.controller.donor.DonorController;
 import ro.ubb.tjfblooddonation.exceptions.BaseException;
 import ro.ubb.tjfblooddonation.exceptions.LogInException;
@@ -64,7 +65,13 @@ public class LogInController {
 //                        loader.createNewWindow("/fxml/clinicStaff/ClinicStaff.fxml", "Clinic Stuff Main Page", actionEvent);
                         break;
                     case "doctor":
-                        loader.createNewWindow("/fxml/doctor/Doctor.fxml", "Doctor Main Page", actionEvent);
+                        FXMLLoader ld2 = loader.getLoader("/fxml/doctor/Doctor.fxml");
+                        loader.createNewWindow((Parent) ld2.load(), "Doctor Main Page", actionEvent);
+                        ld2.<DoctorController>getController().setLoginInformation(
+                                usersService.getLoginInformationByUsername(username));
+
+
+
                         break;
                     case "bloodAnalyst":
                         loader.createNewWindow("/fxml/bloodAnalyst/BloodAnalysis.fxml", "Blood analyst Main Page", actionEvent);
