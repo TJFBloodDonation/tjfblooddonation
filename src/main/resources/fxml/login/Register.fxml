@@ -4,8 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.*?>
-<GridPane alignment="CENTER" hgap="10.0" prefHeight="771.0" prefWidth="778.000199999995" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.login.RegisterController">
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="717.0" prefWidth="778.000199999995" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.login.RegisterController">
   <children>
     <Pane prefHeight="691.0" prefWidth="616.0" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="0" GridPane.rowSpan="2147483647">
       <children>
@@ -59,15 +60,10 @@
         <TextField id="cityTxt" fx:id="idCityText" layoutX="475.0" layoutY="433.0" prefWidth="145.0" />
         <Label font="$x1" layoutX="-29.0" layoutY="476.0" prefHeight="27.0" prefWidth="145.0" text="Street and number:" />
         <TextField id="streetTxt" fx:id="idStreetText" layoutX="121.0" layoutY="477.0" prefWidth="257.0" />
-        <Button fx:id="RegisterButton" layoutX="248.0" layoutY="669.0" mnemonicParsing="false" onAction="#registerButtonPressed" prefHeight="32.0" prefWidth="118.0" text="REGISTER" textFill="#2313d0" />
+        <Button fx:id="RegisterButton" layoutX="248.0" layoutY="600.0" mnemonicParsing="false" onAction="#registerButtonPressed" prefHeight="32.0" prefWidth="118.0" text="REGISTER" textFill="#2313d0" />
         <Text layoutX="-24.0" layoutY="407.0" scaleX="1.2649448892238202" scaleY="1.330601654632155" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Card Address:" />
         <TextField id="cnpTextField" fx:id="genderText" layoutX="411.0" layoutY="194.0" prefWidth="118.0" />
         <Label font="$x1" layoutX="322.0" layoutY="194.0" prefWidth="64.0" text="Gender:" />
-        <TextField id="cnpTextField" fx:id="bloodTypeText" layoutX="65.0" layoutY="620.0" prefWidth="64.0" />
-        <Label font="$x1" layoutX="-27.0" layoutY="620.0" prefWidth="87.0" text="Blood Type:" />
-        <TextField id="cnpTextField" fx:id="rhText" layoutX="171.0" layoutY="622.0" prefWidth="36.0" />
-        <Label font="$x1" layoutX="142.0" layoutY="622.0" prefWidth="31.0" text="Rh:" />
-        <Text layoutX="-26.0" layoutY="601.0" scaleX="1.1708982566332489" scaleY="1.2004894762604015" strokeType="OUTSIDE" strokeWidth="0.0" text="Optional:" />
       </children>
     </Pane>
   </children>

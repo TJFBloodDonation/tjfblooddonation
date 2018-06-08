@@ -3,15 +3,11 @@ package ro.ubb.tjfblooddonation.controller.clinicStaff;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.w3c.dom.events.UIEvent;
 import ro.ubb.tjfblooddonation.exceptions.UiException;
 import ro.ubb.tjfblooddonation.model.*;
 import ro.ubb.tjfblooddonation.service.BloodService;
@@ -19,11 +15,9 @@ import ro.ubb.tjfblooddonation.service.UsersService;
 import ro.ubb.tjfblooddonation.utils.Messages;
 import ro.ubb.tjfblooddonation.utils.SpringFxmlLoader;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -139,7 +133,7 @@ public class SearchDonors {
         hBox2.setSpacing(5);
         hBox2.getChildren().setAll(b2);
         gridPane.add(hBox2, 2, row);
-        if(!d.getForm().getPassedBasicCheckForm()) {
+        if(d.getForm().getPassedBasicCheckForm() == null || !d.getForm().getPassedBasicCheckForm()) {
             addInGrid(gridPane, ++row, "Weight", weightTextField, false, "");
             addInGrid(gridPane, ++row, "Pulse", pulseTextField, false, "");
             addInGrid(gridPane, ++row, "Systolic blood pressure", bloodPressureTextField, false, "");
@@ -205,7 +199,7 @@ public class SearchDonors {
             gridPane.add(button, 2, ++row);
         }
         String title = donorLoginInfo.getUsername();
-        if(d.getForm().getPassedBasicCheckForm())
+        if(d.getForm().getPassedBasicCheckForm() != null && d.getForm().getPassedBasicCheckForm())
             title = title + " - ready for donation!";
         return new TitledPane(title, gridPane);
     }

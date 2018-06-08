@@ -5,8 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-
-<Pane prefHeight="527.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.clinicStaff.RequestsController">
+<Pane prefHeight="527.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.doctor.MyRequestsController">
     <children>
         <Label layoutX="162.0" layoutY="38.0" text="My Requests" textFill="#9c4c1e">
             <font>

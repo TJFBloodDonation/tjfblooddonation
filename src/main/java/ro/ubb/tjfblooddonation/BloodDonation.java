@@ -1,11 +1,8 @@
 package ro.ubb.tjfblooddonation;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ro.ubb.tjfblooddonation.controller.doctor.DoctorController;
 import ro.ubb.tjfblooddonation.model.*;
 import ro.ubb.tjfblooddonation.repository.InstitutionRepository;
 import ro.ubb.tjfblooddonation.repository.PatientRepository;
@@ -28,11 +25,11 @@ public class BloodDonation extends Application {
     public void start(Stage primaryStage) throws Exception{
 //        addRequest();
 //        separateAllUnseparatedBlood();
-        //loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", null);
-        LoginInformation loginInformation = addHealthWorker(HealthWorker.types.DOCTOR, "someOtherDoctor4");
-        FXMLLoader ld = loader.getLoader("/fxml/doctor/Doctor.fxml");
-        loader.createNewWindow((Parent) ld.load(), "Doctor page", null);
-        ld.<DoctorController>getController().setLoginInformation(loginInformation);
+        loader.createNewWindow("/fxml/login/Login.fxml", "Blood donation", null);
+//        LoginInformation loginInformation = addHealthWorker(HealthWorker.types.DOCTOR, "someOtherDoctor4");
+//        FXMLLoader ld = loader.getLoader("/fxml/doctor/Doctor.fxml");
+//        loader.createNewWindow((Parent) ld.load(), "Doctor page", null);
+//        ld.<DoctorController>getController().setLoginInformation(loginInformation);
         //
 // for(int i = 31 ; i <= 35 ; i++)
 //            addDonor(i);

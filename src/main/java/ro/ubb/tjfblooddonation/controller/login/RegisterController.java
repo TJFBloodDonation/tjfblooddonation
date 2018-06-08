@@ -119,16 +119,16 @@ public class RegisterController {
                     .gender(genderText.getText())
                     .build();
 
-            if (!bloodTypeText.getText().equals("")) {
-                if (!bloodTypes.contains(bloodTypeText.getText()))
-                    throw new ControllerError("Invalid blood type!");
-                newDonor.setBloodType(bloodTypeText.getText());
-            }
-            if (!rhText.getText().equals("")) {
-                if (!rhText.getText().equals("+") && !rhText.getText().equals("-"))
-                    throw new ControllerError("Invalid RH!");
-                newDonor.setRH(rhText.getText());
-            }
+//            if (!bloodTypeText.getText().equals("")) {
+//                if (!bloodTypes.contains(bloodTypeText.getText()))
+//                    throw new ControllerError("Invalid blood type!");
+//                newDonor.setBloodType(bloodTypeText.getText());
+//            }
+//            if (!rhText.getText().equals("")) {
+//                if (!rhText.getText().equals("+") && !rhText.getText().equals("-"))
+//                    throw new ControllerError("Invalid RH!");
+//                newDonor.setRH(rhText.getText());
+//            }
 
             usersService.createUserAccount(username, password, newDonor);
 
