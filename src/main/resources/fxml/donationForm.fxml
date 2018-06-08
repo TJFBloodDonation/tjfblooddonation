@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" prefHeight="555.0" prefWidth="482.0" vgap="10" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.DonorController">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+      <RowConstraints maxHeight="443.0" minHeight="443.0" prefHeight="443.0" />
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="443.0" prefWidth="627.0" GridPane.rowIndex="1">
+         <children>
+            <Label layoutX="164.0" layoutY="14.0" text="Donation Form" textFill="#1c94b5">
+               <font>
+                  <Font size="21.0" />
+               </font></Label>
+            <Label layoutX="41.0" layoutY="66.0" prefHeight="17.0" prefWidth="98.0" text="First Name:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="41.0" layoutY="95.0" prefHeight="17.0" prefWidth="98.0" text="Last Name:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField layoutX="180.0" layoutY="64.0" />
+            <TextField layoutX="180.0" layoutY="93.0" />
+            <Label layoutX="41.0" layoutY="126.0" text="Phone number:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField layoutX="180.0" layoutY="124.0" />
+            <Label layoutX="41.0" layoutY="156.0" text="E-mail:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField layoutX="180.0" layoutY="154.0" />
+            <Label layoutX="39.0" layoutY="188.0" text="CNP:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField layoutX="180.0" layoutY="186.0" />
+            <Label layoutX="39.0" layoutY="222.0" text="Donate for a specific person:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <RadioButton layoutX="234.0" layoutY="224.0" mnemonicParsing="false" text="YES" />
+            <RadioButton layoutX="295.0" layoutY="224.0" mnemonicParsing="false" text="NO" />
+            <Label layoutX="39.0" layoutY="255.0" text="CNP for patient:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField layoutX="180.0" layoutY="253.0" />
+            <Label layoutX="39.0" layoutY="290.0" prefHeight="44.0" prefWidth="426.0" text="Please check if you suffer/have suffered from the following diseases:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <CheckBox layoutX="33.0" layoutY="334.0" mnemonicParsing="false" text="Hepatitis" />
+            <CheckBox layoutX="115.0" layoutY="334.0" mnemonicParsing="false" text="Siphilis" />
+            <CheckBox layoutX="193.0" layoutY="334.0" mnemonicParsing="false" text="TB" />
+            <CheckBox layoutX="241.0" layoutY="334.0" mnemonicParsing="false" text="Pox" />
+            <CheckBox layoutX="295.0" layoutY="334.0" mnemonicParsing="false" text="Malaria" />
+            <CheckBox layoutX="374.0" layoutY="334.0" mnemonicParsing="false" text="Ulcer" />
+            <CheckBox layoutX="374.0" layoutY="364.0" mnemonicParsing="false" text="Cancer" />
+            <CheckBox layoutX="32.0" layoutY="364.0" mnemonicParsing="false" text="Neurological Diseases" />
+            <CheckBox layoutX="179.0" layoutY="364.0" mnemonicParsing="false" text="Heart Diseases" />
+            <CheckBox layoutX="175.0" layoutY="390.0" mnemonicParsing="false" text="Pregnancy" />
+            <CheckBox layoutX="32.0" layoutY="390.0" mnemonicParsing="false" text="Menstrual period" />
+            <CheckBox layoutX="274.0" layoutY="390.0" mnemonicParsing="false" text="Flu" />
+            <CheckBox layoutX="292.0" layoutY="364.0" mnemonicParsing="false" text="Diabetes" />
+         </children>
+      </Pane>
+   </children>
+</GridPane>

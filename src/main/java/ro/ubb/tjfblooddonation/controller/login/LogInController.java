@@ -86,7 +86,8 @@ public class LogInController {
 
     public void registerButtonClicked(ActionEvent actionEvent) {
         try {
-            loader.createNewWindow("/fxml/login/Register.fxml", "Register Page", null);
+
+            loader.createNewWindow("/fxml/login/Register.fxml", "Register Page",actionEvent);
         }
         catch (IOException e) {
             e.printStackTrace();

@@ -164,31 +164,6 @@ public class BloodService {
             throw new ServiceError("Blood with id " + bloodId + " is already separated!");
     }
 
-    /**
-     * Function to return all BloodComponents of type THROMBOCYTES that are a match for the Patient associated to the
-     * Request instance with the ID given as parameter; It checks in the BloodComponentRepository for instances whose
-     * bloodType and Rh (stored in the bloodType and rH fields of the Donor associated to the Blood from which
-     * the BloodComponent was derived) is either equal to the ones the Patient has,
-     * or are the universally compatible (O_I Rh-); Also it excludes expired or unhealthy components
-     *
-     * @param requestId - the ID of the request for which thrombocytes are needed
-     * @return the set of compatible BloodComponents of type THROMBOCYTES
-     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
-     *                                                                in the Repository
-     */
-    public List<BloodComponent> getOkThrombocytes(Long requestId) {
-
-        Request request = requestRepository.getById(requestId);
-
-        return bloodComponentRepository.getAll().stream()
-                //.filter(bloodComponent -> bloodComponent.getBlood().isHealthy())
-                .filter(bloodComponent -> bloodComponent.getType().equals("thrombocytes"))
-                .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusDays(5).isBefore(LocalDate.now()))
-                .filter(bloodComponent -> areCompatible(bloodComponent.getBlood().getDonor(), request.getPatient()) > -1)
-                .sorted((bc1, bc2) -> Integer.compare(areCompatible(bc1.getBlood().getDonor(), request.getPatient()),
-                        areCompatible(bc2.getBlood().getDonor(), request.getPatient())))
-                .collect(Collectors.toList());
-    }
 
     /**
      * Function to return all BloodComponents of type RED_BLOOD_CELLS that are a match for the Patient associated to the
@@ -202,18 +177,36 @@ public class BloodService {
      * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
      *                                                                in the Repository
      */
-    public List<BloodComponent> getOkRedBloodCells(Long requestId) {
 
+    private List<BloodComponent> getOkBloodComponent(Long requestId, String componentName, int expireDays){
         Request request = requestRepository.getById(requestId);
-
         return bloodComponentRepository.getAll().stream()
-                //.filter(bloodComponent -> bloodComponent.getBlood().isHealthy())
-                .filter(bloodComponent -> bloodComponent.getType().equals("red blood cells"))
-                .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusDays(42).isBefore(LocalDate.now()))
-                .filter(bloodComponent -> areCompatible(bloodComponent.getBlood().getDonor(), request.getPatient()) > -1)
-                .sorted((bc1, bc2) -> Integer.compare(areCompatible(bc1.getBlood().getDonor(), request.getPatient()),
-                        areCompatible(bc2.getBlood().getDonor(), request.getPatient())))
+        .filter(bc -> bc.getBlood().isHealthy())
+                .filter(bc -> bc.getType().equals(componentName))
+                .filter(bc -> !bc.getBlood().getRecoltationDate().plusDays(expireDays).isBefore(LocalDate.now()))
+                .filter(bc -> areCompatible(bc.getBlood().getDonor(), request.getPatient()) > -1)
+                .sorted(Comparator.comparingInt(bc -> areCompatible(bc.getBlood().getDonor(), request.getPatient())))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Function to return all BloodComponents of type THROMBOCYTES that are a match for the Patient associated to the
+     * Request instance with the ID given as parameter; It checks in the BloodComponentRepository for instances whose
+     * bloodType and Rh (stored in the bloodType and rH fields of the Donor associated to the Blood from which
+     * the BloodComponent was derived) is either equal to the ones the Patient has,
+     * or are the universally compatible (O_I Rh-); Also it excludes expired or unhealthy components
+     *
+     * @param requestId - the ID of the request for which thrombocytes are needed
+     * @return the set of compatible BloodComponents of type THROMBOCYTES
+     * @throws ro.ubb.tjfblooddonation.exceptions.RepositoryException if the Request with the specified ID is not
+     *                                                                in the Repository
+     */
+    public List<BloodComponent> getOkThrombocytes(Long requestId) {
+        return getOkBloodComponent(requestId, "thrombocytes", 5);
+    }
+
+    public List<BloodComponent> getOkRedBloodCells(Long requestId) {
+        return getOkBloodComponent(requestId, "red blood cells", 42);
     }
 
     /**
@@ -229,17 +222,7 @@ public class BloodService {
      *                                                                in the Repository
      */
     public List<BloodComponent> getOkPlasma(Long requestId) {
-
-        Request request = requestRepository.getById(requestId);
-
-        return bloodComponentRepository.getAll().stream()
-                .filter(bloodComponent -> bloodComponent.getBlood().isHealthy())
-                .filter(bloodComponent -> bloodComponent.getType().equals("plasma"))
-                .filter(bloodComponent -> !bloodComponent.getBlood().getRecoltationDate().plusMonths(5).isBefore(LocalDate.now()))
-                .filter(bloodComponent -> areCompatible(bloodComponent.getBlood().getDonor(), request.getPatient()) > -1)
-                .sorted((bc1, bc2) -> Integer.compare(areCompatible(bc1.getBlood().getDonor(), request.getPatient()),
-                        areCompatible(bc2.getBlood().getDonor(), request.getPatient())))
-                .collect(Collectors.toList());
+        return getOkBloodComponent(requestId, "plasma", 5 * 30);
     }
 
     /**
@@ -356,16 +339,21 @@ public class BloodService {
      * even though they are not a perfect match; and -1 is they are not compatible
      */
     Integer areCompatible(Donor donor, Patient patient) {
-
+        String donorBloodType = donor.getBloodType();
+        String patientBloodType = patient.getBloodType();
         if (donor.getBloodType().equals(patient.getBloodType())
                 && donor.getRH().equals(patient.getRH()))
             return 0;
 
-        if ((donor.getRH().equals("+") && patient.getRH().equals("-"))
-                || (!patient.getBloodType().contains(donor.getBloodType()) && !donor.getBloodType().equals("O")))
+        if ((donor.getRH().equals("+") && patient.getRH().equals("-")))
             return -1;
-
-        return 1;
+        if(donorBloodType.equals("O") || donorBloodType.equals("0"))
+            donorBloodType = "";
+        if(patientBloodType.equals("O") || patientBloodType.equals("0"))
+            patientBloodType = "";
+        if (patientBloodType.contains(donorBloodType))
+            return 1;
+        return -1;
     }
 
     public long getNoOfPeopleWhoDonatedForPatient(Patient patient) {

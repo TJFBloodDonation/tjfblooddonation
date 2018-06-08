@@ -6,25 +6,30 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
-
-<GridPane alignment="center" hgap="10" prefHeight="360.0" prefWidth="393.0" vgap="10" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.bloodAnalyst.BloodAnalysisController">
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-   </rowConstraints>
-   <children>
-      <Pane prefHeight="365.0" prefWidth="396.0">
-         <children>
-            <Label layoutX="117.0" layoutY="80.0" text="Blood Analysis" textFill="#9c2020">
-               <font>
-                  <Font size="20.0" />
-               </font></Label>
-            <Button layoutX="54.0" layoutY="155.0" mnemonicParsing="false" onAction="#donationsButtonPressed" text="BloodDonations" textFill="#ca6565" />
-            <Button layoutX="54.0" layoutY="201.0" mnemonicParsing="false" onAction="#requestsButtonPressed" text="Requests" textFill="#ca6565" />
-         </children>
-      </Pane>
-   </children>
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="360.0" prefWidth="393.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.bloodAnalyst.BloodAnalysisController">
+  <children>
+    <Pane prefHeight="365.0" prefWidth="396.0">
+      <children>
+        <Label layoutX="133.0" layoutY="80.0" text="Blood Analysis" textFill="#9c2020">
+          <font>
+            <Font size="20.0" />
+          </font>
+        </Label>
+        <Button layoutX="110.0" layoutY="155.0" mnemonicParsing="false" onAction="#donationsButtonPressed" text="Analyse Blood Sample">
+          <textFill>
+            <Color blue="0.396" green="0.396" red="0.792" fx:id="x1" />
+          </textFill>
+        </Button>
+        <Button layoutX="154.0" layoutY="193.0" mnemonicParsing="false" onAction="#requestsButtonPressed" text="Requests" textFill="$x1" />
+      </children>
+    </Pane>
+  </children>
+  <columnConstraints>
+    <ColumnConstraints />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints />
+  </rowConstraints>
 </GridPane>

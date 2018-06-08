@@ -123,7 +123,7 @@ public class AddStaffController {
 
     public void addNewInstitution(ActionEvent actionEvent) {
         try{
-            Stage childStage = loader.createNewWindow("/fxml/admin/addNewInstitution.fxml", "Add Health Worker Page", null);
+            Stage childStage = loader.createNewWindow("/fxml/admin/addNewInstitution.fxml", "Add New Institution Page", null);
             childStage.setOnHidden((p) -> {
                 ObservableList<Institution> institutions = FXCollections.observableArrayList(usersService.getAllInstitutions());
                 institutionComboBox.setItems(institutions);

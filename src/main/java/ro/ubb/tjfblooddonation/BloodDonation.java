@@ -36,7 +36,7 @@ public class BloodDonation extends Application {
         //
 // for(int i = 31 ; i <= 35 ; i++)
 //            addDonor(i);
-        //addHealthWorker(HealthWorker.types.DOCTOR, "doctor");
+//        addHealthWorker(HealthWorker.types.DOCTOR, "doctor");
     }
 
     private void separateAllUnseparatedBlood(){
@@ -48,12 +48,12 @@ public class BloodDonation extends Application {
         RequestService requestService = context.getBean(RequestService.class);
         UsersService usersService = context.getBean(UsersService.class);
         IdCard idCard = IdCard.builder()
-                .cnp("4982389999997")
+                .cnp("1982329489252")
                 .build();
         Patient patient = Patient.builder()
                 .bloodType("B")
-                .firstName("Andrei")
-                .lastName("Sebi")
+                .firstName("FNPatient3")
+                .lastName("LNPatient3")
                 .rH("+")
                 .idCard(idCard)
                 .build();
@@ -61,11 +61,12 @@ public class BloodDonation extends Application {
         patientRepository.add(patient);
         Request request = Request.builder()
                 .requestDate(LocalDate.now())
-                .healthWorker((HealthWorker)usersService.getHealthWorkersAccounts().get(1).getPerson())
+                .healthWorker(usersService.getAllHealthWorkers().stream()
+                        .filter(healthWorker -> healthWorker.getType().equals("doctor")).findAny().get())
                 .patient(patient)
-                .plasmaUnits((byte) 1)
-                .thrombocytesUnits((byte) 1)
-                .redBloodCellsUnits((byte) 1)
+                .plasmaUnits((byte) 5)
+                .thrombocytesUnits((byte) 5)
+                .redBloodCellsUnits((byte) 5)
                 .status("pending")
                 .urgency(Request.UrgencyLevel.HIGH)
                 .build();
@@ -152,12 +153,12 @@ public class BloodDonation extends Application {
                 .timeCompletedDonateForm(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
 
-        Analysis analysis1 = Analysis.builder()
-                .hiv(false).hb(false).hcv(false).htlv(false).sifilis(false).imunoHematology(false).alt(false)
-                .build();
-        Analysis analysis2 = Analysis.builder()
-                .hiv(false).hb(false).hcv(false).htlv(false).sifilis(false).imunoHematology(true).alt(false)
-                .build();
+//        Analysis analysis1 = Analysis.builder()
+//                .hiv(false).hb(false).hcv(false).htlv(false).sifilis(false).imunoHematology(false).alt(false)
+//                .build();
+//        Analysis analysis2 = Analysis.builder()
+//                .hiv(false).hb(false).hcv(false).htlv(false).sifilis(false).imunoHematology(true).alt(false)
+//                .build();
 
 
         Donor donor = usersService.getDonor("donor");
@@ -166,12 +167,12 @@ public class BloodDonation extends Application {
                 .donor(donor)
                 .recoltationDate(LocalDate.now().minusMonths(2))
                 .build();
-        blood1.setAnalysis(analysis2);
+//        blood1.setAnalysis(analysis2);
         Blood blood2 = Blood.builder()
                 .donor(donor)
                 .recoltationDate(LocalDate.now().minusMonths(4))
                 .build();
-        blood2.setAnalysis(analysis1);
+//        blood2.setAnalysis(analysis1);
 
         donor.setForm(form1);
 
@@ -192,7 +193,7 @@ public class BloodDonation extends Application {
         Donor d = Donor.builder()
                 .bloodType("0")
                 .dateOfBirth(LocalDate.parse("2000-12-12"))
-                .gender("male")
+                .gender("female")
                 .idCard(idCard)
                 .residence(b)
                 .rH("+")

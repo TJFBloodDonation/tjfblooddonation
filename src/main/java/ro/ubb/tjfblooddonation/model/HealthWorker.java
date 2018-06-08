@@ -41,6 +41,7 @@ public class HealthWorker extends Person{
         }
         return null;
     }
+
     public static types stringToType(String s){
         switch (s){
             case "admin":

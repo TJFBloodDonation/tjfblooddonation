@@ -1,23 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-
-<GridPane alignment="center" hgap="10" prefHeight="360.0" prefWidth="393.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ro.ubb.tjfblooddonation.controller.login.RegisterController">
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-   </rowConstraints>
-   <children>
-      <Pane prefHeight="365.0" prefWidth="396.0">
-         <children>
-            <Label layoutX="154.0" layoutY="41.0" text="Register!!!!" />
-         </children>
-      </Pane>
-   </children>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.*?>
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="771.0" prefWidth="778.000199999995" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ro.ubb.tjfblooddonation.controller.login.RegisterController">
+  <children>
+    <Pane prefHeight="691.0" prefWidth="616.0" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="0" GridPane.rowSpan="2147483647">
+      <children>
+        <Label layoutX="268.0" layoutY="-26.0" prefHeight="53.0" prefWidth="79.0" text="Register">
+          <font>
+            <Font size="22.0" />
+          </font>
+          <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5285714285714286" radius="0.6744186046511628">
+              <stops>
+                <Stop color="#1610cd" />
+                <Stop color="WHITE" offset="1.0" />
+              </stops>
+            </RadialGradient>
+          </textFill>
+        </Label>
+        <Label layoutX="322.0" layoutY="62.0" text="Last Name:">
+          <font>
+            <Font size="16.0" fx:id="x1" />
+          </font>
+        </Label>
+        <TextField fx:id="firstNameTxt" layoutX="58.0" layoutY="62.0" prefWidth="225.134765625" />
+        <TextField fx:id="lastNameTxt" layoutX="411.0" layoutY="62.0" prefWidth="225.134765625" />
+        <TextField fx:id="usernameTxt" layoutX="58.0" layoutY="105.0" prefWidth="225.134765625" />
+        <TextField fx:id="birthdayTxt" layoutX="58.0" layoutY="192.0" prefWidth="178.134765625" promptText="        YYYY-MM-DD" />
+        <TextField fx:id="phoneTxt" layoutX="411.0" layoutY="147.0" prefWidth="225.134765625" />
+        <TextField fx:id="countryTxt" layoutX="44.0" layoutY="279.0" prefWidth="145.0" />
+        <Label font="$x1" layoutX="-27.0" layoutY="104.0" prefHeight="27.0" prefWidth="78.0000084472631" text="Username:" />
+        <Label font="$x1" layoutX="322.0" layoutY="107.0" text="Password:" />
+        <TextField fx:id="regionTxt" layoutX="267.0" layoutY="279.0" prefWidth="145.0" />
+        <Label font="$x1" layoutX="-29.0" layoutY="59.0" prefHeight="27.0" prefWidth="87.0" text="First Name:" />
+        <Label font="$x1" layoutX="-27.0" layoutY="278.0" prefHeight="27.0" prefWidth="71.0" text="Country:" />
+        <Label font="$x1" layoutX="204.0" layoutY="278.0" text="Region:" />
+        <Label font="$x1" layoutX="433.0" layoutY="279.0" prefHeight="27.0" prefWidth="31.0" text="City:" />
+        <TextField fx:id="cityTxt" layoutX="477.0" layoutY="280.0" prefWidth="145.0" />
+        <Label font="$x1" layoutX="-27.0" layoutY="323.0" prefHeight="27.0" prefWidth="145.0" text="Street and number:" />
+        <TextField fx:id="streetTxt" layoutX="123.0" layoutY="324.0" prefWidth="257.0" />
+        <Label font="$x1" layoutX="322.0" layoutY="146.0" prefHeight="27.0" prefWidth="50.0" text="Phone:" />
+        <PasswordField fx:id="passwordTxt" layoutX="411.0" layoutY="105.0" prefWidth="225.134765625" />
+        <Label font="$x1" layoutX="-27.0" layoutY="191.0" prefHeight="27.0" prefWidth="71.0" text="Birthday:" />
+        <TextField fx:id="emailTxt" layoutX="58.0" layoutY="147.0" prefWidth="225.134765625" />
+        <Label font="$x1" layoutX="-27.0" layoutY="153.0" prefHeight="27.0" prefWidth="50.0" text="E-mail:" />
+        <TextField fx:id="cnpTextField" layoutX="15.0" layoutY="519.0" prefWidth="178.134765625" />
+        <Label font="$x1" layoutX="-27.0" layoutY="522.0" prefWidth="36.0" text="CNP:" />
+        <Text layoutX="-29.0" layoutY="255.0" scaleX="1.3680042929135676" scaleY="1.3004801100494312" strokeType="OUTSIDE" strokeWidth="0.0" text="Residence:" />
+        <TextField id="countryTxt" fx:id="idCountryText" layoutX="42.0" layoutY="432.0" prefWidth="145.0" />
+        <TextField id="regionTxt" fx:id="idRegionText" layoutX="265.0" layoutY="432.0" prefWidth="145.0" />
+        <Label font="$x1" layoutX="-29.0" layoutY="431.0" prefHeight="27.0" prefWidth="71.0" text="Country:" />
+        <Label font="$x1" layoutX="202.0" layoutY="431.0" text="Region:" />
+        <Label font="$x1" layoutX="431.0" layoutY="432.0" prefHeight="27.0" prefWidth="31.0" text="City:" />
+        <TextField id="cityTxt" fx:id="idCityText" layoutX="475.0" layoutY="433.0" prefWidth="145.0" />
+        <Label font="$x1" layoutX="-29.0" layoutY="476.0" prefHeight="27.0" prefWidth="145.0" text="Street and number:" />
+        <TextField id="streetTxt" fx:id="idStreetText" layoutX="121.0" layoutY="477.0" prefWidth="257.0" />
+        <Button fx:id="RegisterButton" layoutX="248.0" layoutY="669.0" mnemonicParsing="false" onAction="#registerButtonPressed" prefHeight="32.0" prefWidth="118.0" text="REGISTER" textFill="#2313d0" />
+        <Text layoutX="-24.0" layoutY="407.0" scaleX="1.2649448892238202" scaleY="1.330601654632155" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Card Address:" />
+        <TextField id="cnpTextField" fx:id="genderText" layoutX="411.0" layoutY="194.0" prefWidth="118.0" />
+        <Label font="$x1" layoutX="322.0" layoutY="194.0" prefWidth="64.0" text="Gender:" />
+        <TextField id="cnpTextField" fx:id="bloodTypeText" layoutX="65.0" layoutY="620.0" prefWidth="64.0" />
+        <Label font="$x1" layoutX="-27.0" layoutY="620.0" prefWidth="87.0" text="Blood Type:" />
+        <TextField id="cnpTextField" fx:id="rhText" layoutX="171.0" layoutY="622.0" prefWidth="36.0" />
+        <Label font="$x1" layoutX="142.0" layoutY="622.0" prefWidth="31.0" text="Rh:" />
+        <Text layoutX="-26.0" layoutY="601.0" scaleX="1.1708982566332489" scaleY="1.2004894762604015" strokeType="OUTSIDE" strokeWidth="0.0" text="Optional:" />
+      </children>
+    </Pane>
+  </children>
+  <columnConstraints>
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="1.0" minWidth="0.0" prefWidth="0.0" />
+    <ColumnConstraints maxWidth="454.0" minWidth="453.0" prefWidth="454.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+    <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+    <RowConstraints maxHeight="-1.0" minHeight="-Infinity" />
+  </rowConstraints>
 </GridPane>
